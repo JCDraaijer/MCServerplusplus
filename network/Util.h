@@ -69,7 +69,9 @@ namespace networking {
 
         static std::string readIdentifier(unsigned char *, int *, int);
 
-        static const char *serializeString(const std::string&, int*);
+        static unsigned char *writeVarInt(int, int *);
+
+        static const char *writeString(std::string, int *);
 
     };
 }

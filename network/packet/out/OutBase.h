@@ -20,7 +20,7 @@ namespace packet {
         public:
             explicit OutBase(int id, PacketType type);
 
-            virtual unsigned char *serialize(int *) = 0;
+            PacketType getType();
         };
     }
 }

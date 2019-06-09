@@ -13,9 +13,11 @@ namespace packet {
         private:
             std::string jsonResponse;
         public:
-            Response(std::string);
+            explicit Response(std::string);
+
             std::string toString() override;
-            unsigned char *serialize(int *) override;
+
+            std::string getJsonResponse();
         };
     }
 }

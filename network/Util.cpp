@@ -153,7 +153,22 @@ namespace networking {
         return 0;
     }
 
-    const char *Util::serializeString(const std::string& theText, int *dataLength) {
+    unsigned char *Util::writeVarInt(int value, int *length) {
+        unsigned char buffer[5];
+        int current = 0;
+        do {
+            buffer[current++] = value & 0b01111111;
+            value >>= 7;
+        } while (value != 0);
+        auto *result = (unsigned char *) malloc(sizeof(unsigned char) * current);
+        for (int i = 0; i < current; i++) {
+            result[i] = buffer[i];
+        }
+        *length = current;
+        return result;
+    }
+
+    const char *Util::writeString(std::string theText, int *dataLength) {
         *dataLength = theText.size();
         return theText.c_str();
     }

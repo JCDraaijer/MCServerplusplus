@@ -10,14 +10,6 @@
 
 namespace packet {
     namespace out {
-        unsigned char *Response::serialize(int *length) {
-            int textLength = 0;
-            unsigned char *textData = (unsigned char *) networking::Util::serializeString(this->jsonResponse,
-                                                                                          &textLength);
-
-            return;
-        }
-
         std::string Response::toString() {
             std::ostringstream stringStream;
             stringStream << "Request packet. ID: " << this->getId();
@@ -26,6 +18,10 @@ namespace packet {
 
         Response::Response(std::string jsonResponse) : OutBase(0, RESPONSE) {
             this->jsonResponse = std::move(jsonResponse);
+        }
+
+        std::string Response::getJsonResponse() {
+            return this->jsonResponse;
         }
     }
 }

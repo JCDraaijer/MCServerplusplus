@@ -4,8 +4,14 @@
 
 #include "OutBase.h"
 
-namespace packet::out {
-    OutBase::OutBase(int id, packet::out::PacketType type) : Base(id), type(type) {
+namespace packet {
+    namespace out {
+        OutBase::OutBase(int id, packet::out::PacketType type) : Base(id), type(type) {
 
+        }
+
+        PacketType OutBase::getType() {
+            return this->type;
+        }
     }
 }
