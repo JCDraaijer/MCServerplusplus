@@ -2,7 +2,7 @@
 // Created by jona on 2019-06-09.
 //
 
-#include "State.h"
+#include "State.hpp"
 
 namespace networking {
     std::string stateToString(State state) {

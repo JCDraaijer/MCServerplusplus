@@ -2,11 +2,9 @@
 // Created by jona on 2019-06-09.
 //
 
-#include "InBase.h"
+#include "InBase.hpp"
 
 namespace packet {
-    namespace in {
-        InBase::InBase(int id, PacketType type) : Base(id), type(type) {
-        }
+    InBase::InBase(int id, PacketType type) : Base(id), type(type) {
     }
 }

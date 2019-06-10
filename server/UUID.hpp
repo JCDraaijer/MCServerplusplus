@@ -2,8 +2,8 @@
 // Created by jona on 2019-06-02.
 //
 
-#ifndef MCSERVER_UUID_H
-#define MCSERVER_UUID_H
+#ifndef MCSERVER_UUID_HPP
+#define MCSERVER_UUID_HPP
 
 
 class UUID {
@@ -16,4 +16,4 @@ public:
 };
 
 
-#endif //MCSERVER_UUID_H
+#endif //MCSERVER_UUID_HPP

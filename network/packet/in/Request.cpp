@@ -3,21 +3,19 @@
 //
 
 #include <sstream>
-#include "Request.h"
+#include "Request.hpp"
 
 namespace packet {
-    namespace in {
-        Request::Request() : InBase(0, REQUEST) {
+    Request::Request() : InBase(0, REQUEST) {
 
-        }
+    }
 
-        std::string Request::toString() {
-            std::ostringstream stringStream;
-            stringStream << "Request packet. ID: " << this->getId();
-            return stringStream.str();
-        }
+    std::string Request::toString() {
+        std::ostringstream stringStream;
+        stringStream << "Request packet. ID: " << this->getId();
+        return stringStream.str();
+    }
 
-        void Request::parse(unsigned char *data, int dataLength) {
-        }
+    void Request::parse(unsigned char *data, int dataLength) {
     }
 }

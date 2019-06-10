@@ -2,8 +2,8 @@
 // Created by jona on 2019-06-02.
 //
 
-#ifndef MCSERVER_POSITION_H
-#define MCSERVER_POSITION_H
+#ifndef MCSERVER_POSITION_HPP
+#define MCSERVER_POSITION_HPP
 
 
 class Position {
@@ -18,4 +18,4 @@ public:
 };
 
 
-#endif //MCSERVER_POSITION_H
+#endif //MCSERVER_POSITION_HPP

@@ -1,44 +1,45 @@
+#include <utility>
+
 //
 // Created by jona on 2019-06-09.
 //
 
 #include <sstream>
-#include "Handshake.h"
-#include "../../Util.h"
+#include "Handshake.hpp"
+#include "../../Util.hpp"
 
-using namespace networking;
-
-namespace packet { namespace in {
+namespace packet {
 
     Handshake::Handshake(int protocolVersion, std::string address, unsigned short port,
-                         State nextState) : InBase(0, HANDSHAKE) {
+                         networking::State nextState) : InBase(0, HANDSHAKE) {
         this->protocolVersion = protocolVersion;
-        this->address = address;
+        this->address = std::move(address);
         this->port = port;
         this->nextState = nextState;
     }
 
-    Handshake::Handshake() : Handshake(-1, "", 0, UNDEFINED) {
+    Handshake::Handshake() : Handshake(-1, "", 0, networking::UNDEFINED) {
     }
 
     void Handshake::parse(unsigned char *data, int dataLength) {
         int offset = 0;
-        this->protocolVersion = Util::readVarInt(data, &offset, dataLength);
-        this->address = Util::readString(data, &offset, dataLength);
-        this->port = Util::readUnsignedShort(data, &offset, dataLength);
-        int nextStateInt = Util::readVarInt(data, &offset, dataLength);
+        this->protocolVersion = networking::Util::readVarInt(data, &offset, dataLength);
+        this->address = networking::Util::readString(data, &offset, dataLength);
+        this->port = networking::Util::readUnsignedShort(data, &offset, dataLength);
+        int nextStateInt = networking::Util::readVarInt(data, &offset, dataLength);
         if (nextStateInt == 1) {
-            nextState = STATUS;
+            nextState = networking::STATUS;
         } else if (nextStateInt == 2) {
-            nextState = LOGIN;
+            nextState = networking::LOGIN;
         } else {
-            nextState = UNDEFINED;
+            nextState = networking::UNDEFINED;
         }
     }
 
     std::string Handshake::toString() {
         std::ostringstream stringStream;
-        stringStream << "Handshake packet. ID: " << this->id << ", Protocol Version: " << this->protocolVersion << ", Server Address: "
+        stringStream << "Handshake packet. ID: " << this->id << ", Protocol Version: " << this->protocolVersion
+                     << ", Server Address: "
                      << this->address << ", Server Port: " << this->port << ", Next state: "
                      << stateToString(this->getNextState());
         return stringStream.str();
@@ -59,4 +60,4 @@ namespace packet { namespace in {
     unsigned short Handshake::getPort() {
         return this->port;
     }
-} }
+}

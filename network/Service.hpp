@@ -2,11 +2,11 @@
 // Created by jona on 2019-06-02.
 //
 
-#ifndef MCSERVER_SERVICE_H
-#define MCSERVER_SERVICE_H
+#ifndef MCSERVER_SERVICE_HPP
+#define MCSERVER_SERVICE_HPP
 
 #include <list>
-#include "Connection.h"
+#include "Connection.hpp"
 
 namespace networking {
     class Service {
@@ -25,4 +25,4 @@ namespace networking {
 
 }
 
-#endif //MCSERVER_SERVICE_H
+#endif //MCSERVER_SERVICE_HPP

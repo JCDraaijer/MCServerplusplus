@@ -2,8 +2,8 @@
 // Created by jona on 2019-06-09.
 //
 
-#ifndef MCSERVER_STATE_H
-#define MCSERVER_STATE_H
+#ifndef MCSERVER_STATE_HPP
+#define MCSERVER_STATE_HPP
 
 #include <string>
 
@@ -20,4 +20,4 @@ namespace networking {
 }
 
 
-#endif //MCSERVER_STATE_H
+#endif //MCSERVER_STATE_HPP

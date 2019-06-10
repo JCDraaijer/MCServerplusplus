@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <pthread.h>
 
-#include "Service.h"
+#include "Service.hpp"
 
 
 namespace networking {

@@ -2,13 +2,13 @@
 // Created by jona on 2019-06-09.
 //
 
-#ifndef MCSERVER_HANDSHAKE_H
-#define MCSERVER_HANDSHAKE_H
+#ifndef MCSERVER_HANDSHAKE_HPP
+#define MCSERVER_HANDSHAKE_HPP
 
-#include "InBase.h"
-#include "../../State.h"
+#include "InBase.hpp"
+#include "../../State.hpp"
 
-namespace packet { namespace in {
+namespace packet {
 
     class Handshake : public InBase {
     private:
@@ -35,7 +35,7 @@ namespace packet { namespace in {
 
         std::string toString() override;
     };
-} }
+}
 
 
-#endif //MCSERVER_HANDSHAKE_H
+#endif //MCSERVER_HANDSHAKE_HPP

@@ -5,13 +5,19 @@
 #include <unistd.h>
 #include <netinet/in.h>
 
-#include "Connection.h"
-#include "Util.h"
-#include "packet/in/Request.h"
-#include "packet/out/Response.h"
+#include "Connection.hpp"
+#include "Util.hpp"
+#include "packet/in/Request.hpp"
+#include "packet/out/Response.hpp"
 
 namespace networking {
-    Connection::Connection(int socketFileDescriptor) : socketFd(socketFileDescriptor) {
+    Connection::Connection(int socketFileDescriptor, int bufferSize) : socketFd(socketFileDescriptor),
+                                                                       bufferSize(bufferSize) {
+        this->buffer = (unsigned char *) malloc(sizeof(unsigned char) * bufferSize);
+    }
+
+    Connection::~Connection() {
+        free(buffer);
     }
 
     void Connection::close() {
@@ -48,8 +54,6 @@ namespace networking {
         int length = Util::readVarInt(this->socketFd, &headerLength);
         int packetId = Util::readVarInt(this->socketFd, &packetIdLength);
         length = length - headerLength;
-
-        std::printf("Length: %d\n", length);
 
         unsigned char *bufferToUse;
 

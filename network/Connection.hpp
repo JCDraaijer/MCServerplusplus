@@ -2,21 +2,23 @@
 // Created by jona on 2019-06-02.
 //
 
-#ifndef MCSERVER_CONNECTION_H
-#define MCSERVER_CONNECTION_H
+#ifndef MCSERVER_CONNECTION_HPP
+#define MCSERVER_CONNECTION_HPP
 
 #include <string>
-#include "packet/in/InBase.h"
-#include "packet/in/Handshake.h"
-#include "State.h"
-#include "packet/out/OutBase.h"
-
+#include "State.hpp"
+#include "packet/in/InBase.hpp"
+#include "packet/in/Reader.hpp"
+#include "packet/out/OutBase.hpp"
+#include "packet/out/Builder.hpp"
 
 namespace networking {
     class Connection {
     public:
 
-        explicit Connection(int);
+        explicit Connection(int, int);
+
+        ~Connection();
 
         bool handShake();
 
@@ -34,13 +36,14 @@ namespace networking {
 
     private:
         int socketFd;
-        unsigned char buffer[1024] = {};
+        const int bufferSize;
+        unsigned char *buffer;
         bool authenticated = false;
         State state = HANDSHAKING;
-        int packetsRx = 0;
-        int packetsTx = 0;
+        packet::in::Reader inPacketReader;
+        packet::out::
     };
 
 }
 
-#endif //MCSERVER_CONNECTION_H
+#endif //MCSERVER_CONNECTION_HPP

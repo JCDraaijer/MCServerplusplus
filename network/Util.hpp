@@ -2,8 +2,8 @@
 // Created by jona on 2019-06-09.
 //
 
-#ifndef MCSERVER_UTIL_H
-#define MCSERVER_UTIL_H
+#ifndef MCSERVER_UTIL_HPP
+#define MCSERVER_UTIL_HPP
 
 
 #include <string>
@@ -77,4 +77,4 @@ namespace networking {
 }
 
 
-#endif //MCSERVER_UTIL_H
+#endif //MCSERVER_UTIL_HPP
