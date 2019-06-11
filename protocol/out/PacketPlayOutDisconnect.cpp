@@ -4,15 +4,15 @@
 // Created by jona on 2019-06-11.
 //
 
-#include "PacketOutDisconnect.hpp"
+#include "PacketPlayOutDisconnect.hpp"
 
 namespace protocol {
-    PacketOutDisconnect::PacketOutDisconnect(std::string reason) : PacketOutBase(0x00, DISCONNECT),
+    PacketPlayOutDisconnect::PacketPlayOutDisconnect(std::string reason) : PacketOutBase(0x1B, DISCONNECT),
                                                                    reason(std::move(reason)) {
 
     }
 
-    const std::string &PacketOutDisconnect::getReason() const {
+    const std::string &PacketPlayOutDisconnect::getReason() const {
         return reason;
     }
 

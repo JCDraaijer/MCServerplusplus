@@ -13,4 +13,22 @@ namespace protocol {
     PacketBase::PacketBase(int id) : id(id) {
 
     }
+
+    std::string outPacketTypeToString(OutPacketType type){
+        switch (type){
+            case RESPONSE:
+                return "RESPONSE";
+            case PONG:
+                return "PONG";
+            case DISCONNECT:
+                return "DISCONNECT";
+            case ENCRYPTION_REQUEST:
+                return "ENCRYPTION REQUEST";
+            case SET_COMPRESSION:
+                return "SET_COMPRESSION";
+            case LOGIN_SUCCESS:
+                return "LOGIN_SUCCESS";
+        }
+        return "";
+    }
 }

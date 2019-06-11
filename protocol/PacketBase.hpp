@@ -14,7 +14,7 @@ namespace protocol {
         PING,
         LOGIN_START,
         ENCRYPTION_RESPONSE,
-        LOGIN_PLUGIN_RESPONSE
+        LOGIN_PLUGIN_RESPONSE,
     };
 
     enum OutPacketType {
@@ -22,6 +22,7 @@ namespace protocol {
         PONG,
         DISCONNECT,
         ENCRYPTION_REQUEST,
+        SET_COMPRESSION,
         LOGIN_SUCCESS
     };
 
@@ -35,6 +36,8 @@ namespace protocol {
 
         int getId();
     };
+
+    std::string outPacketTypeToString(OutPacketType type);
 
 }
 #endif //MCSERVER_PACKETBASE_HPP

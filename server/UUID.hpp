@@ -6,14 +6,22 @@
 #define MCSERVER_UUID_HPP
 
 
-class UUID {
-private:
-    const unsigned long mostSignificant;
-    const unsigned long leastSignificant;
-public:
-    UUID(long, long);
-    bool equals(UUID);
-};
+#include <cstdint>
+#include <string>
+
+namespace server {
+    class UUID {
+    private:
+        uint64_t mostSignificant;
+        uint64_t leastSignificant;
+    public:
+        UUID(uint64_t mostSignificant, uint64_t leastSignificant);
+
+        std::string toString();
+
+        bool equals(UUID &anotherUuid);
+    };
+}
 
 
 #endif //MCSERVER_UUID_HPP

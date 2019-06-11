@@ -7,7 +7,8 @@
 #include "../protocol/out/PacketOutResponse.hpp"
 #include "Connection.hpp"
 #include "../protocol/out/PacketOutPong.hpp"
-#include "../protocol/out/PacketOutDisconnect.hpp"
+#include "../protocol/out/PacketPlayOutDisconnect.hpp"
+#include "../protocol/out/PacketOutLoginSuccess.hpp"
 
 using namespace protocol;
 
@@ -42,7 +43,7 @@ namespace network {
             Util::writeVarInt(pong->getId(), buffer, &offset);
             Util::writeLong(pong->getValue(), buffer, &offset);
         } else if (packet->getType() == DISCONNECT) {
-            auto *disconnect = (PacketOutDisconnect *) packet;
+            auto *disconnect = (PacketPlayOutDisconnect *) packet;
 
             uint32_t stringLength = Util::stringLength(disconnect->getReason());
 
@@ -53,6 +54,21 @@ namespace network {
 
             Util::writeVarInt(totalLength, buffer, &offset);
             Util::writeString(disconnect->getReason(), buffer, &offset);
+        } else if (packet->getType() == LOGIN_SUCCESS) {
+            auto loginSuccess = (PacketOutLoginSuccess *) packet;
+            std::string uuidString = loginSuccess->getUuid().toString();
+
+            uint32_t uuidLength = Util::stringLength(uuidString);
+            uint32_t usernameLength = Util::stringLength(loginSuccess->getUsername());
+            uint32_t contentsLength = uuidLength + usernameLength;
+
+            uint32_t totalLength = Util::varIntLength(contentsLength) + contentsLength;
+
+            *size = setTotalLength(totalLength);
+
+            Util::writeVarInt(totalLength, buffer, &offset);
+            Util::writeString(uuidString, buffer, &offset);
+            Util::writeString(loginSuccess->getUsername(), buffer, &offset);
         }
         return buffer;
     }

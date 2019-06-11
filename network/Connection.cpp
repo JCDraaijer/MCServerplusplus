@@ -15,7 +15,9 @@
 #include "../protocol/out/PacketOutResponse.hpp"
 #include "../protocol/out/PacketOutPong.hpp"
 #include "../protocol/in/PacketInPing.hpp"
-#include "../protocol/out/PacketOutDisconnect.hpp"
+#include "../protocol/out/PacketPlayOutDisconnect.hpp"
+#include "../protocol/out/PacketOutLoginSuccess.hpp"
+#include "../protocol/in/PacketInLoginStart.hpp"
 
 namespace network {
     Connection::Connection(int socketFileDescriptor, uint32_t bufferSize) : socketFd(socketFileDescriptor),
@@ -35,15 +37,27 @@ namespace network {
             try {
                 current = readPacket();
             } catch (Exception &ex) {
-                std::printf("%s\n", ex.what());
                 packetErrors++;
                 if (packetErrors > 10) {
                     break;
                 }
                 continue;
             }
+
+            if (!this->isAuthenticated()) {
+                switch (current->getType()) {
+                    case HANDSHAKE:
+                    case REQUEST:
+                    case PING:
+                    case LOGIN_START:
+                    case ENCRYPTION_RESPONSE:
+                    case LOGIN_PLUGIN_RESPONSE:
+                        break;
+                    default:
+                        break;
+                }
+            }
             packetErrors = 0;
-            std::printf("%s\n", current->toString().c_str());
             handlePacket(current);
         }
         close();
@@ -54,25 +68,25 @@ namespace network {
             if (packet->getType() == HANDSHAKE) {
                 auto *handshake = (PacketInHandshake *) packet;
                 state = handshake->getNextState();
-                if (state == LOGIN) {
-                    try {
-                        handlePacket(readPacket());
-                    } catch (Exception &ex) {
-                        std::printf("Auth failed. %s\n", ex.what());
-                        close();
-                    }
-                }
             }
         } else if (getState() == STATUS) {
             if (packet->getType() == REQUEST) {
-                //TODO send response packet
+
             } else if (packet->getType() == PING) {
                 auto *packetInPing = (PacketInPing *) packet;
                 sendPacket(new PacketOutPong(packetInPing->getValue()));
             }
         } else if (getState() == LOGIN) {
-            std::printf("%s\n", packet->toString().c_str());
-            sendPacket(new PacketOutDisconnect("You a bitch"));
+            if (packet->getType() == LOGIN_START) {
+                auto *start = (PacketInLoginStart *) packet;
+                std::string username = start->getName();
+                server::UUID uuid = server::UUID(0, 0);
+                state = PLAY;
+                sendPacket(new PacketOutLoginSuccess(uuid, username));
+                sendPacket(new PacketPlayOutDisconnect("Fuk off bitch"));
+            } else if (packet->getType() == LOGIN_PLUGIN_RESPONSE) {
+
+            }
         }
     }
 
@@ -130,7 +144,6 @@ namespace network {
     void Connection::setRxBufferSize(uint32_t newSize) {
         rxBuffer = (uint8_t *) realloc(rxBuffer, sizeof(uint8_t) * newSize);
         rxBufferSize = newSize;
-        std::printf("Reallocated the buffer.\n");
     }
 
 

@@ -109,7 +109,7 @@ namespace network {
     }
 
     uint32_t Util::stringLength(const std::string &someString) {
-        return someString.size();
+        return varIntLength(stringLengthRaw(someString)) + stringLengthRaw(someString);
     }
 
     void Util::writeVarInt(int32_t integer, uint8_t *buffer, uint32_t *offset) {
@@ -124,6 +124,7 @@ namespace network {
     }
 
     void Util::writeString(std::string aString, uint8_t *buffer, uint32_t *offset) {
+        writeVarInt(stringLengthRaw(aString), buffer, offset);
         std::string::iterator iterator;
         for (iterator = aString.begin(); iterator != aString.end(); iterator++) {
             buffer[(*offset)++] = *iterator;
@@ -152,5 +153,9 @@ namespace network {
             value <<= 8;
         }
         return value;
+    }
+
+    uint32_t Util::stringLengthRaw(std::string aString) {
+        return aString.size();
     }
 }

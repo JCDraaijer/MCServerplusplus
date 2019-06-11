@@ -14,6 +14,31 @@
 
 namespace network {
     class Connection {
+    private:
+        int socketFd;
+
+        uint32_t rxBufferSize;
+        uint8_t *rxBuffer;
+
+        bool authenticated = false;
+        bool encrypted = false;
+
+        uint8_t publicKeyLength;
+        uint8_t *publicKey;
+
+        State state = HANDSHAKING;
+
+        int packetRx = 0;
+        int packetTx = 0;
+
+        int packetErrors = 0;
+
+        PacketSerializer packetSerializer;
+
+        void run();
+
+        void handlePacket(PacketInBase *packet);
+
     public:
 
         explicit Connection(int, uint32_t);
@@ -35,27 +60,6 @@ namespace network {
         static void *start(void *);
 
         void setRxBufferSize(uint32_t newSize);
-
-    private:
-        int socketFd;
-
-        uint32_t rxBufferSize;
-        uint8_t *rxBuffer;
-
-        bool authenticated = false;
-
-        State state = HANDSHAKING;
-
-        int packetRx = 0;
-        int packetTx = 0;
-
-        int packetErrors = 0;
-
-        PacketSerializer packetSerializer;
-
-        void run();
-
-        void handlePacket(PacketInBase *packet);
     };
 
 }

@@ -10,6 +10,9 @@
 
 namespace network {
     class Util {
+    private:
+        static uint32_t stringLengthRaw(std::string aString);
+
     public:
 
         static const uint8_t LONG_LENGTH = 8;
