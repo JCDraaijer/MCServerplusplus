@@ -1,7 +1,10 @@
 #include <iostream>
 #include "network/Service.hpp"
+#include "network/util/Util.hpp"
+
 int main() {
-    networking::Service network(25565);
+
+    network::Service network(25565);
     network.start();
     return 0;
 }

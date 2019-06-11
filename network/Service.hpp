@@ -8,7 +8,7 @@
 #include <list>
 #include "Connection.hpp"
 
-namespace networking {
+namespace network {
     class Service {
     private:
         bool running;

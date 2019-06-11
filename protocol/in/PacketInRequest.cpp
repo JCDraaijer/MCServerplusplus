@@ -3,19 +3,17 @@
 //
 
 #include <sstream>
-#include "Request.hpp"
+#include "PacketInRequest.hpp"
 
-namespace packet {
-    Request::Request() : InBase(0, REQUEST) {
+namespace protocol {
+    PacketInRequest::PacketInRequest() : PacketInBase(0, REQUEST) {
 
     }
 
-    std::string Request::toString() {
+    std::string PacketInRequest::toString() {
         std::ostringstream stringStream;
         stringStream << "Request packet. ID: " << this->getId();
         return stringStream.str();
     }
 
-    void Request::parse(unsigned char *data, int dataLength) {
-    }
 }

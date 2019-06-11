@@ -7,7 +7,7 @@
 
 #include <string>
 
-namespace networking {
+namespace network {
     enum State {
         HANDSHAKING,
         PLAY,

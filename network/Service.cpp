@@ -10,7 +10,7 @@
 #include "Service.hpp"
 
 
-namespace networking {
+namespace network {
 
     Service::Service(int port) {
         this->port = port;
@@ -50,7 +50,7 @@ namespace networking {
 
         while (running) {
 
-            struct sockaddr clientAdress;
+            struct sockaddr clientAdress{};
             socklen_t len = sizeof(clientAdress);
             int connectionFd = accept(socketFd, (sockaddr *) &clientAdress, &len);
             if (connectionFd < 0) {
@@ -59,10 +59,10 @@ namespace networking {
                 continue;
             }
             std::printf("Accepted Connection %d.\n", connectionFd);
-            Connection aConnection = Connection(connectionFd);
-            this->connections.push_back(aConnection);
+            auto *aConnection = new Connection(connectionFd, 1024);
+            this->connections.push_back(*aConnection);
             pthread_t threadId;
-            pthread_create(&threadId, nullptr, Connection::start, &aConnection);
+            pthread_create(&threadId, nullptr, Connection::start, aConnection);
         }
         close(socketFd);
 

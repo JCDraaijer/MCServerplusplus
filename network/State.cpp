@@ -4,7 +4,7 @@
 
 #include "State.hpp"
 
-namespace networking {
+namespace network {
     std::string stateToString(State state) {
         switch (state) {
             case HANDSHAKING:
