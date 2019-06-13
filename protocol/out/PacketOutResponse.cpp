@@ -23,7 +23,7 @@ namespace protocol {
         return this->jsonResponse;
     }
 
-    void PacketOutResponse::serialize(PacketSerializer packetSerializer) {
-        packetSerializer.writeString(getJsonResponse());
+    void PacketOutResponse::serialize(PacketSerializer *packetSerializer) {
+        packetSerializer->writeString(getJsonResponse());
     }
 }

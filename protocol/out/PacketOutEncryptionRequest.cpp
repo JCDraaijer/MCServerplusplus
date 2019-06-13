@@ -65,7 +65,11 @@ namespace protocol {
 
     }
 
-    void PacketOutEncryptionRequest::serialize(PacketSerializer packetSerializer) {
-
+    void PacketOutEncryptionRequest::serialize(PacketSerializer *packetSerializer) {
+        packetSerializer->writeString(serverId);
+        packetSerializer->writeVarInt(publicKeyLength);
+        packetSerializer->writeByteArray(publicKey, publicKeyLength);
+        packetSerializer->writeVarInt(verifyTokenLength);
+        packetSerializer->writeByteArray(verifyToken, verifyTokenLength);
     }
 }

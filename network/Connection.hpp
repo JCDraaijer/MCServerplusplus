@@ -31,7 +31,7 @@ namespace network {
 
         int packetErrors;
 
-        protocol::PacketSerializer packetSerializer;
+        protocol::PacketSerializer *packetSerializer;
 
         void run();
 

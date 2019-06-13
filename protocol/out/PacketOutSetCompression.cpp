@@ -19,7 +19,7 @@ namespace protocol {
         threshold = newThreshold;
     }
 
-    void PacketOutSetCompression::serialize(PacketSerializer packetSerializer) {
+    void PacketOutSetCompression::serialize(PacketSerializer *packetSerializer) {
 
     }
 }

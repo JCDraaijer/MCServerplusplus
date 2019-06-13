@@ -17,7 +17,7 @@ namespace protocol {
         return value;
     }
 
-    void PacketOutPong::serialize(PacketSerializer packetSerializer) {
-        packetSerializer.writeLong(getValue());
+    void PacketOutPong::serialize(PacketSerializer *packetSerializer) {
+        packetSerializer->writeLong(getValue());
     }
 }

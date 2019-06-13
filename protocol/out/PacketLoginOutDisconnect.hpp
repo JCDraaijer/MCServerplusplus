@@ -17,7 +17,7 @@ namespace protocol {
 
         const std::string &getReason() const;
 
-        void serialize(PacketSerializer packetSerializer) override;
+        void serialize(PacketSerializer *packetSerializer) override;
     };
 }
 

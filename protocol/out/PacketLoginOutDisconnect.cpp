@@ -17,8 +17,8 @@ namespace protocol {
         return reason;
     }
 
-    void PacketLoginOutDisconnect::serialize(PacketSerializer packetSerializer) {
-        packetSerializer.writeString(getReason());
+    void PacketLoginOutDisconnect::serialize(PacketSerializer *packetSerializer) {
+        packetSerializer->writeString(getReason());
     }
 
 }

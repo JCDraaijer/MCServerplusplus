@@ -30,8 +30,8 @@ namespace protocol {
         PacketOutLoginSuccess::username = newUsername;
     }
 
-    void PacketOutLoginSuccess::serialize(PacketSerializer packetSerializer) {
-        packetSerializer.writeString(uuid.toString());
-        packetSerializer.writeString(getUsername());
+    void PacketOutLoginSuccess::serialize(PacketSerializer *packetSerializer) {
+        packetSerializer->writeString(uuid.toString());
+        packetSerializer->writeString(getUsername());
     }
 }

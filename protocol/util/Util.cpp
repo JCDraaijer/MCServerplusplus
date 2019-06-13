@@ -23,14 +23,12 @@ namespace protocol {
     }
 
     int8_t Util::readByte(int socket) {
-        auto *buffer = (uint8_t *) malloc(sizeof(uint8_t));
-        int readBytes = read(socket, buffer, 1);
+        uint8_t theByte = 0;
+        int readBytes = read(socket, &theByte, 1);
         if (readBytes != 1) {
             throw Exception("Could not read byte from network!");
         }
-        uint8_t value = buffer[0];
-        free(buffer);
-        return value;
+        return theByte;
     }
 
     int32_t Util::readVarInt(uint8_t *data, uint32_t *offset, uint32_t dataLength) {

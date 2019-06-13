@@ -10,6 +10,8 @@
 
 namespace protocol {
 
+    class PacketSerializer;
+
     class PacketOutBase : public PacketBase {
     private:
         const OutPacketType type;
@@ -20,7 +22,7 @@ namespace protocol {
 
         std::string toString() override;
 
-        virtual void serialize(PacketSerializer packetSerializer) = 0;
+        virtual void serialize(PacketSerializer *packetSerializer) = 0;
     };
 }
 

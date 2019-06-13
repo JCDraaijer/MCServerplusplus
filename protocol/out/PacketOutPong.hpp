@@ -18,7 +18,7 @@ namespace protocol {
 
         int64_t getValue();
 
-        void serialize(PacketSerializer packetSerializer) override;
+        void serialize(PacketSerializer *packetSerializer) override;
     };
 }
 

@@ -17,7 +17,7 @@ namespace protocol {
 
         void setThreshold(int32_t newThreshold);
 
-        void serialize(PacketSerializer packetSerializer) override;
+        void serialize(PacketSerializer *packetSerializer) override;
     };
 }
 

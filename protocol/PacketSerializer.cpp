@@ -11,9 +11,8 @@ namespace protocol {
     PacketSerializer::PacketSerializer(uint32_t bufferSize) {
         this->currentDataSize = 0;
         this->dataBufferSize = bufferSize;
-        this->dataBuffer = nullptr;
-        this->packetBuffer = nullptr;
-        setBufferSize(bufferSize);
+        this->dataBuffer = (uint8_t *) malloc(sizeof(uint8_t) * bufferSize);
+        this->packetBuffer = (uint8_t *) malloc((sizeof(uint8_t) * bufferSize) + LENGTH_BUFFER_SIZE);
     }
 
     uint8_t *PacketSerializer::serializePacket(PacketOutBase *packet, uint32_t *packetLength) {
@@ -25,19 +24,19 @@ namespace protocol {
 
         verifyBufferCapacity(sizeLength);
 
-        memcpy(packetBuffer + sizeLength, dataBuffer, sizeof(uint8_t) * currentDataSize);
+        memcpy(&packetBuffer[sizeLength], dataBuffer, sizeof(uint8_t) * currentDataSize);
 
-        writeLengthHeader(sizeLength);
+        writeLengthHeader(currentDataSize);
 
-        *packetLength += sizeLength;
+        *packetLength += sizeLength + currentDataSize;
 
-        return dataBuffer;
+        return packetBuffer;
     }
 
     void PacketSerializer::setBufferSize(uint32_t newSize) {
         dataBufferSize = newSize;
         dataBuffer = (uint8_t *) realloc(dataBuffer, sizeof(uint8_t) * newSize);
-        packetBuffer = (uint8_t *) realloc(packetBuffer, (sizeof(uint8_t) * newSize) + 5);
+        packetBuffer = (uint8_t *) realloc(packetBuffer, (sizeof(uint8_t) * newSize) + LENGTH_BUFFER_SIZE);
     }
 
     PacketSerializer::~PacketSerializer() {
@@ -88,6 +87,13 @@ namespace protocol {
         } while ((uint32_t) integer > 0);
     }
 
+    void PacketSerializer::writeByteArray(const uint8_t *data, uint32_t count) {
+        for (int i = 0; i < count; i++){
+            dataBuffer[(currentDataSize++)] = data[i];
+        }
+    }
+
+
     void PacketSerializer::writeLengthHeader(int32_t integer) {
         uint8_t offset = 0;
         do {
@@ -126,5 +132,4 @@ namespace protocol {
             setBufferSize(bufferSizeToTest);
         }
     }
-
 }

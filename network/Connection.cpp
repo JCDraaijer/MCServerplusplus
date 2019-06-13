@@ -16,25 +16,25 @@
 #include "../server/UUID.hpp"
 #include "../protocol/out/PacketOutLoginSuccess.hpp"
 #include "../protocol/out/PacketLoginOutDisconnect.hpp"
+#include "../protocol/out/PacketOutEncryptionRequest.hpp"
 #include "../protocol/util/Util.hpp"
 #include "PacketParser.hpp"
 
 namespace network {
     Connection::Connection(int socketFileDescriptor, uint32_t bufferSize) : socketFd(socketFileDescriptor),
-                                                                            packetSerializer(
-                                                                                    protocol::PacketSerializer(
-                                                                                            bufferSize)),
                                                                             rxBufferSize(bufferSize),
                                                                             authenticated(false), encrypted(false),
                                                                             state(HANDSHAKING),
                                                                             packetTx(0), packetRx(0),
-                                                                            publicKeyLength(0), publicKey(
-                    nullptr), packetErrors(0) {
+                                                                            publicKeyLength(0),
+                                                                            publicKey(nullptr), packetErrors(0) {
         rxBuffer = (uint8_t *) malloc(sizeof(uint8_t) * bufferSize);
+        packetSerializer = new PacketSerializer(bufferSize);
     }
 
     Connection::~Connection() {
         free(rxBuffer);
+        free(packetSerializer);
     }
 
     void Connection::run() {
@@ -70,6 +70,7 @@ namespace network {
     }
 
     void Connection::handlePacket(protocol::PacketInBase *packet) {
+        std::printf("%s\n", packet->toString().c_str());
         if (getState() == HANDSHAKING) {
             if (packet->getType() == protocol::HANDSHAKE) {
                 auto *handshake = (protocol::PacketInHandshake *) packet;
@@ -88,8 +89,9 @@ namespace network {
                 std::string username = start->getName();
                 server::UUID uuid = server::UUID(0, 0);
                 state = PLAY;
-                sendPacket(new protocol::PacketOutLoginSuccess(uuid, username));
-                sendPacket(new protocol::PacketLoginOutDisconnect("Fuk off bitch"));
+                PacketOutBase *toSend = new PacketOutLoginSuccess(uuid, username);
+                sendPacket(toSend);
+                free(toSend);
             } else if (packet->getType() == protocol::LOGIN_PLUGIN_RESPONSE) {
 
             }
@@ -142,7 +144,7 @@ namespace network {
 
     bool Connection::sendPacket(protocol::PacketOutBase *packet) {
         uint32_t size = 0;
-        uint8_t *data = packetSerializer.serializePacket(packet, &size);
+        uint8_t *data = packetSerializer->serializePacket(packet, &size);
         send(socketFd, data, size, 0);
         return true;
     }

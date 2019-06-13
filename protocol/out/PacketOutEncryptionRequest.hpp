@@ -35,7 +35,7 @@ namespace protocol {
 
         void setVerifyTokenLength(int32_t verifyTokenLength);
 
-        void serialize(PacketSerializer packetSerializer) override;
+        void serialize(PacketSerializer *packetSerializer) override;
 
         uint8_t *getVerifyToken() const;
 

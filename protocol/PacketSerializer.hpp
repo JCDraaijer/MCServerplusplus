@@ -10,6 +10,9 @@
 #include "out/PacketOutBase.hpp"
 
 namespace protocol {
+
+    class PacketOutBase;
+
     class PacketSerializer {
     private:
         uint8_t *dataBuffer;
@@ -34,6 +37,8 @@ namespace protocol {
         void writeString(std::string);
 
         void writeLong(int64_t longInteger);
+
+        void writeByteArray(const uint8_t *data, uint32_t count);
 
         void verifyBufferCapacity(uint32_t capacity);
 
