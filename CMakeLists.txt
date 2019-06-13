@@ -7,7 +7,7 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
 add_executable(MCServer main.cpp network/Connection.cpp
-        network/Connection.hpp server/Position.cpp server/Position.hpp
+        network/Connection.hpp server/world/Position.cpp server/world/Position.hpp
         server/UUID.cpp server/UUID.hpp network/Service.cpp
         network/Service.hpp protocol/in/PacketInBase.hpp protocol/in/PacketInHandshake.cpp
         protocol/in/PacketInHandshake.hpp protocol/util/Util.cpp protocol/util/Util.hpp
@@ -25,6 +25,6 @@ add_executable(MCServer main.cpp network/Connection.cpp
         protocol/in/PacketInLoginPluginResponse.hpp protocol/out/PacketLoginOutDisconnect.cpp
         protocol/out/PacketLoginOutDisconnect.hpp protocol/out/PacketOutEncryptionRequest.cpp
         protocol/out/PacketOutEncryptionRequest.hpp protocol/out/PacketOutSetCompression.cpp
-        protocol/out/PacketOutSetCompression.hpp protocol/out/PacketOutLoginSuccess.cpp protocol/out/PacketOutLoginSuccess.hpp)
+        protocol/out/PacketOutSetCompression.hpp protocol/out/PacketOutLoginSuccess.cpp protocol/out/PacketOutLoginSuccess.hpp server/world/BlockPosition.cpp server/world/BlockPosition.hpp server/entity/Entity.cpp server/entity/Entity.hpp server/world/World.cpp server/world/World.hpp server/world/Chunk.cpp server/world/Chunk.hpp server/Server.cpp server/Server.hpp server/Block.cpp server/Block.hpp server/Vector3D.cpp server/Vector3D.hpp)
 
 target_link_libraries(MCServer pthread)
