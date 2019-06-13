@@ -64,4 +64,8 @@ namespace protocol {
                                                                                    verifyToken(verifyToken) {
 
     }
+
+    void PacketOutEncryptionRequest::serialize(PacketSerializer packetSerializer) {
+
+    }
 }

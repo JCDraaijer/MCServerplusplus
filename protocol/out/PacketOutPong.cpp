@@ -3,6 +3,7 @@
 //
 
 #include "PacketOutPong.hpp"
+#include "../util/Util.hpp"
 
 namespace protocol {
     PacketOutPong::PacketOutPong(int64_t value) : PacketOutBase(1, PONG), value(value) {
@@ -14,5 +15,9 @@ namespace protocol {
 
     int64_t PacketOutPong::getValue() {
         return value;
+    }
+
+    void PacketOutPong::serialize(PacketSerializer packetSerializer) {
+        packetSerializer.writeLong(getValue());
     }
 }

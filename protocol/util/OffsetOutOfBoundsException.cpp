@@ -6,7 +6,7 @@
 #include <cstdlib>
 #include "OffsetOutOfBoundsException.hpp"
 
-namespace network {
+namespace protocol {
     OffsetOutOfBoundsException::OffsetOutOfBoundsException(int expected, int actual) {
         whatValue = (char *) (malloc(sizeof(char) * 64));
         std::sprintf(this->whatValue, "Index %d is larger than datalength %d", expected, actual);

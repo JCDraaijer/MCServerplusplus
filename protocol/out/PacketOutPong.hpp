@@ -13,8 +13,12 @@ namespace protocol {
         int64_t value;
     public:
         explicit PacketOutPong(int64_t value);
+
         std::string toString() override;
+
         int64_t getValue();
+
+        void serialize(PacketSerializer packetSerializer) override;
     };
 }
 

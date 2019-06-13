@@ -9,8 +9,6 @@
 #include "State.hpp"
 #include "../protocol/in/PacketInBase.hpp"
 #include "../protocol/out/PacketOutBase.hpp"
-#include "PacketParser.hpp"
-#include "PacketSerializer.hpp"
 
 namespace network {
     class Connection {
@@ -20,24 +18,24 @@ namespace network {
         uint32_t rxBufferSize;
         uint8_t *rxBuffer;
 
-        bool authenticated = false;
-        bool encrypted = false;
+        bool authenticated;
+        bool encrypted;
 
         uint8_t publicKeyLength;
         uint8_t *publicKey;
 
-        State state = HANDSHAKING;
+        State state;
 
-        int packetRx = 0;
-        int packetTx = 0;
+        int packetRx;
+        int packetTx;
 
-        int packetErrors = 0;
+        int packetErrors;
 
-        PacketSerializer packetSerializer;
+        protocol::PacketSerializer packetSerializer;
 
         void run();
 
-        void handlePacket(PacketInBase *packet);
+        void handlePacket(protocol::PacketInBase *packet);
 
     public:
 

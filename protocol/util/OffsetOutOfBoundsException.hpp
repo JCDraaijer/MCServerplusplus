@@ -8,7 +8,7 @@
 
 #include <exception>
 
-namespace network {
+namespace protocol {
     class OffsetOutOfBoundsException : public std::exception {
     private:
         char *whatValue;

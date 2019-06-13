@@ -3,12 +3,12 @@
 //
 
 #include "PacketParser.hpp"
-#include "util/Util.hpp"
 #include "../protocol/in/PacketInHandshake.hpp"
 #include "../protocol/in/PacketInRequest.hpp"
 #include "../protocol/in/PacketInLoginStart.hpp"
 #include "../protocol/in/PacketInEncryptionResponse.hpp"
 #include "../protocol/in/PacketInPing.hpp"
+#include "../protocol/util/Util.hpp"
 
 using namespace protocol;
 
@@ -62,7 +62,7 @@ namespace network {
         if (packetId == 0x00) {
             return new PacketInRequest();
         } else if (packetId == 0x01){
-            int64_t value = Util::readLong(data, &offset, dataLength);
+            int64_t value = protocol::Util::readLong(data, &offset, dataLength);
             return new PacketInPing(value);
         }
         return nullptr;
@@ -77,13 +77,13 @@ namespace network {
     PacketParser::_parseLogin(int packetId, unsigned char *data, int dataLength) {
         uint32_t offset = 0;
         if (packetId == 0x00) {
-            std::string name = Util::readString(data, &offset, dataLength);
+            std::string name = protocol::Util::readString(data, &offset, dataLength);
             return new PacketInLoginStart(name);
         } else if (packetId == 0x01) {
-            int32_t keyLength = Util::readVarInt(data, &offset, dataLength);
-            uint8_t *keyData = Util::readByteArray(data, dataLength, &offset, keyLength);
-            uint32_t tokenLength = Util::readVarInt(data, &offset, dataLength);
-            uint8_t *tokenData = Util::readByteArray(data, dataLength, &offset, tokenLength);
+            int32_t keyLength = protocol::Util::readVarInt(data, &offset, dataLength);
+            uint8_t *keyData = protocol::Util::readByteArray(data, dataLength, &offset, keyLength);
+            uint32_t tokenLength = protocol::Util::readVarInt(data, &offset, dataLength);
+            uint8_t *tokenData = protocol::Util::readByteArray(data, dataLength, &offset, tokenLength);
             return new PacketInEncryptionResponse(keyLength, keyData, tokenLength, tokenData);
         } else if (packetId == 0x02) {
 

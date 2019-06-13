@@ -18,4 +18,8 @@ namespace protocol {
     void PacketOutSetCompression::setThreshold(int32_t newThreshold) {
         threshold = newThreshold;
     }
+
+    void PacketOutSetCompression::serialize(PacketSerializer packetSerializer) {
+
+    }
 }

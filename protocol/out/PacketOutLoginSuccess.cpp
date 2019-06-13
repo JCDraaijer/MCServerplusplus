@@ -3,10 +3,14 @@
 //
 
 #include "PacketOutLoginSuccess.hpp"
+#include "../util/Util.hpp"
 
 namespace protocol {
 
-    PacketOutLoginSuccess::PacketOutLoginSuccess(server::UUID uuid, std::string &username) : PacketOutBase(0x02, LOGIN_SUCCESS), uuid(uuid), username(std::move(username)){
+    PacketOutLoginSuccess::PacketOutLoginSuccess(server::UUID uuid, std::string &username) : PacketOutBase(0x02,
+                                                                                                           LOGIN_SUCCESS),
+                                                                                             uuid(uuid), username(
+                    std::move(username)) {
 
     }
 
@@ -24,5 +28,10 @@ namespace protocol {
 
     void PacketOutLoginSuccess::setUsername(const std::string &newUsername) {
         PacketOutLoginSuccess::username = newUsername;
+    }
+
+    void PacketOutLoginSuccess::serialize(PacketSerializer packetSerializer) {
+        packetSerializer.writeString(uuid.toString());
+        packetSerializer.writeString(getUsername());
     }
 }

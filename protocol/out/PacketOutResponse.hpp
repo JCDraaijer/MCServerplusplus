@@ -17,6 +17,8 @@ namespace protocol {
         std::string toString() override;
 
         std::string getJsonResponse();
+
+        void serialize(PacketSerializer packetSerializer) override;
     };
 }
 

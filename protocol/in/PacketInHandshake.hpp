@@ -12,7 +12,6 @@ namespace protocol {
 
     class PacketInHandshake : public PacketInBase {
     private:
-        const int id = 0;
         int protocolVersion;
         std::string address;
         unsigned short port;

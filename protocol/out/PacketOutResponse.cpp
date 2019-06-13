@@ -6,7 +6,7 @@
 //
 
 #include "PacketOutResponse.hpp"
-#include "../../network/util/Util.hpp"
+#include "../util/Util.hpp"
 
 namespace protocol {
     std::string PacketOutResponse::toString() {
@@ -21,5 +21,9 @@ namespace protocol {
 
     std::string PacketOutResponse::getJsonResponse() {
         return this->jsonResponse;
+    }
+
+    void PacketOutResponse::serialize(PacketSerializer packetSerializer) {
+        packetSerializer.writeString(getJsonResponse());
     }
 }

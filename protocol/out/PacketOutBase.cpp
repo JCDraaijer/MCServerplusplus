@@ -16,4 +16,5 @@ namespace protocol {
     std::string PacketOutBase::toString() {
         return std::__cxx11::string();
     }
+
 }

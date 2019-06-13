@@ -6,7 +6,6 @@
 
 #include <sstream>
 #include "PacketInHandshake.hpp"
-#include "../../network/util/Util.hpp"
 
 namespace protocol {
 
@@ -20,7 +19,7 @@ namespace protocol {
 
     std::string PacketInHandshake::toString() {
         std::ostringstream stringStream;
-        stringStream << "Handshake packet. ID: " << this->id << ", Protocol Version: " << this->protocolVersion
+        stringStream << "Handshake packet. ID: " << this->getId() << ", Protocol Version: " << this->protocolVersion
                      << ", Server Address: "
                      << this->address << ", Server Port: " << this->port << ", Next state: "
                      << stateToString(this->getNextState());

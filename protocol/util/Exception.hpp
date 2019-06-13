@@ -7,7 +7,7 @@
 
 #include <exception>
 
-namespace network {
+namespace protocol {
     class Exception : public std::exception {
     private:
         const char *whatValue;

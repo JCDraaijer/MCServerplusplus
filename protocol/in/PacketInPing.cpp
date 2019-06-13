@@ -4,7 +4,6 @@
 
 #include <sstream>
 #include "PacketInPing.hpp"
-#include "../../network/util/Util.hpp"
 
 namespace protocol {
 

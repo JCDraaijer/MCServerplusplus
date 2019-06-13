@@ -23,6 +23,8 @@ namespace protocol {
         std::string &getUsername();
 
         void setUsername(const std::string &username);
+
+        void serialize(PacketSerializer packetSerializer) override;
     };
 }
 

@@ -3,7 +3,7 @@
 //
 
 #include "Exception.hpp"
-namespace network {
+namespace protocol {
 
     Exception::Exception(const char *what) {
         whatValue = what;

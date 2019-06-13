@@ -6,12 +6,13 @@
 #define MCSERVER_PACKETOUTBASE_HPP
 
 #include "../PacketBase.hpp"
+#include "../PacketSerializer.hpp"
 
 namespace protocol {
 
     class PacketOutBase : public PacketBase {
     private:
-        const protocol::OutPacketType type;
+        const OutPacketType type;
     public:
         explicit PacketOutBase(int id, OutPacketType type);
 
@@ -19,6 +20,7 @@ namespace protocol {
 
         std::string toString() override;
 
+        virtual void serialize(PacketSerializer packetSerializer) = 0;
     };
 }
 
