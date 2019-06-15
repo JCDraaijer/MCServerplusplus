@@ -2,17 +2,17 @@
 // Created by jona on 2019-06-09.
 //
 
-#ifndef MCSERVER_PACKETOUTRESPONSE_HPP
-#define MCSERVER_PACKETOUTRESPONSE_HPP
+#ifndef MCSERVER_PACKETSTATUSOUTRESPONSE_HPP
+#define MCSERVER_PACKETSTATUSOUTRESPONSE_HPP
 
 #include "PacketOutBase.hpp"
 
 namespace protocol {
-    class PacketOutResponse : public PacketOutBase {
+    class PacketStatusOutResponse : public PacketOutBase {
     private:
         std::string jsonResponse;
     public:
-        explicit PacketOutResponse(std::string);
+        explicit PacketStatusOutResponse(std::string);
 
         std::string toString() override;
 
@@ -23,4 +23,4 @@ namespace protocol {
 }
 
 
-#endif //MCSERVER_PACKETOUTRESPONSE_HPP
+#endif //MCSERVER_PACKETSTATUSOUTRESPONSE_HPP

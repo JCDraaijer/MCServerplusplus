@@ -6,8 +6,28 @@
 
 namespace server {
 
-    Entity::Entity(UUID uuid, Position position, Vector3D velocity) : uuid(uuid), position(position),
+    Entity::Entity(UUID uuid, Location position, Vector3D velocity) : uuid(uuid), position(position),
                                                                       velocity(velocity) {
+
+    }
+
+    const Location &Entity::getPosition() const {
+        return position;
+    }
+
+    void Entity::setPosition(const Location &newPosition) {
+        this->position = newPosition;
+    }
+
+    Vector3D &Entity::getVelocity() {
+        return velocity;
+    }
+
+    void Entity::setVelocity(const Vector3D &newVelocity) {
+        this->velocity = newVelocity;
+    }
+
+    void Entity::tick() {
 
     }
 }

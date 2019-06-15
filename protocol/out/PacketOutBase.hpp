@@ -16,7 +16,7 @@ namespace protocol {
     private:
         const OutPacketType type;
     public:
-        explicit PacketOutBase(int id, OutPacketType type);
+        explicit PacketOutBase(OutPacketType type);
 
         const OutPacketType getType();
 

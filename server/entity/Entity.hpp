@@ -5,7 +5,7 @@
 #ifndef MCSERVER_ENTITY_HPP
 #define MCSERVER_ENTITY_HPP
 
-#include "../world/Position.hpp"
+#include "../world/Location.hpp"
 #include "../Vector3D.hpp"
 #include "../UUID.hpp"
 
@@ -13,10 +13,21 @@ namespace server {
     class Entity {
     private:
         UUID uuid;
-        Position position;
+        Location position;
         Vector3D velocity;
     public:
-        Entity(UUID uuid, Position position, Vector3D velocity);
+        Entity(UUID uuid, Location position, Vector3D velocity);
+
+        const Location &getPosition() const;
+
+        void setPosition(const Location &newPosition);
+
+        Vector3D &getVelocity();
+
+        void setVelocity(const Vector3D &newVelocity);
+
+        void tick();
+
     };
 }
 

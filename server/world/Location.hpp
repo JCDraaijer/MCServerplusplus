@@ -2,11 +2,13 @@
 // Created by jona on 2019-06-02.
 //
 
-#ifndef MCSERVER_POSITION_HPP
-#define MCSERVER_POSITION_HPP
+#ifndef MCSERVER_LOCATION_HPP
+#define MCSERVER_LOCATION_HPP
+
+#include "BlockLocation.hpp"
 
 namespace server {
-    class Position {
+    class Location {
     private:
         double x;
         double y;
@@ -23,8 +25,10 @@ namespace server {
         double getZ() const;
 
         void setZ(double newZ);
+
+        BlockLocation toBlockLocation();
     };
 }
 
 
-#endif //MCSERVER_POSITION_HPP
+#endif //MCSERVER_LOCATION_HPP

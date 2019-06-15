@@ -5,6 +5,7 @@
 
 #include <cstring>
 #include "PacketSerializer.hpp"
+#include "util/Util.hpp"
 
 namespace protocol {
 
@@ -117,7 +118,7 @@ namespace protocol {
 
     void PacketSerializer::writeLong(int64_t longInteger) {
         verifyBufferCapacity(8);
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < LONG_LENGTH; i++) {
             dataBuffer[currentDataSize++] = longInteger & 0xFF;
             longInteger >>= 8;
         }
@@ -131,5 +132,18 @@ namespace protocol {
             }
             setBufferSize(bufferSizeToTest);
         }
+    }
+
+    void PacketSerializer::writeInt(int32_t integer) {
+        verifyBufferCapacity(INT_LENGTH);
+        for (int i = 0; i < INT_LENGTH; i++) {
+            dataBuffer[currentDataSize++] = integer & 0xFF;
+            integer >>= 8;
+        }
+    }
+
+    void PacketSerializer::writeUnsignedByte(uint8_t aByte) {
+        verifyBufferCapacity(1);
+        dataBuffer[currentDataSize++] = aByte;
     }
 }

@@ -10,11 +10,17 @@ namespace server {
     }
 
     Vector3D Vector3D::add(Vector3D other) {
-        return Vector3D(xVel + other.xVel, yVel + other.yVel, zVel + other.zVel);
+        xVel += other.xVel;
+        yVel += other.yVel;
+        zVel += other.zVel;
+        return *this;
     }
 
     Vector3D Vector3D::add(float xAdd, float yAdd, float zAdd) {
-        return Vector3D(xVel + xAdd, yVel + yAdd, zVel + zAdd);
+        xVel += xAdd;
+        yVel += yAdd;
+        zVel += zAdd;
+        return *this;
     }
 
     Vector3D Vector3D::subtract(Vector3D other) {
@@ -26,6 +32,9 @@ namespace server {
     }
 
     Vector3D Vector3D::multiply(float mult) {
-        return Vector3D(xVel * mult, yVel * mult, zVel * mult);
+        xVel *= mult;
+        yVel *= mult;
+        zVel *= mult;
+        return *this;
     }
 }

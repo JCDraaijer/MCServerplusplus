@@ -2,15 +2,21 @@
 // Created by jona on 2019-06-13.
 //
 
-#ifndef MCSERVER_BLOCKPOSITION_HPP
-#define MCSERVER_BLOCKPOSITION_HPP
+#ifndef MCSERVER_BLOCKLOCATION_HPP
+#define MCSERVER_BLOCKLOCATION_HPP
 
 #include <cstdint>
 
 namespace server {
-    class BlockPosition {
+    class BlockLocation {
     private:
+        int32_t x;
+        int32_t y;
+        int32_t z;
     public:
+
+        BlockLocation(int32_t x, int32_t y, int32_t z);
+
         int32_t getX() const;
 
         void setX(int32_t newX);
@@ -23,13 +29,8 @@ namespace server {
 
         void setZ(int32_t newZ);
 
-    private:
-        int32_t x;
-        int32_t y;
-        int32_t z;
-
     };
 }
 
 
-#endif //MCSERVER_BLOCKPOSITION_HPP
+#endif //MCSERVER_BLOCKLOCATION_HPP

@@ -6,29 +6,15 @@
 
 namespace protocol {
 
-    int PacketBase::getId() {
+    uint32_t PacketBase::getId() {
         return this->id;
     }
 
-    PacketBase::PacketBase(int id) : id(id) {
+    PacketBase::PacketBase(uint32_t id) : id(id) {
 
     }
 
-    std::string outPacketTypeToString(OutPacketType type){
-        switch (type){
-            case RESPONSE:
-                return "RESPONSE";
-            case PONG:
-                return "PONG";
-            case DISCONNECT:
-                return "DISCONNECT";
-            case ENCRYPTION_REQUEST:
-                return "ENCRYPTION REQUEST";
-            case SET_COMPRESSION:
-                return "SET_COMPRESSION";
-            case LOGIN_SUCCESS:
-                return "LOGIN_SUCCESS";
-        }
-        return "";
+    std::string enumToString(OutPacketType type) {
+        return enumToStrx(type);
     }
 }

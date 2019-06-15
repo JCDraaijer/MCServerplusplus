@@ -6,7 +6,7 @@
 #include "PacketInRequest.hpp"
 
 namespace protocol {
-    PacketInRequest::PacketInRequest() : PacketInBase(0, REQUEST) {
+    PacketInRequest::PacketInRequest() : PacketInBase(0, STATUS_REQUEST) {
 
     }
 

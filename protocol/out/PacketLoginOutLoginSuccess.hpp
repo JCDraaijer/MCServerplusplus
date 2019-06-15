@@ -2,19 +2,19 @@
 // Created by jona on 2019-06-11.
 //
 
-#ifndef MCSERVER_PACKETOUTLOGINSUCCESS_HPP
-#define MCSERVER_PACKETOUTLOGINSUCCESS_HPP
+#ifndef MCSERVER_PACKETLOGINOUTLOGINSUCCESS_HPP
+#define MCSERVER_PACKETLOGINOUTLOGINSUCCESS_HPP
 
 #include "PacketOutBase.hpp"
 #include "../../server/UUID.hpp"
 
 namespace protocol {
-    class PacketOutLoginSuccess : public PacketOutBase {
+    class PacketLoginOutLoginSuccess : public PacketOutBase {
     private:
         server::UUID uuid;
         std::string username;
     public:
-        PacketOutLoginSuccess(server::UUID uuid, std::string &username);
+        PacketLoginOutLoginSuccess(server::UUID uuid, std::string &username);
 
         server::UUID &getUuid();
 
@@ -29,4 +29,4 @@ namespace protocol {
 }
 
 
-#endif //MCSERVER_PACKETOUTLOGINSUCCESS_HPP
+#endif //MCSERVER_PACKETLOGINOUTLOGINSUCCESS_HPP

@@ -6,13 +6,15 @@
 #define MCSERVER_EXCEPTION_HPP
 
 #include <exception>
+#include <cstdint>
+#include "../../network/State.hpp"
 
 namespace protocol {
     class Exception : public std::exception {
     private:
         const char *whatValue;
     public:
-        explicit Exception(const char *what);
+        explicit Exception(const char* whatValue);
 
         const char *
         what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_USE_NOEXCEPT override;

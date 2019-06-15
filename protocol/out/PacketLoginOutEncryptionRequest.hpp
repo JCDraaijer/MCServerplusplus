@@ -2,13 +2,13 @@
 // Created by jona on 2019-06-11.
 //
 
-#ifndef MCSERVER_PACKETOUTENCRYPTIONREQUEST_HPP
-#define MCSERVER_PACKETOUTENCRYPTIONREQUEST_HPP
+#ifndef MCSERVER_PACKETLOGINOUTENCRYPTIONREQUEST_HPP
+#define MCSERVER_PACKETLOGINOUTENCRYPTIONREQUEST_HPP
 
 #include "PacketOutBase.hpp"
 
 namespace protocol {
-    class PacketOutEncryptionRequest : public PacketOutBase {
+    class PacketLoginOutEncryptionRequest : public PacketOutBase {
     private:
         std::string serverId;
         int32_t publicKeyLength;
@@ -16,8 +16,8 @@ namespace protocol {
         int32_t verifyTokenLength;
         uint8_t *verifyToken;
     public:
-        PacketOutEncryptionRequest(std::string serverId, int32_t publicKeyLength, uint8_t *publicKey, int32_t verifyTokenLength, uint8_t *verifyToken);
-        ~PacketOutEncryptionRequest();
+        PacketLoginOutEncryptionRequest(std::string serverId, int32_t publicKeyLength, uint8_t *publicKey, int32_t verifyTokenLength, uint8_t *verifyToken);
+        ~PacketLoginOutEncryptionRequest();
 
         const std::string &getServerId() const;
 
@@ -44,4 +44,4 @@ namespace protocol {
 }
 
 
-#endif //MCSERVER_PACKETOUTENCRYPTIONREQUEST_HPP
+#endif //MCSERVER_PACKETLOGINOUTENCRYPTIONREQUEST_HPP

@@ -8,7 +8,7 @@
 #include "../util/Util.hpp"
 
 namespace protocol {
-    PacketLoginOutDisconnect::PacketLoginOutDisconnect(std::string reason) : PacketOutBase(0x1B, DISCONNECT),
+    PacketLoginOutDisconnect::PacketLoginOutDisconnect(std::string reason) : PacketOutBase(LOGIN_DISCONNECT),
                                                                              reason(std::move(reason)) {
 
     }

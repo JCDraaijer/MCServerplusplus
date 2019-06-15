@@ -19,6 +19,7 @@ namespace network {
     }
 
     void Service::start() {
+        std::printf("Started networking service.\n");
         running = true;
         if ((socketFd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
             std::printf("Error! Could not create socket.\n");

@@ -12,7 +12,14 @@ namespace server {
     private:
         std::list<World> worlds;
         std::list<Entity> entities;
+    public:
+        void tick();
+        void start();
+
+        static void *startServer(void *server);
     };
+
+
 }
 
 

@@ -8,8 +8,6 @@
 #include "Exception.hpp"
 
 namespace protocol {
-    const uint8_t Util::LONG_LENGTH = 8;
-    const uint8_t Util::INT_LENGTH = 4;
 
     uint8_t Util::readUnsignedByte(uint8_t *data, uint32_t *offset, uint32_t dataLength) {
         if (dataLength <= *offset) {

@@ -5,7 +5,7 @@
 #include "PacketOutBase.hpp"
 
 namespace protocol {
-    PacketOutBase::PacketOutBase(int id, OutPacketType type) : PacketBase(id), type(type) {
+    PacketOutBase::PacketOutBase(OutPacketType type) : PacketBase(type), type(type) {
 
     }
 

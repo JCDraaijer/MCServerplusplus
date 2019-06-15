@@ -47,6 +47,10 @@ namespace protocol {
         static uint8_t varLongLength(int64_t longInteger);
 
         static uint32_t stringLength(const std::string &someString);
+
+        void writeInt(int32_t integer);
+
+        void writeUnsignedByte(uint8_t aByte);
     };
 
 }

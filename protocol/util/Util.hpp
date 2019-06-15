@@ -5,6 +5,9 @@
 #ifndef MCSERVER_UTIL_HPP
 #define MCSERVER_UTIL_HPP
 
+#define LONG_LENGTH 8
+#define INT_LENGTH 4
+
 
 #include <string>
 
@@ -14,10 +17,6 @@ namespace protocol {
         static uint32_t stringLengthRaw(std::string aString);
 
     public:
-
-        static const uint8_t LONG_LENGTH;
-
-        static const uint8_t INT_LENGTH;
 
         static int8_t readByte(int socket);
 
