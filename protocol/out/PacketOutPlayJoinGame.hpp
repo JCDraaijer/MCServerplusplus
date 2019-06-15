@@ -2,13 +2,13 @@
 // Created by jona on 2019-06-14.
 //
 
-#ifndef MCSERVER_PACKETPLAYOUTJOINGAME_HPP
-#define MCSERVER_PACKETPLAYOUTJOINGAME_HPP
+#ifndef MCSERVER_PACKETOUTPLAYJOINGAME_HPP
+#define MCSERVER_PACKETOUTPLAYJOINGAME_HPP
 
 #include "PacketOutBase.hpp"
 
 namespace protocol {
-    class PacketPlayOutJoinGame : public PacketOutBase {
+    class PacketOutPlayJoinGame : public PacketOutBase {
     private:
         int32_t entityId;
         uint8_t gameMode;
@@ -18,7 +18,7 @@ namespace protocol {
         std::string levelType;
         bool reducedDebugInfo;
     public:
-        PacketPlayOutJoinGame(int32_t entityId, uint8_t gameMode, int32_t dimension,
+        PacketOutPlayJoinGame(int32_t entityId, uint8_t gameMode, int32_t dimension,
                               uint8_t difficulty, uint8_t maxPlayers, std::string levelType,
                               bool reducedDebugInfo);
 
@@ -27,4 +27,4 @@ namespace protocol {
 }
 
 
-#endif //MCSERVER_PACKETPLAYOUTJOINGAME_HPP
+#endif //MCSERVER_PACKETOUTPLAYJOINGAME_HPP

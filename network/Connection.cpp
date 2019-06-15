@@ -13,15 +13,15 @@
 
 #include "../protocol/in/PacketInBase.hpp"
 #include "../protocol/out/PacketOutBase.hpp"
-#include "../protocol/out/PacketStatusOutPong.hpp"
-#include "../protocol/in/PacketHandshakeIn.hpp"
-#include "../protocol/in/PacketStatusInPing.hpp"
+#include "../protocol/out/PacketOutStatusPong.hpp"
+#include "../protocol/in/PacketInHandshake.hpp"
+#include "../protocol/in/PacketInStatusPing.hpp"
 #include "../protocol/in/PacketInLoginStart.hpp"
-#include "../protocol/out/PacketLoginOutLoginSuccess.hpp"
-#include "../protocol/out/PacketLoginOutDisconnect.hpp"
-#include "../protocol/out/PacketLoginOutEncryptionRequest.hpp"
+#include "../protocol/out/PacketOutLoginLoginSuccess.hpp"
+#include "../protocol/out/PacketOutLoginDisconnect.hpp"
+#include "../protocol/out/PacketOutLoginEncryptionRequest.hpp"
 #include "../protocol/PacketParser.hpp"
-#include "../protocol/out/PacketPlayOutJoinGame.hpp"
+#include "../protocol/out/PacketOutPlayJoinGame.hpp"
 
 namespace network {
     Connection::Connection(int socketFileDescriptor, uint32_t bufferSize) : socketFd(socketFileDescriptor),
@@ -81,27 +81,28 @@ namespace network {
     void Connection::handlePacket(protocol::PacketInBase *packet) {
         if (getState() == protocol::HANDSHAKING) {
             if (packet->getType() == protocol::HANDSHAKE) {
-                auto *handshake = (protocol::PacketHandshakeIn *) packet;
+                auto *handshake = (protocol::PacketInHandshake *) packet;
                 state = handshake->getNextState();
             }
         } else if (getState() == protocol::STATUS) {
             if (packet->getType() == protocol::STATUS_REQUEST) {
 
             } else if (packet->getType() == protocol::PING) {
-                auto *packetInPing = (protocol::PacketStatusInPing *) packet;
-                sendPacket(new protocol::PacketStatusOutPong(packetInPing->getValue()));
+                auto *packetInPing = (protocol::PacketInStatusPing *) packet;
+                sendPacket(new protocol::PacketOutStatusPong(packetInPing->getValue()));
                 free(packetInPing);
             }
         } else if (getState() == protocol::LOGIN) {
             if (packet->getType() == protocol::LOGIN_START) {
                 auto *start = (protocol::PacketInLoginStart *) packet;
                 std::string username = start->getName();
-                server::UUID uuid = server::UUID(0, 0);
+                server::UUID uuid = server::UUID::randomUuid();
                 state = protocol::PLAY;
                 authenticated = true;
                 protocol::PacketOutBase *toSend = new protocol::PacketLoginOutLoginSuccess(uuid, username);
+                std::printf("%s logged in with UUID %s\n", username.c_str(), uuid.toString().c_str());
                 sendPacket(toSend);
-                toSend = new protocol::PacketPlayOutJoinGame(1323, 0, 0, 1, 255, "default", false);
+                toSend = new protocol::PacketOutPlayJoinGame(1323, 0, 0, 1, 255, "default", false);
                 sendPacket(toSend);
                 free(toSend);
             } else if (packet->getType() == protocol::LOGIN_PLUGIN_RESPONSE) {

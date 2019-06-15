@@ -2,18 +2,18 @@
 // Created by jona on 2019-06-11.
 //
 
-#ifndef MCSERVER_PACKETLOGINOUTDISCONNECT_HPP
-#define MCSERVER_PACKETLOGINOUTDISCONNECT_HPP
+#ifndef MCSERVER_PACKETOUTLOGINDISCONNECT_HPP
+#define MCSERVER_PACKETOUTLOGINDISCONNECT_HPP
 
 #include "PacketOutBase.hpp"
 
 namespace protocol {
-    class PacketLoginOutDisconnect : public PacketOutBase {
+    class PacketOutLoginDisconnect : public PacketOutBase {
     private:
         //TODO Change this to JSON/Chat
         std::string reason;
     public:
-        explicit PacketLoginOutDisconnect(std::string reason);
+        explicit PacketOutLoginDisconnect(std::string reason);
 
         const std::string &getReason() const;
 
@@ -22,4 +22,4 @@ namespace protocol {
 }
 
 
-#endif //MCSERVER_PACKETLOGINOUTDISCONNECT_HPP
+#endif //MCSERVER_PACKETOUTLOGINDISCONNECT_HPP

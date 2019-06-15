@@ -2,17 +2,17 @@
 // Created by jona on 2019-06-10.
 //
 
-#ifndef MCSERVER_PACKETSTATUSOUTPONG_HPP
-#define MCSERVER_PACKETSTATUSOUTPONG_HPP
+#ifndef MCSERVER_PACKETOUTSTATUSPONG_HPP
+#define MCSERVER_PACKETOUTSTATUSPONG_HPP
 
 #include "PacketOutBase.hpp"
 
 namespace protocol {
-    class PacketStatusOutPong : public PacketOutBase {
+    class PacketOutStatusPong : public PacketOutBase {
     private:
         int64_t value;
     public:
-        explicit PacketStatusOutPong(int64_t value);
+        explicit PacketOutStatusPong(int64_t value);
 
         std::string toString() override;
 
@@ -23,4 +23,4 @@ namespace protocol {
 }
 
 
-#endif //MCSERVER_PACKETSTATUSOUTPONG_HPP
+#endif //MCSERVER_PACKETOUTSTATUSPONG_HPP

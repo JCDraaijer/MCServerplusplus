@@ -4,17 +4,17 @@
 
 #include <unistd.h>
 #include "PacketParser.hpp"
-#include "in/PacketHandshakeIn.hpp"
-#include "in/PacketStatusInRequest.hpp"
+#include "in/PacketInHandshake.hpp"
+#include "in/PacketInStatusRequest.hpp"
 #include "in/PacketInLoginStart.hpp"
-#include "in/PacketLoginInEncryptionResponse.hpp"
-#include "in/PacketStatusInPing.hpp"
-#include "in/PacketPlayInPluginMessage.hpp"
+#include "in/PacketInLoginEncryptionResponse.hpp"
+#include "in/PacketInStatusPing.hpp"
+#include "in/PacketInPlayPluginMessage.hpp"
 #include "Identifier.hpp"
 #include "exception/UnknownPacketException.hpp"
 #include "exception/Exception.hpp"
 #include "exception/OffsetOutOfBoundsException.hpp"
-#include "in/PacketPlayInClientSettings.hpp"
+#include "in/PacketInPlayClientSettings.hpp"
 
 namespace protocol {
 
@@ -46,7 +46,7 @@ namespace protocol {
     PacketInBase *
     PacketParser::_parseHandshake(int packetId) {
         if (packetId == HANDSHAKE) {
-            return new PacketHandshakeIn(this);
+            return new PacketInHandshake(this);
         }
         throw UnknownPacketException(packetId, HANDSHAKING, dataLength);
     }
@@ -54,9 +54,9 @@ namespace protocol {
     PacketInBase *
     PacketParser::_parseStatus(int packetId) {
         if (packetId == STATUS_REQUEST) {
-            return new PacketStatusInRequest(this);
+            return new PacketInStatusRequest(this);
         } else if (packetId == PING) {
-            return new PacketStatusInPing(this);
+            return new PacketInStatusPing(this);
         }
         throw UnknownPacketException(packetId, STATUS, dataLength);
     }
@@ -64,9 +64,9 @@ namespace protocol {
     PacketInBase *
     PacketParser::_parsePlay(int packetId) {
         if (packetId == SERVER_PLUGIN_MESSAGE) {
-            return new PacketPlayInPluginMessage(this);
+            return new PacketInPlayPluginMessage(this);
         } else if (packetId == CLIENT_SETTINGS){
-            return new PacketPlayInClientSettings(this);
+            return new PacketInPlayClientSettings(this);
         }
         throw UnknownPacketException(packetId, PLAY, dataLength);
     }

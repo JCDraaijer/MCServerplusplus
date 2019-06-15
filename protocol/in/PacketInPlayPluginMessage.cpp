@@ -5,25 +5,25 @@
 // Created by jona on 2019-06-15.
 //
 
-#include "PacketPlayInPluginMessage.hpp"
+#include "PacketInPlayPluginMessage.hpp"
 
 namespace protocol {
 
 
-    PacketPlayInPluginMessage::PacketPlayInPluginMessage(Identifier ident, uint32_t dataLength, uint8_t *data)
+    PacketInPlayPluginMessage::PacketInPlayPluginMessage(Identifier ident, uint32_t dataLength, uint8_t *data)
             : PacketInBase(SERVER_PLUGIN_MESSAGE), identifier(std::move(ident)), dataLength(dataLength), data(data) {
 
     }
 
-    Identifier *PacketPlayInPluginMessage::getIdentifier() {
+    Identifier *PacketInPlayPluginMessage::getIdentifier() {
         return &identifier;
     }
 
-    uint8_t *PacketPlayInPluginMessage::getData() {
+    uint8_t *PacketInPlayPluginMessage::getData() {
         return data;
     }
 
-    std::string PacketPlayInPluginMessage::toString() {
+    std::string PacketInPlayPluginMessage::toString() {
         std::ostringstream stringStream;
         char dataString[1024];
         sprintf(dataString, "%s", data);
@@ -33,11 +33,11 @@ namespace protocol {
         return stringStream.str();
     }
 
-    PacketPlayInPluginMessage::PacketPlayInPluginMessage(PacketParser *parser) : PacketInBase(SERVER_PLUGIN_MESSAGE) {
+    PacketInPlayPluginMessage::PacketInPlayPluginMessage(PacketParser *parser) : PacketInBase(SERVER_PLUGIN_MESSAGE) {
         parse(parser);
     }
 
-    void PacketPlayInPluginMessage::parse(PacketParser *packetParser) {
+    void PacketInPlayPluginMessage::parse(PacketParser *packetParser) {
         identifier = Identifier(packetParser->readString());
         data = packetParser->readByteArray();
     }

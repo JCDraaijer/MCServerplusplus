@@ -5,17 +5,46 @@
 #include "UUID.hpp"
 
 namespace server {
-    UUID::UUID(uint64_t mostSignificant, uint64_t leastSignificant) : mostSignificant(mostSignificant),
-                                                                      leastSignificant(leastSignificant) {
-
+    UUID::UUID(uint64_t mostSignificant, uint64_t leastSignificant) {
+        for (int i = 0; i < 8; i++) {
+            actualUuid[i] = leastSignificant & 0xFF;
+            actualUuid[i + 8] = mostSignificant & 0xFF;
+            leastSignificant >>= 8;
+            mostSignificant >>= 8;
+        }
+        uuidString = (char *) (malloc(sizeof(uuid_t) * 37));
+        uuid_unparse_lower(actualUuid, uuidString);
     }
 
     bool UUID::equals(UUID &anotherUuid) {
-        return anotherUuid.mostSignificant == this->mostSignificant &&
-               anotherUuid.leastSignificant == this->leastSignificant;
+        for (int i = 0; i < sizeof(uuid_t); i++) {
+            if (anotherUuid.actualUuid[i] != actualUuid[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     std::string UUID::toString() {
-        return "e67a1fd6-b40c-486c-b94e-eb0c4661fb4f";
+        return std::string(uuidString);
+    }
+
+    UUID UUID::randomUuid() {
+        uuid_t uuidType;
+        uuid_generate_random(uuidType);
+        return {uuidType};
+    }
+
+    UUID::UUID() : UUID(0, 0) {
+        uuidString = (char *) (malloc(sizeof(char) * 37));
+        uuid_unparse_lower(actualUuid, uuidString);
+    }
+
+    UUID::UUID(const uuid_t theUuid) {
+        for (int i = 0; i < sizeof(uuid_t); i++) {
+            actualUuid[i] = theUuid[i];
+        }
+        uuidString = (char *) (malloc(sizeof(char) * 37));
+        uuid_unparse_lower(actualUuid, uuidString);
     }
 }

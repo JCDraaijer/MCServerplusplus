@@ -2,19 +2,19 @@
 // Created by jona on 2019-06-09.
 //
 
-#ifndef MCSERVER_PACKETSTATUSINPING_HPP
-#define MCSERVER_PACKETSTATUSINPING_HPP
+#ifndef MCSERVER_PACKETINSTATUSPING_HPP
+#define MCSERVER_PACKETINSTATUSPING_HPP
 
 #include "PacketInBase.hpp"
 
 namespace protocol {
-    class PacketStatusInPing : public PacketInBase {
+    class PacketInStatusPing : public PacketInBase {
     private:
         int64_t mvalue;
     public:
-        explicit PacketStatusInPing(int64_t);
+        explicit PacketInStatusPing(int64_t);
 
-        explicit PacketStatusInPing(PacketParser *parser);
+        explicit PacketInStatusPing(PacketParser *parser);
 
         void parse(PacketParser *packetParser) override;
 
@@ -25,4 +25,4 @@ namespace protocol {
 }
 
 
-#endif //MCSERVER_PACKETSTATUSINPING_HPP
+#endif //MCSERVER_PACKETINSTATUSPING_HPP

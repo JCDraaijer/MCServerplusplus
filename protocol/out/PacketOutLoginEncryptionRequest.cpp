@@ -4,57 +4,57 @@
 // Created by jona on 2019-06-11.
 //
 
-#include "PacketLoginOutEncryptionRequest.hpp"
+#include "PacketOutLoginEncryptionRequest.hpp"
 
 
 namespace protocol {
 
-    const std::string &PacketLoginOutEncryptionRequest::getServerId() const {
+    const std::string &PacketOutLoginEncryptionRequest::getServerId() const {
         return serverId;
     }
 
-    void PacketLoginOutEncryptionRequest::setServerId(const std::string &newServerId) {
+    void PacketOutLoginEncryptionRequest::setServerId(const std::string &newServerId) {
         this->serverId = newServerId;
     }
 
-    int32_t PacketLoginOutEncryptionRequest::getPublicKeyLength() const {
+    int32_t PacketOutLoginEncryptionRequest::getPublicKeyLength() const {
         return publicKeyLength;
     }
 
-    void PacketLoginOutEncryptionRequest::setPublicKeyLength(int32_t newLength) {
+    void PacketOutLoginEncryptionRequest::setPublicKeyLength(int32_t newLength) {
         this->publicKeyLength = newLength;
     }
 
-    uint8_t *PacketLoginOutEncryptionRequest::getPublicKey() const {
+    uint8_t *PacketOutLoginEncryptionRequest::getPublicKey() const {
         return publicKey;
     }
 
-    void PacketLoginOutEncryptionRequest::setPublicKey(uint8_t *newKey) {
+    void PacketOutLoginEncryptionRequest::setPublicKey(uint8_t *newKey) {
         this->publicKey = newKey;
     }
 
-    int32_t PacketLoginOutEncryptionRequest::getVerifyTokenLength() const {
+    int32_t PacketOutLoginEncryptionRequest::getVerifyTokenLength() const {
         return verifyTokenLength;
     }
 
-    void PacketLoginOutEncryptionRequest::setVerifyTokenLength(int32_t newTokenLength) {
+    void PacketOutLoginEncryptionRequest::setVerifyTokenLength(int32_t newTokenLength) {
         this->verifyTokenLength = newTokenLength;
     }
 
-    uint8_t *PacketLoginOutEncryptionRequest::getVerifyToken() const {
+    uint8_t *PacketOutLoginEncryptionRequest::getVerifyToken() const {
         return verifyToken;
     }
 
-    void PacketLoginOutEncryptionRequest::setVerifyToken(uint8_t *newToken) {
+    void PacketOutLoginEncryptionRequest::setVerifyToken(uint8_t *newToken) {
         this->verifyToken = newToken;
     }
 
-    PacketLoginOutEncryptionRequest::~PacketLoginOutEncryptionRequest() {
+    PacketOutLoginEncryptionRequest::~PacketOutLoginEncryptionRequest() {
         free(publicKey);
         free(verifyToken);
     }
 
-    PacketLoginOutEncryptionRequest::PacketLoginOutEncryptionRequest(std::string serverId, int32_t publicKeyLength,
+    PacketOutLoginEncryptionRequest::PacketOutLoginEncryptionRequest(std::string serverId, int32_t publicKeyLength,
                                                            uint8_t *publicKey, int32_t verifyTokenLength,
                                                            uint8_t *verifyToken) : PacketOutBase(LOGIN_ENCRYPTION_REQUEST),
                                                                                    serverId(std::move(serverId)),
@@ -65,7 +65,7 @@ namespace protocol {
 
     }
 
-    void PacketLoginOutEncryptionRequest::serialize(PacketSerializer *packetSerializer) {
+    void PacketOutLoginEncryptionRequest::serialize(PacketSerializer *packetSerializer) {
         packetSerializer->writeString(serverId);
         packetSerializer->writeVarInt(publicKeyLength);
         packetSerializer->writeByteArray(publicKey, publicKeyLength);

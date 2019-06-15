@@ -2,10 +2,10 @@
 // Created by jona on 2019-06-11.
 //
 
-#include "PacketLoginInEncryptionResponse.hpp"
+#include "PacketInLoginEncryptionResponse.hpp"
 
 namespace protocol {
-    protocol::PacketLoginInEncryptionResponse::PacketLoginInEncryptionResponse(int32_t sharedSecretLength,
+    protocol::PacketInLoginEncryptionResponse::PacketInLoginEncryptionResponse(int32_t sharedSecretLength,
                                                                                uint8_t *sharedSecret,
                                                                                uint32_t verifyTokenLength,
                                                                                uint8_t *verifyToken)
@@ -14,37 +14,37 @@ namespace protocol {
 
     }
 
-    PacketLoginInEncryptionResponse::~PacketLoginInEncryptionResponse() {
+    PacketInLoginEncryptionResponse::~PacketInLoginEncryptionResponse() {
         free(sharedSecret);
         free(verifyToken);
     }
 
-    int32_t PacketLoginInEncryptionResponse::getSharedSecretLength() const {
+    int32_t PacketInLoginEncryptionResponse::getSharedSecretLength() const {
         return sharedSecretLength;
     }
 
-    uint8_t *PacketLoginInEncryptionResponse::getSharedSecret() const {
+    uint8_t *PacketInLoginEncryptionResponse::getSharedSecret() const {
         return sharedSecret;
     }
 
-    int32_t PacketLoginInEncryptionResponse::getVerifyTokenLength() const {
+    int32_t PacketInLoginEncryptionResponse::getVerifyTokenLength() const {
         return verifyTokenLength;
     }
 
-    uint8_t *PacketLoginInEncryptionResponse::getVerifyToken() const {
+    uint8_t *PacketInLoginEncryptionResponse::getVerifyToken() const {
         return verifyToken;
     }
 
-    std::string PacketLoginInEncryptionResponse::toString() {
+    std::string PacketInLoginEncryptionResponse::toString() {
         return std::__cxx11::string();
     }
 
-    PacketLoginInEncryptionResponse::PacketLoginInEncryptionResponse(PacketParser *parser) : PacketInBase(
+    PacketInLoginEncryptionResponse::PacketInLoginEncryptionResponse(PacketParser *parser) : PacketInBase(
             ENCRYPTION_RESPONSE) {
         parse(parser);
     }
 
-    void PacketLoginInEncryptionResponse::parse(PacketParser *packetParser) {
+    void PacketInLoginEncryptionResponse::parse(PacketParser *packetParser) {
         sharedSecretLength = packetParser->readVarInt();
         sharedSecret = packetParser->readByteArray(sharedSecretLength);
         verifyTokenLength = packetParser->readVarInt();

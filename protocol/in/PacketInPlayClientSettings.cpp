@@ -2,19 +2,19 @@
 // Created by jona on 2019-06-15.
 //
 
-#include "PacketPlayInClientSettings.hpp"
+#include "PacketInPlayClientSettings.hpp"
 
 namespace protocol {
-    std::string protocol::PacketPlayInClientSettings::toString() {
-        return std::__cxx11::string();
+    std::string protocol::PacketInPlayClientSettings::toString() {
+        return "Client Settings packet, ID: 0x05.";
     }
 
-    protocol::PacketPlayInClientSettings::PacketPlayInClientSettings(protocol::PacketParser *parser) : PacketInBase(
+    protocol::PacketInPlayClientSettings::PacketInPlayClientSettings(protocol::PacketParser *parser) : PacketInBase(
             CLIENT_SETTINGS) {
         parse(parser);
     }
 
-    void protocol::PacketPlayInClientSettings::parse(protocol::PacketParser *packetParser) {
+    void protocol::PacketInPlayClientSettings::parse(protocol::PacketParser *packetParser) {
         locale = packetParser->readString();
         renderDistance = packetParser->readByte();
         chatMode = packetParser->readVarInt();

@@ -2,27 +2,27 @@
 // Created by jona on 2019-06-11.
 //
 
-#ifndef MCSERVER_PACKETLOGININENCRYPTIONRESPONSE_HPP
-#define MCSERVER_PACKETLOGININENCRYPTIONRESPONSE_HPP
+#ifndef MCSERVER_PACKETINLOGINENCRYPTIONRESPONSE_HPP
+#define MCSERVER_PACKETINLOGINENCRYPTIONRESPONSE_HPP
 
 #include "PacketInBase.hpp"
 
 namespace protocol {
-    class PacketLoginInEncryptionResponse : public PacketInBase {
+    class PacketInLoginEncryptionResponse : public PacketInBase {
     private:
         int32_t sharedSecretLength;
         uint8_t *sharedSecret;
         int32_t verifyTokenLength;
         uint8_t *verifyToken;
     public:
-        PacketLoginInEncryptionResponse(int32_t sharedSecretLength, uint8_t *sharedSecret, uint32_t verifyTokenLength, uint8_t *verifyToken);
-        ~PacketLoginInEncryptionResponse();
+        PacketInLoginEncryptionResponse(int32_t sharedSecretLength, uint8_t *sharedSecret, uint32_t verifyTokenLength, uint8_t *verifyToken);
+        ~PacketInLoginEncryptionResponse();
 
         int32_t getSharedSecretLength() const;
 
         uint8_t *getSharedSecret() const;
 
-        explicit PacketLoginInEncryptionResponse(PacketParser *parser);
+        explicit PacketInLoginEncryptionResponse(PacketParser *parser);
 
         void parse(PacketParser *packetParser) override;
 
@@ -35,4 +35,4 @@ namespace protocol {
 }
 
 
-#endif //MCSERVER_PACKETLOGININENCRYPTIONRESPONSE_HPP
+#endif //MCSERVER_PACKETINLOGINENCRYPTIONRESPONSE_HPP

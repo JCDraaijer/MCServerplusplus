@@ -2,13 +2,13 @@
 // Created by jona on 2019-06-15.
 //
 
-#ifndef MCSERVER_PACKETPLAYINCLIENTSETTINGS_HPP
-#define MCSERVER_PACKETPLAYINCLIENTSETTINGS_HPP
+#ifndef MCSERVER_PACKETINPLAYCLIENTSETTINGS_HPP
+#define MCSERVER_PACKETINPLAYCLIENTSETTINGS_HPP
 
 #include "PacketInBase.hpp"
 
 namespace protocol {
-    class PacketPlayInClientSettings : public PacketInBase {
+    class PacketInPlayClientSettings : public PacketInBase {
     private:
         std::string locale;
         int8_t renderDistance;
@@ -20,11 +20,11 @@ namespace protocol {
     public:
         std::string toString() override;
 
-        explicit PacketPlayInClientSettings(PacketParser *parser);
+        explicit PacketInPlayClientSettings(PacketParser *parser);
 
         void parse(PacketParser *packetParser) override;
     };
 }
 
 
-#endif //MCSERVER_PACKETPLAYINCLIENTSETTINGS_HPP
+#endif //MCSERVER_PACKETINPLAYCLIENTSETTINGS_HPP

@@ -5,11 +5,11 @@
 //
 
 #include <sstream>
-#include "PacketHandshakeIn.hpp"
+#include "PacketInHandshake.hpp"
 
 namespace protocol {
 
-    PacketHandshakeIn::PacketHandshakeIn(int protocolVersion, std::string address, unsigned short port,
+    PacketInHandshake::PacketInHandshake(int protocolVersion, std::string address, unsigned short port,
                                          ConnectionState nextState) : PacketInBase(HANDSHAKE) {
         this->protocolVersion = protocolVersion;
         this->address = std::move(address);
@@ -18,11 +18,11 @@ namespace protocol {
     }
 
 
-    PacketHandshakeIn::PacketHandshakeIn(PacketParser *parser) : PacketInBase(HANDSHAKE) {
+    PacketInHandshake::PacketInHandshake(PacketParser *parser) : PacketInBase(HANDSHAKE) {
         parse(parser);
     }
 
-    std::string PacketHandshakeIn::toString() {
+    std::string PacketInHandshake::toString() {
         std::ostringstream stringStream;
         stringStream << "Handshake packet. ID: " << this->getId() << ", Protocol Version: " << this->protocolVersion
                      << ", Server Address: "
@@ -31,23 +31,23 @@ namespace protocol {
         return stringStream.str();
     }
 
-    ConnectionState PacketHandshakeIn::getNextState() {
+    ConnectionState PacketInHandshake::getNextState() {
         return this->nextState;
     }
 
-    int PacketHandshakeIn::getProtocolVersion() {
+    int PacketInHandshake::getProtocolVersion() {
         return this->protocolVersion;
     }
 
-    std::string PacketHandshakeIn::getAddress() {
+    std::string PacketInHandshake::getAddress() {
         return this->address;
     }
 
-    unsigned short PacketHandshakeIn::getPort() {
+    unsigned short PacketInHandshake::getPort() {
         return this->port;
     }
 
-    void PacketHandshakeIn::parse(PacketParser *packetParser) {
+    void PacketInHandshake::parse(PacketParser *packetParser) {
         protocolVersion = packetParser->readVarInt();
         address = packetParser->readString();
         port = packetParser->readUnsignedShort();

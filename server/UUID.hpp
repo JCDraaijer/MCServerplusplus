@@ -8,18 +8,25 @@
 
 #include <cstdint>
 #include <string>
+#include <uuid/uuid.h>
 
 namespace server {
     class UUID {
     private:
-        uint64_t mostSignificant;
-        uint64_t leastSignificant;
+        uuid_t actualUuid{};
+        char *uuidString;
     public:
+        UUID();
+
+        UUID(const uuid_t uuid);
+
         UUID(uint64_t mostSignificant, uint64_t leastSignificant);
 
         std::string toString();
 
         bool equals(UUID &anotherUuid);
+
+        static UUID randomUuid();
     };
 }
 

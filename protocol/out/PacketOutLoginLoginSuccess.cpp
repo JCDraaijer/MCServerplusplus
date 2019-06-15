@@ -2,12 +2,12 @@
 // Created by jona on 2019-06-11.
 //
 
-#include "PacketLoginOutLoginSuccess.hpp"
+#include "PacketOutLoginLoginSuccess.hpp"
 
 namespace protocol {
 
     PacketLoginOutLoginSuccess::PacketLoginOutLoginSuccess(server::UUID uuid, std::string &username) :
-            PacketOutBase(LOGIN_SUCCESS), uuid(uuid), username(std::move(username)) {
+            PacketOutBase(LOGIN_SUCCESS), uuid(uuid), username(username) {
 
     }
 

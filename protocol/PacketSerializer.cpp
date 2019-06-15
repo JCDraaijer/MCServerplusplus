@@ -19,6 +19,7 @@ namespace protocol {
     }
 
     uint8_t *PacketSerializer::serializePacket(PacketOutBase *packet, uint32_t *packetLength) {
+
         currentDataSize = 0;
         writeVarInt(packet->getId());
         packet->serialize(this);
@@ -32,7 +33,6 @@ namespace protocol {
         writeLengthHeader(currentDataSize);
 
         *packetLength += sizeLength + currentDataSize;
-
         return packetBuffer;
     }
 
