@@ -3,14 +3,16 @@
 //
 
 #include "PacketParser.hpp"
-#include "../protocol/in/PacketInHandshake.hpp"
-#include "../protocol/in/PacketInRequest.hpp"
+#include "../protocol/in/PacketHandshakeIn.hpp"
+#include "../protocol/in/PacketStatusInRequest.hpp"
 #include "../protocol/in/PacketInLoginStart.hpp"
-#include "../protocol/in/PacketInEncryptionResponse.hpp"
-#include "../protocol/in/PacketInPing.hpp"
+#include "../protocol/in/PacketLoginInEncryptionResponse.hpp"
+#include "../protocol/in/PacketStatusInPing.hpp"
 #include "../protocol/util/Util.hpp"
 #include "../protocol/util/Exception.hpp"
 #include "../protocol/util/UnknownPacketException.hpp"
+#include "../protocol/Identifier.hpp"
+#include "../protocol/in/PacketPlayInPluginMessage.hpp"
 
 using namespace protocol;
 
@@ -51,7 +53,7 @@ namespace network {
                 default:
                     actualNextState = UNDEFINED;
             }
-            PacketInHandshake *packetInHandshake = new PacketInHandshake(protocolVersion, serverAddress, port,
+            PacketHandshakeIn *packetInHandshake = new PacketHandshakeIn(protocolVersion, serverAddress, port,
                                                                          actualNextState);
             return packetInHandshake;
         }
@@ -62,16 +64,23 @@ namespace network {
     PacketParser::_parseStatus(int packetId, unsigned char *data, int dataLength) {
         uint32_t offset = 0;
         if (packetId == STATUS_REQUEST) {
-            return new PacketInRequest();
+            return new PacketStatusInRequest();
         } else if (packetId == PING){
             int64_t value = protocol::Util::readLong(data, &offset, dataLength);
-            return new PacketInPing(value);
+            return new PacketStatusInPing(value);
         }
         throw UnknownPacketException(packetId, STATUS, dataLength);
     }
 
     PacketInBase *
     PacketParser::_parsePlay(int packetId, unsigned char *data, int dataLength) {
+        uint32_t offset = 0;
+        if (packetId == SERVER_PLUGIN_MESSAGE){
+            Identifier ident = Identifier(Util::readString(data, &offset, dataLength));
+            uint32_t inferredDataLength = dataLength - offset;
+            uint8_t *data = Util::readByteArray(data, dataLength, &offset, inferredDataLength);
+            return new PacketPlayInPluginMessage(ident, inferredDataLength, data);
+        }
         throw UnknownPacketException(packetId, PLAY, dataLength);
     }
 
@@ -86,7 +95,7 @@ namespace network {
             uint8_t *keyData = protocol::Util::readByteArray(data, dataLength, &offset, keyLength);
             uint32_t tokenLength = protocol::Util::readVarInt(data, &offset, dataLength);
             uint8_t *tokenData = protocol::Util::readByteArray(data, dataLength, &offset, tokenLength);
-            return new PacketInEncryptionResponse(keyLength, keyData, tokenLength, tokenData);
+            return new PacketLoginInEncryptionResponse(keyLength, keyData, tokenLength, tokenData);
         } else if (packetId == LOGIN_PLUGIN_RESPONSE) {
 
         }

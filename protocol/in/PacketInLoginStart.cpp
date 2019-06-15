@@ -8,7 +8,7 @@
 #include "PacketInLoginStart.hpp"
 
 namespace protocol {
-    PacketInLoginStart::PacketInLoginStart(std::string name) : PacketInBase(0x00, LOGIN_START), name(std::move(name)) {
+    PacketInLoginStart::PacketInLoginStart(std::string name) : PacketInBase(LOGIN_START), name(std::move(name)) {
 
     }
 

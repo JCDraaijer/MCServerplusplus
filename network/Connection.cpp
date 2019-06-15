@@ -10,8 +10,8 @@
 #include "../protocol/out/PacketOutBase.hpp"
 #include "../protocol/util/Exception.hpp"
 #include "../protocol/out/PacketStatusOutPong.hpp"
-#include "../protocol/in/PacketInHandshake.hpp"
-#include "../protocol/in/PacketInPing.hpp"
+#include "../protocol/in/PacketHandshakeIn.hpp"
+#include "../protocol/in/PacketStatusInPing.hpp"
 #include "../protocol/in/PacketInLoginStart.hpp"
 #include "../server/UUID.hpp"
 #include "../protocol/out/PacketLoginOutLoginSuccess.hpp"
@@ -79,14 +79,14 @@ namespace network {
     void Connection::handlePacket(protocol::PacketInBase *packet) {
         if (getState() == HANDSHAKING) {
             if (packet->getType() == protocol::HANDSHAKE) {
-                auto *handshake = (protocol::PacketInHandshake *) packet;
+                auto *handshake = (protocol::PacketHandshakeIn *) packet;
                 state = handshake->getNextState();
             }
         } else if (getState() == STATUS) {
             if (packet->getType() == protocol::STATUS_REQUEST) {
 
             } else if (packet->getType() == protocol::PING) {
-                auto *packetInPing = (protocol::PacketInPing *) packet;
+                auto *packetInPing = (protocol::PacketStatusInPing *) packet;
                 sendPacket(new protocol::PacketStatusOutPong(packetInPing->getValue()));
                 free(packetInPing);
             }
@@ -96,7 +96,7 @@ namespace network {
                 std::string username = start->getName();
                 server::UUID uuid = server::UUID(0, 0);
                 state = PLAY;
-                //authenticated = true;
+                authenticated = true;
                 PacketOutBase *toSend = new PacketLoginOutLoginSuccess(uuid, username);
                 sendPacket(toSend);
                 toSend = new PacketPlayOutJoinGame(1323, 0, 0, 1, 255, "default", false);
@@ -141,6 +141,7 @@ namespace network {
         }
 
         protocol::PacketInBase *packet = PacketParser::parse(this->state, packetId, rxBuffer, length);
+        std::printf("%s\n", packet->toString().c_str());
         return packet;
     }
 

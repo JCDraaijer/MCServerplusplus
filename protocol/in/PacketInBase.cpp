@@ -5,7 +5,7 @@
 #include "PacketInBase.hpp"
 
 namespace protocol {
-    PacketInBase::PacketInBase(int id, InPacketType type) : PacketBase(id), type(type) {
+    PacketInBase::PacketInBase(InPacketType type) : PacketBase(type), type(type) {
     }
 
     InPacketType PacketInBase::getType() {

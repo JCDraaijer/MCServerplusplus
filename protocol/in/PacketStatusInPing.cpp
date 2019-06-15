@@ -3,20 +3,20 @@
 //
 
 #include <sstream>
-#include "PacketInPing.hpp"
+#include "PacketStatusInPing.hpp"
 
 namespace protocol {
 
-    std::string PacketInPing::toString() {
+    std::string PacketStatusInPing::toString() {
         std::ostringstream stringStream;
         stringStream << "Ping packet. ID: " << this->getId();
         return stringStream.str();
     }
 
-    PacketInPing::PacketInPing(int64_t value) : PacketInBase(1, PING), mvalue(value) {
+    PacketStatusInPing::PacketStatusInPing(int64_t value) : PacketInBase(PING), mvalue(value) {
     }
 
-    const int64_t PacketInPing::getValue() {
+    const int64_t PacketStatusInPing::getValue() {
         return mvalue;
     }
 }

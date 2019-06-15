@@ -3,14 +3,14 @@
 //
 
 #include <sstream>
-#include "PacketInRequest.hpp"
+#include "PacketStatusInRequest.hpp"
 
 namespace protocol {
-    PacketInRequest::PacketInRequest() : PacketInBase(0, STATUS_REQUEST) {
+    PacketStatusInRequest::PacketStatusInRequest() : PacketInBase(STATUS_REQUEST) {
 
     }
 
-    std::string PacketInRequest::toString() {
+    std::string PacketStatusInRequest::toString() {
         std::ostringstream stringStream;
         stringStream << "Request packet. ID: " << this->getId();
         return stringStream.str();

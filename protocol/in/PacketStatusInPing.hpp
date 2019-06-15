@@ -2,17 +2,17 @@
 // Created by jona on 2019-06-09.
 //
 
-#ifndef MCSERVER_PACKETINPING_HPP
-#define MCSERVER_PACKETINPING_HPP
+#ifndef MCSERVER_PACKETSTATUSINPING_HPP
+#define MCSERVER_PACKETSTATUSINPING_HPP
 
 #include "PacketInBase.hpp"
 
 namespace protocol {
-    class PacketInPing : public PacketInBase {
+    class PacketStatusInPing : public PacketInBase {
     private:
         int64_t mvalue;
     public:
-        explicit PacketInPing(int64_t);
+        explicit PacketStatusInPing(int64_t);
 
         std::string toString() override;
 
@@ -21,4 +21,4 @@ namespace protocol {
 }
 
 
-#endif //MCSERVER_PACKETINPING_HPP
+#endif //MCSERVER_PACKETSTATUSINPING_HPP

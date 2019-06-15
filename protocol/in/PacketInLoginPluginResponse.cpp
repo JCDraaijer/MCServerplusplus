@@ -7,7 +7,7 @@
 namespace protocol {
     PacketInLoginPluginResponse::PacketInLoginPluginResponse(int32_t messageId, bool succesful, uint32_t dataLength,
                                                              uint8_t *data)
-            : PacketInBase(0x02, LOGIN_PLUGIN_RESPONSE), messageId(messageId), successful(succesful),
+            : PacketInBase(LOGIN_PLUGIN_RESPONSE), messageId(messageId), successful(succesful),
               dataLength(dataLength), data(data) {
 
     }

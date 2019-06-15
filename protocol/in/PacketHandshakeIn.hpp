@@ -2,15 +2,15 @@
 // Created by jona on 2019-06-09.
 //
 
-#ifndef MCSERVER_PACKETINHANDSHAKE_HPP
-#define MCSERVER_PACKETINHANDSHAKE_HPP
+#ifndef MCSERVER_PACKETHANDSHAKEIN_HPP
+#define MCSERVER_PACKETHANDSHAKEIN_HPP
 
 #include "PacketInBase.hpp"
 #include "../../network/State.hpp"
 
 namespace protocol {
 
-    class PacketInHandshake : public PacketInBase {
+    class PacketHandshakeIn : public PacketInBase {
     private:
         int protocolVersion;
         std::string address;
@@ -18,7 +18,7 @@ namespace protocol {
         network::State nextState;
 
     public:
-        explicit PacketInHandshake(int32_t protocolVersion, std::string address, uint16_t port, network::State nextState);
+        explicit PacketHandshakeIn(int32_t protocolVersion, std::string address, uint16_t port, network::State nextState);
 
         network::State getNextState();
 
@@ -33,4 +33,4 @@ namespace protocol {
 }
 
 
-#endif //MCSERVER_PACKETINHANDSHAKE_HPP
+#endif //MCSERVER_PACKETHANDSHAKEIN_HPP

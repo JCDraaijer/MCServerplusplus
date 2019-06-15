@@ -5,19 +5,19 @@
 //
 
 #include <sstream>
-#include "PacketInHandshake.hpp"
+#include "PacketHandshakeIn.hpp"
 
 namespace protocol {
 
-    PacketInHandshake::PacketInHandshake(int protocolVersion, std::string address, unsigned short port,
-                                         network::State nextState) : PacketInBase(0, HANDSHAKE) {
+    PacketHandshakeIn::PacketHandshakeIn(int protocolVersion, std::string address, unsigned short port,
+                                         network::State nextState) : PacketInBase(HANDSHAKE) {
         this->protocolVersion = protocolVersion;
         this->address = std::move(address);
         this->port = port;
         this->nextState = nextState;
     }
 
-    std::string PacketInHandshake::toString() {
+    std::string PacketHandshakeIn::toString() {
         std::ostringstream stringStream;
         stringStream << "Handshake packet. ID: " << this->getId() << ", Protocol Version: " << this->protocolVersion
                      << ", Server Address: "
@@ -26,19 +26,19 @@ namespace protocol {
         return stringStream.str();
     }
 
-    network::State PacketInHandshake::getNextState() {
+    network::State PacketHandshakeIn::getNextState() {
         return this->nextState;
     }
 
-    int PacketInHandshake::getProtocolVersion() {
+    int PacketHandshakeIn::getProtocolVersion() {
         return this->protocolVersion;
     }
 
-    std::string PacketInHandshake::getAddress() {
+    std::string PacketHandshakeIn::getAddress() {
         return this->address;
     }
 
-    unsigned short PacketInHandshake::getPort() {
+    unsigned short PacketHandshakeIn::getPort() {
         return this->port;
     }
 }

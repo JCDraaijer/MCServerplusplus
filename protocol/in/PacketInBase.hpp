@@ -14,7 +14,7 @@ namespace protocol {
     private:
         const InPacketType type;
     public:
-        explicit PacketInBase(int id, InPacketType type);
+        explicit PacketInBase(InPacketType type);
 
         InPacketType getType();
 
