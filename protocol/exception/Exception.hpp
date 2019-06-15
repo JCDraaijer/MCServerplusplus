@@ -7,7 +7,7 @@
 
 #include <exception>
 #include <cstdint>
-#include "../../network/State.hpp"
+#include "../ConnectionState.hpp"
 
 namespace protocol {
     class Exception : public std::exception {

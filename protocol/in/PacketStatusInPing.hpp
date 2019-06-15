@@ -14,6 +14,10 @@ namespace protocol {
     public:
         explicit PacketStatusInPing(int64_t);
 
+        explicit PacketStatusInPing(PacketParser *parser);
+
+        void parse(PacketParser *packetParser) override;
+
         std::string toString() override;
 
         const int64_t getValue();

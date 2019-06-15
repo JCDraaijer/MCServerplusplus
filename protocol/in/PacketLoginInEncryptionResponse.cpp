@@ -5,8 +5,10 @@
 #include "PacketLoginInEncryptionResponse.hpp"
 
 namespace protocol {
-    protocol::PacketLoginInEncryptionResponse::PacketLoginInEncryptionResponse(int32_t sharedSecretLength, uint8_t *sharedSecret,
-                                                                     uint32_t verifyTokenLength, uint8_t *verifyToken)
+    protocol::PacketLoginInEncryptionResponse::PacketLoginInEncryptionResponse(int32_t sharedSecretLength,
+                                                                               uint8_t *sharedSecret,
+                                                                               uint32_t verifyTokenLength,
+                                                                               uint8_t *verifyToken)
             : PacketInBase(ENCRYPTION_RESPONSE), sharedSecretLength(sharedSecretLength),
               sharedSecret(sharedSecret), verifyTokenLength(verifyTokenLength), verifyToken(verifyToken) {
 
@@ -35,6 +37,18 @@ namespace protocol {
 
     std::string PacketLoginInEncryptionResponse::toString() {
         return std::__cxx11::string();
+    }
+
+    PacketLoginInEncryptionResponse::PacketLoginInEncryptionResponse(PacketParser *parser) : PacketInBase(
+            ENCRYPTION_RESPONSE) {
+        parse(parser);
+    }
+
+    void PacketLoginInEncryptionResponse::parse(PacketParser *packetParser) {
+        sharedSecretLength = packetParser->readVarInt();
+        sharedSecret = packetParser->readByteArray(sharedSecretLength);
+        verifyTokenLength = packetParser->readVarInt();
+        verifyToken = packetParser->readByteArray(verifyTokenLength);
     }
 
 }

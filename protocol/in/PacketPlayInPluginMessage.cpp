@@ -32,4 +32,13 @@ namespace protocol {
                      << dataString;
         return stringStream.str();
     }
+
+    PacketPlayInPluginMessage::PacketPlayInPluginMessage(PacketParser *parser) : PacketInBase(SERVER_PLUGIN_MESSAGE) {
+        parse(parser);
+    }
+
+    void PacketPlayInPluginMessage::parse(PacketParser *packetParser) {
+        identifier = Identifier(packetParser->readString());
+        data = packetParser->readByteArray();
+    }
 }

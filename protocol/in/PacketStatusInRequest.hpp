@@ -14,6 +14,10 @@ namespace protocol {
         explicit PacketStatusInRequest();
 
         std::string toString() override;
+
+        explicit PacketStatusInRequest(PacketParser *parser);
+
+        void parse(PacketParser *packetParser) override;
     };
 }
 

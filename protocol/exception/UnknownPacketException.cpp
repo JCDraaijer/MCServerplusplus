@@ -7,9 +7,9 @@
 
 namespace protocol {
 
-    UnknownPacketException::UnknownPacketException(uint32_t packetNumber, network::State state, uint32_t length) {
+    UnknownPacketException::UnknownPacketException(uint32_t packetNumber, ConnectionState state, uint32_t length) {
         sprintf((char *) whatValue, "Unknown packet 0x%02X for state %s with length %d", packetNumber,
-                network::stateToString(state).c_str(), length);
+                stateToString(state).c_str(), length);
     }
 
     const char *UnknownPacketException::what() const _GLIBCXX_USE_NOEXCEPT {

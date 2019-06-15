@@ -6,7 +6,6 @@
 //
 
 #include "PacketStatusOutResponse.hpp"
-#include "../util/Util.hpp"
 
 namespace protocol {
     std::string PacketStatusOutResponse::toString() {

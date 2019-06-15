@@ -3,7 +3,6 @@
 //
 
 #include "PacketStatusOutPong.hpp"
-#include "../util/Util.hpp"
 
 namespace protocol {
     PacketStatusOutPong::PacketStatusOutPong(int64_t value) : PacketOutBase(STATUS_PONG), value(value) {

@@ -18,6 +18,10 @@ namespace protocol {
         PacketPlayInPluginMessage(Identifier ident, uint32_t dataLength, uint8_t *data);
         uint8_t *getData();
 
+        explicit PacketPlayInPluginMessage(PacketParser *parser);
+
+        void parse(PacketParser *packetParser) override;
+
         std::string toString() override;
 
         Identifier *getIdentifier();

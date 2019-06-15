@@ -6,32 +6,34 @@
 #include <netinet/in.h>
 
 #include "Connection.hpp"
+
+#include "../server/UUID.hpp"
+#include "../protocol/exception/Exception.hpp"
+#include "../protocol/exception/UnknownPacketException.hpp"
+
 #include "../protocol/in/PacketInBase.hpp"
 #include "../protocol/out/PacketOutBase.hpp"
-#include "../protocol/util/Exception.hpp"
 #include "../protocol/out/PacketStatusOutPong.hpp"
 #include "../protocol/in/PacketHandshakeIn.hpp"
 #include "../protocol/in/PacketStatusInPing.hpp"
 #include "../protocol/in/PacketInLoginStart.hpp"
-#include "../server/UUID.hpp"
 #include "../protocol/out/PacketLoginOutLoginSuccess.hpp"
 #include "../protocol/out/PacketLoginOutDisconnect.hpp"
 #include "../protocol/out/PacketLoginOutEncryptionRequest.hpp"
-#include "../protocol/util/Util.hpp"
-#include "PacketParser.hpp"
+#include "../protocol/PacketParser.hpp"
 #include "../protocol/out/PacketPlayOutJoinGame.hpp"
-#include "../protocol/util/UnknownPacketException.hpp"
 
 namespace network {
     Connection::Connection(int socketFileDescriptor, uint32_t bufferSize) : socketFd(socketFileDescriptor),
                                                                             rxBufferSize(bufferSize),
                                                                             authenticated(false), encrypted(false),
-                                                                            state(HANDSHAKING),
+                                                                            state(protocol::HANDSHAKING),
                                                                             packetTx(0), packetRx(0),
                                                                             publicKeyLength(0),
                                                                             publicKey(nullptr), packetErrors(0) {
         rxBuffer = (uint8_t *) malloc(sizeof(uint8_t) * bufferSize);
-        packetSerializer = new PacketSerializer(bufferSize);
+        packetSerializer = new protocol::PacketSerializer(bufferSize);
+        packetParser = new protocol::PacketParser();
     }
 
     Connection::~Connection() {
@@ -50,7 +52,7 @@ namespace network {
                     break;
                 }
                 continue;
-            } catch (UnknownPacketException &ex) {
+            } catch (protocol::UnknownPacketException &ex) {
                 std::printf("%s\n", ex.what());
                 packetErrors++;
                 if (packetErrors > 10) {
@@ -61,9 +63,9 @@ namespace network {
 
             if (!this->isAuthenticated()) {
                 switch (state) {
-                    case PLAY:
+                    case protocol::PLAY:
                         close();
-                    case UNDEFINED:
+                    case protocol::UNDEFINED:
                         close();
                         return;
                     default:
@@ -77,12 +79,12 @@ namespace network {
     }
 
     void Connection::handlePacket(protocol::PacketInBase *packet) {
-        if (getState() == HANDSHAKING) {
+        if (getState() == protocol::HANDSHAKING) {
             if (packet->getType() == protocol::HANDSHAKE) {
                 auto *handshake = (protocol::PacketHandshakeIn *) packet;
                 state = handshake->getNextState();
             }
-        } else if (getState() == STATUS) {
+        } else if (getState() == protocol::STATUS) {
             if (packet->getType() == protocol::STATUS_REQUEST) {
 
             } else if (packet->getType() == protocol::PING) {
@@ -90,16 +92,16 @@ namespace network {
                 sendPacket(new protocol::PacketStatusOutPong(packetInPing->getValue()));
                 free(packetInPing);
             }
-        } else if (getState() == LOGIN) {
+        } else if (getState() == protocol::LOGIN) {
             if (packet->getType() == protocol::LOGIN_START) {
                 auto *start = (protocol::PacketInLoginStart *) packet;
                 std::string username = start->getName();
                 server::UUID uuid = server::UUID(0, 0);
-                state = PLAY;
+                state = protocol::PLAY;
                 authenticated = true;
-                PacketOutBase *toSend = new PacketLoginOutLoginSuccess(uuid, username);
+                protocol::PacketOutBase *toSend = new protocol::PacketLoginOutLoginSuccess(uuid, username);
                 sendPacket(toSend);
-                toSend = new PacketPlayOutJoinGame(1323, 0, 0, 1, 255, "default", false);
+                toSend = new protocol::PacketPlayOutJoinGame(1323, 0, 0, 1, 255, "default", false);
                 sendPacket(toSend);
                 free(toSend);
             } else if (packet->getType() == protocol::LOGIN_PLUGIN_RESPONSE) {
@@ -125,9 +127,9 @@ namespace network {
 
     protocol::PacketInBase *Connection::readPacket() {
         uint8_t headerLength = 0;
-        uint32_t length = protocol::Util::readVarInt(this->socketFd, &headerLength);
+        uint32_t length = packetParser->readVarInt(this->socketFd, &headerLength);
         uint8_t idLength = 0;
-        uint32_t packetId = protocol::Util::readVarInt(this->socketFd, &idLength);
+        uint32_t packetId = packetParser->readVarInt(this->socketFd, &idLength);
 
         length -= idLength;
 
@@ -140,7 +142,7 @@ namespace network {
             throw protocol::Exception("Did not read the correct amount of bytes. ");
         }
 
-        protocol::PacketInBase *packet = PacketParser::parse(this->state, packetId, rxBuffer, length);
+        protocol::PacketInBase *packet = packetParser->parse(this->state, packetId, rxBuffer, length);
         std::printf("%s\n", packet->toString().c_str());
         return packet;
     }
@@ -149,7 +151,7 @@ namespace network {
         return this->authenticated;
     }
 
-    network::State Connection::getState() {
+    protocol::ConnectionState Connection::getState() {
         return this->state;
     }
 

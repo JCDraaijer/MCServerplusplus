@@ -5,7 +5,9 @@
 
 #include <cstring>
 #include "PacketSerializer.hpp"
-#include "util/Util.hpp"
+
+#define LONG_LENGTH 8
+#define INT_LENGTH 4
 
 namespace protocol {
 

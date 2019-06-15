@@ -22,6 +22,10 @@ namespace protocol {
 
         uint8_t *getSharedSecret() const;
 
+        explicit PacketLoginInEncryptionResponse(PacketParser *parser);
+
+        void parse(PacketParser *packetParser) override;
+
         int32_t getVerifyTokenLength() const;
 
         uint8_t *getVerifyToken() const;

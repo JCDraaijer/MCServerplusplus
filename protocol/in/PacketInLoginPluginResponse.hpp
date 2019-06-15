@@ -24,6 +24,12 @@ namespace protocol {
         uint8_t *getData() const;
 
         uint32_t getDataLength() const;
+
+        std::string toString() override;
+
+        explicit PacketInLoginPluginResponse(PacketParser *parser);
+
+        void parse(PacketParser *packetParser) override;
     };
 }
 

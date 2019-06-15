@@ -7,8 +7,11 @@
 
 #include <string>
 #include "../PacketBase.hpp"
+#include "../PacketParser.hpp"
 
 namespace protocol {
+
+    class PacketParser;
 
     class PacketInBase : public PacketBase {
     private:
@@ -16,7 +19,11 @@ namespace protocol {
     public:
         explicit PacketInBase(InPacketType type);
 
+        //virtual explicit PacketInBase(PacketParser *parser) = 0;
+
         InPacketType getType();
+
+        virtual void parse(PacketParser *packetParser) = 0;
 
     };
 }

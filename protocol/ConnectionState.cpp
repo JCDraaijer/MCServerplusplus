@@ -2,10 +2,10 @@
 // Created by jona on 2019-06-09.
 //
 
-#include "State.hpp"
+#include "ConnectionState.hpp"
 
-namespace network {
-    std::string stateToString(State state) {
+namespace protocol {
+    std::string stateToString(ConnectionState state) {
         switch (state) {
             case HANDSHAKING:
                 return "HANDSHAKING";

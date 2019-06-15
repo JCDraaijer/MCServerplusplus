@@ -16,4 +16,12 @@ namespace protocol {
         return stringStream.str();
     }
 
+    PacketStatusInRequest::PacketStatusInRequest(PacketParser *parser) : PacketInBase(STATUS_REQUEST) {
+
+    }
+
+    void PacketStatusInRequest::parse(PacketParser *packetParser) {
+
+    }
+
 }

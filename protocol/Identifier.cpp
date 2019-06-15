@@ -39,4 +39,8 @@ namespace protocol {
     std::string Identifier::getThing() {
         return thing;
     }
+
+    Identifier::Identifier() : identifierNamespace(""), thing(""){
+
+    }
 }

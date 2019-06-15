@@ -6,7 +6,7 @@
 #define MCSERVER_PACKETHANDSHAKEIN_HPP
 
 #include "PacketInBase.hpp"
-#include "../../network/State.hpp"
+#include "../ConnectionState.hpp"
 
 namespace protocol {
 
@@ -15,16 +15,21 @@ namespace protocol {
         int protocolVersion;
         std::string address;
         unsigned short port;
-        network::State nextState;
+        ConnectionState nextState;
 
     public:
-        explicit PacketHandshakeIn(int32_t protocolVersion, std::string address, uint16_t port, network::State nextState);
+        explicit PacketHandshakeIn(int32_t protocolVersion, std::string address, uint16_t port, ConnectionState nextState);
 
-        network::State getNextState();
+        explicit PacketHandshakeIn(PacketParser *parser);
+
+        ConnectionState getNextState();
 
         int getProtocolVersion();
 
+
         std::string getAddress();
+
+        void parse(PacketParser *packetParser) override;
 
         unsigned short getPort();
 

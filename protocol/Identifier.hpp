@@ -14,6 +14,8 @@ namespace protocol {
         std::string thing;
 
     public:
+        Identifier();
+
         Identifier(std::string theNamespace, std::string thing);
 
         explicit Identifier(std::string fullName);

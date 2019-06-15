@@ -16,6 +16,10 @@ namespace protocol{
 
         std::string getName();
 
+        explicit PacketInLoginStart(PacketParser *parser);
+
+        void parse(PacketParser *packetParser) override;
+
         std::string toString() override;
     };
 }

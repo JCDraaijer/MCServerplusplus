@@ -19,4 +19,12 @@ namespace protocol {
     const int64_t PacketStatusInPing::getValue() {
         return mvalue;
     }
+
+    PacketStatusInPing::PacketStatusInPing(PacketParser *parser) : PacketInBase(PING) {
+        parse(parser);
+    }
+
+    void PacketStatusInPing::parse(PacketParser *packetParser) {
+        mvalue = packetParser->readLong();
+    }
 }

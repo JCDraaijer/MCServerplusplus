@@ -6,7 +6,7 @@
 #define MCSERVER_CONNECTION_HPP
 
 #include <string>
-#include "State.hpp"
+#include "../protocol/ConnectionState.hpp"
 #include "../protocol/in/PacketInBase.hpp"
 #include "../protocol/out/PacketOutBase.hpp"
 
@@ -24,7 +24,7 @@ namespace network {
         uint8_t publicKeyLength;
         uint8_t *publicKey;
 
-        State state;
+        protocol::ConnectionState state;
 
         int packetRx;
         int packetTx;
@@ -32,6 +32,7 @@ namespace network {
         int packetErrors;
 
         protocol::PacketSerializer *packetSerializer;
+        protocol::PacketParser *packetParser;
 
         void run();
 
@@ -53,7 +54,7 @@ namespace network {
 
         bool isAuthenticated();
 
-        State getState();
+        protocol::ConnectionState getState();
 
         static void *start(void *);
 

@@ -11,4 +11,5 @@ namespace protocol {
     InPacketType PacketInBase::getType() {
         return this->type;
     }
+
 }

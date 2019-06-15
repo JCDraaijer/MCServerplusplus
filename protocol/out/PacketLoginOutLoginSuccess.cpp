@@ -3,7 +3,6 @@
 //
 
 #include "PacketLoginOutLoginSuccess.hpp"
-#include "../util/Util.hpp"
 
 namespace protocol {
 

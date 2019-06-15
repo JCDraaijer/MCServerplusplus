@@ -10,11 +10,16 @@
 namespace protocol {
 
     PacketHandshakeIn::PacketHandshakeIn(int protocolVersion, std::string address, unsigned short port,
-                                         network::State nextState) : PacketInBase(HANDSHAKE) {
+                                         ConnectionState nextState) : PacketInBase(HANDSHAKE) {
         this->protocolVersion = protocolVersion;
         this->address = std::move(address);
         this->port = port;
         this->nextState = nextState;
+    }
+
+
+    PacketHandshakeIn::PacketHandshakeIn(PacketParser *parser) : PacketInBase(HANDSHAKE) {
+        parse(parser);
     }
 
     std::string PacketHandshakeIn::toString() {
@@ -26,7 +31,7 @@ namespace protocol {
         return stringStream.str();
     }
 
-    network::State PacketHandshakeIn::getNextState() {
+    ConnectionState PacketHandshakeIn::getNextState() {
         return this->nextState;
     }
 
@@ -40,5 +45,26 @@ namespace protocol {
 
     unsigned short PacketHandshakeIn::getPort() {
         return this->port;
+    }
+
+    void PacketHandshakeIn::parse(PacketParser *packetParser) {
+        protocolVersion = packetParser->readVarInt();
+        address = packetParser->readString();
+        port = packetParser->readUnsignedShort();
+        int32_t nextStateInt = packetParser->readVarInt();
+
+        ConnectionState actualNextState;
+
+        switch (nextStateInt) {
+            case 1:
+                actualNextState = STATUS;
+                break;
+            case 2:
+                actualNextState = LOGIN;
+                break;
+            default:
+                actualNextState = UNDEFINED;
+        }
+        nextState = actualNextState;
     }
 }

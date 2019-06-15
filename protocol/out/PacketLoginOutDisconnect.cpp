@@ -5,7 +5,6 @@
 //
 
 #include "PacketLoginOutDisconnect.hpp"
-#include "../util/Util.hpp"
 
 namespace protocol {
     PacketLoginOutDisconnect::PacketLoginOutDisconnect(std::string reason) : PacketOutBase(LOGIN_DISCONNECT),

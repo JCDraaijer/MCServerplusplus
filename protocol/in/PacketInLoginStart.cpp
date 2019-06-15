@@ -18,7 +18,15 @@ namespace protocol {
 
     std::string PacketInLoginStart::toString() {
         std::ostringstream stringStream;
-        stringStream << "Login Start packet. ID: " << this->getId() << ". Name: " << getName() << std::endl;
+        stringStream << "Login Start packet. ID: " << this->getId() << ". Name: " << getName();
         return stringStream.str();
+    }
+
+    PacketInLoginStart::PacketInLoginStart(PacketParser *parser) : PacketInBase(LOGIN_START) {
+        parse(parser);
+    }
+
+    void PacketInLoginStart::parse(PacketParser *packetParser) {
+        name = packetParser->readString();
     }
 }
