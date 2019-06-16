@@ -3,6 +3,7 @@
 //
 
 #include <unistd.h>
+#include <strings.h>
 #include "PacketParser.hpp"
 #include "in/PacketInHandshake.hpp"
 #include "in/PacketInStatusRequest.hpp"
@@ -15,6 +16,7 @@
 #include "exception/Exception.hpp"
 #include "exception/OffsetOutOfBoundsException.hpp"
 #include "in/PacketInPlayClientSettings.hpp"
+#include "in/PacketInPlayTeleportConfirm.hpp"
 
 namespace protocol {
 
@@ -67,6 +69,8 @@ namespace protocol {
             return new PacketInPlayPluginMessage(this);
         } else if (packetId == CLIENT_SETTINGS){
             return new PacketInPlayClientSettings(this);
+        } else if (packetId == TELEPORT_CONFIRM){
+            return new PacketInPlayTeleportConfirm(this);
         }
         throw UnknownPacketException(packetId, PLAY, dataLength);
     }
@@ -134,7 +138,9 @@ namespace protocol {
     std::string PacketParser::readString() {
         int32_t length = readVarInt();
         verifyDataLeft(length);
-        std::string toReturn = std::string((char *) readByteArray(length));
+        char *array = (char *) readByteArray(length);
+        std::string toReturn = std::string(array);
+        free(array);
         return toReturn;
     }
 
@@ -146,10 +152,12 @@ namespace protocol {
 
 
     uint8_t *PacketParser::readByteArray(int32_t count) {
-        auto *actualData = (uint8_t *) malloc(sizeof(uint8_t) * count);
+        auto *actualData = (uint8_t *) malloc(sizeof(uint8_t) * (count + 1));
+        bzero(actualData, count);
         for (int i = 0; i < count; i++) {
             actualData[i] = readByte();
         }
+        actualData[count] = '\0';
         return actualData;
     }
 

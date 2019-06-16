@@ -22,6 +22,8 @@
 #include "../protocol/out/PacketOutLoginEncryptionRequest.hpp"
 #include "../protocol/PacketParser.hpp"
 #include "../protocol/out/PacketOutPlayJoinGame.hpp"
+#include "../protocol/out/PacketOutPlayChunkData.hpp"
+#include "../protocol/out/PacketOutPlayPlayerPositionLook.hpp"
 
 namespace network {
     Connection::Connection(int socketFileDescriptor, uint32_t bufferSize) : socketFd(socketFileDescriptor),
@@ -30,7 +32,8 @@ namespace network {
                                                                             state(protocol::HANDSHAKING),
                                                                             packetTx(0), packetRx(0),
                                                                             publicKeyLength(0),
-                                                                            publicKey(nullptr), packetErrors(0) {
+                                                                            publicKey(nullptr), packetErrors(0),
+                                                                            teleportId(0) {
         rxBuffer = (uint8_t *) malloc(sizeof(uint8_t) * bufferSize);
         packetSerializer = new protocol::PacketSerializer(bufferSize);
         packetParser = new protocol::PacketParser();
@@ -38,7 +41,8 @@ namespace network {
 
     Connection::~Connection() {
         free(rxBuffer);
-        free(packetSerializer);
+        delete packetSerializer;
+        delete packetParser;
     }
 
     void Connection::run() {
@@ -90,7 +94,6 @@ namespace network {
             } else if (packet->getType() == protocol::PING) {
                 auto *packetInPing = (protocol::PacketInStatusPing *) packet;
                 sendPacket(new protocol::PacketOutStatusPong(packetInPing->getValue()));
-                free(packetInPing);
             }
         } else if (getState() == protocol::LOGIN) {
             if (packet->getType() == protocol::LOGIN_START) {
@@ -99,15 +102,25 @@ namespace network {
                 server::UUID uuid = server::UUID::randomUuid();
                 state = protocol::PLAY;
                 authenticated = true;
-                protocol::PacketOutBase *toSend = new protocol::PacketLoginOutLoginSuccess(uuid, username);
+
+                protocol::PacketOutLoginLoginSuccess sendLoginSuccess = protocol::PacketOutLoginLoginSuccess(uuid,
+                                                                                                             username);
                 std::printf("%s logged in with UUID %s\n", username.c_str(), uuid.toString().c_str());
-                sendPacket(toSend);
-                toSend = new protocol::PacketOutPlayJoinGame(1323, 0, 0, 1, 255, "default", false);
-                sendPacket(toSend);
-                free(toSend);
+
+                sendPacket(&sendLoginSuccess);
+
+                protocol::PacketOutPlayJoinGame joinGame = protocol::PacketOutPlayJoinGame(1323, 0, 0, 1, 255,
+                                                                                           "default", false);
+                sendPacket(&joinGame);
             } else if (packet->getType() == protocol::LOGIN_PLUGIN_RESPONSE) {
 
             }
+        } else if (getState() == protocol::PLAY) {
+            protocol::PacketOutPlayChunkData data = protocol::PacketOutPlayChunkData(new server::Chunk(0, 0), false);
+            sendPacket(&data);
+            protocol::PacketOutPlayPlayerPositionLook look = protocol::PacketOutPlayPlayerPositionLook(0, 64, 0, 31, 0,
+                                                                                                       0, teleportId++);
+            sendPacket(&look);
         }
     }
 
@@ -117,7 +130,7 @@ namespace network {
     }
 
     void *Connection::start(void *connectionPointer) {
-        Connection theConnection = *static_cast<Connection *>(connectionPointer);
+        Connection theConnection = *(Connection *) connectionPointer;
         theConnection.run();
         return nullptr;
     }

@@ -16,7 +16,7 @@ namespace server {
         Location position;
         Vector3D velocity;
     public:
-        Entity(UUID uuid, Location position, Vector3D velocity);
+        Entity(const UUID& uuid, Location position, Vector3D velocity);
 
         const Location &getPosition() const;
 
@@ -26,7 +26,7 @@ namespace server {
 
         void setVelocity(const Vector3D &newVelocity);
 
-        void tick();
+        virtual void tick() = 0;
 
     };
 }

@@ -5,22 +5,29 @@
 #ifndef MCSERVER_CHUNK_HPP
 #define MCSERVER_CHUNK_HPP
 
-#include "Block.hpp"
 #include "Location.hpp"
 #include "BlockLocation.hpp"
+#include "ChunkSection.hpp"
+#include "ChunkLocation.hpp"
 
 namespace server {
     class Chunk {
     private:
-        Block blocks[16][256][16];
+        ChunkSection sections[16];
         bool loaded;
+        ChunkLocation location;
 
     public:
-        Block getBlockAt(Location location);
-        
-        Block getBlockAt(BlockLocation location);
+
+        Chunk(uint32_t x, uint32_t z);
+
+        Block *getBlock(uint32_t x, uint32_t y, uint32_t z);
 
         bool isLoaded();
+
+        const ChunkLocation &getChunkLocation() const;
+
+        ChunkSection *getSections();
     };
 }
 

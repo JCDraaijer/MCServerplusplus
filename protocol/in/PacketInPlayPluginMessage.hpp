@@ -20,11 +20,15 @@ namespace protocol {
 
         explicit PacketInPlayPluginMessage(PacketParser *parser);
 
+        ~PacketInPlayPluginMessage();
+
         void parse(PacketParser *packetParser) override;
 
         std::string toString() override;
 
         Identifier *getIdentifier();
+
+        uint32_t getDataLength();
     };
 }
 

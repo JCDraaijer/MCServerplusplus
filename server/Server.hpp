@@ -11,7 +11,7 @@ namespace server {
     class Server {
     private:
         std::list<World> worlds;
-        std::list<Entity> entities;
+        std::list<Entity*> entities;
     public:
         void tick();
         void start();

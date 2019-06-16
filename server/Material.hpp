@@ -6,8 +6,12 @@
 #define MCSERVER_MATERIAL_HPP
 
 namespace server {
-    class Material {
-
+    enum Material {
+        AIR,
+        DIRT,
+        GRASS_BLOCK,
+        DIAMOND_BLOCK,
+        DIAMOND_ORE
     };
 }
 

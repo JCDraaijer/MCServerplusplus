@@ -8,6 +8,8 @@
 
 #define LONG_LENGTH 8
 #define INT_LENGTH 4
+#define DOUBLE_LENGTH 8
+#define FLOAT_LENGTH 4
 
 namespace protocol {
 
@@ -91,7 +93,7 @@ namespace protocol {
     }
 
     void PacketSerializer::writeByteArray(const uint8_t *data, uint32_t count) {
-        for (int i = 0; i < count; i++){
+        for (int i = 0; i < count; i++) {
             dataBuffer[(currentDataSize++)] = data[i];
         }
     }
@@ -148,4 +150,23 @@ namespace protocol {
         verifyBufferCapacity(1);
         dataBuffer[currentDataSize++] = aByte;
     }
+
+    void PacketSerializer::writeBoolean(bool someBoolean) {
+        writeUnsignedByte(someBoolean);
+    }
+
+    void PacketSerializer::writeDouble(double doubleToWrite) {
+        verifyBufferCapacity(DOUBLE_LENGTH);
+        uint64_t doubleToLong;
+        memcpy(&doubleToLong, &doubleToWrite, DOUBLE_LENGTH);
+        writeLong(doubleToLong);
+    }
+
+    void PacketSerializer::writeFloat(float floatToWrite) {
+        verifyBufferCapacity(DOUBLE_LENGTH);
+        uint32_t floatToInt;
+        memcpy(&floatToInt, &floatToWrite, FLOAT_LENGTH);
+        writeInt(floatToInt);
+    }
+
 }

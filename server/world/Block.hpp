@@ -14,6 +14,8 @@ namespace server {
         Material material;
         BlockLocation location;
     public:
+        explicit Block();
+
         explicit Block(Material material, BlockLocation location);
 
         Material getMaterial();

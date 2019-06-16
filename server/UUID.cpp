@@ -12,9 +12,8 @@ namespace server {
             leastSignificant >>= 8;
             mostSignificant >>= 8;
         }
-        uuidString = (char *) (malloc(sizeof(uuid_t) * 37));
-        uuid_unparse_lower(actualUuid, uuidString);
     }
+
 
     bool UUID::equals(UUID &anotherUuid) {
         for (int i = 0; i < sizeof(uuid_t); i++) {
@@ -26,25 +25,23 @@ namespace server {
     }
 
     std::string UUID::toString() {
+        char *uuidString = (char *) (malloc(sizeof(uuid_t) * 37));
+        uuid_unparse_lower(actualUuid, uuidString);
         return std::string(uuidString);
     }
 
     UUID UUID::randomUuid() {
         uuid_t uuidType;
         uuid_generate_random(uuidType);
-        return {uuidType};
+        return UUID(uuidType);
     }
 
     UUID::UUID() : UUID(0, 0) {
-        uuidString = (char *) (malloc(sizeof(char) * 37));
-        uuid_unparse_lower(actualUuid, uuidString);
     }
 
     UUID::UUID(const uuid_t theUuid) {
         for (int i = 0; i < sizeof(uuid_t); i++) {
             actualUuid[i] = theUuid[i];
         }
-        uuidString = (char *) (malloc(sizeof(char) * 37));
-        uuid_unparse_lower(actualUuid, uuidString);
     }
 }

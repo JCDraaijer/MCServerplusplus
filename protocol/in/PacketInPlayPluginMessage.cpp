@@ -23,9 +23,13 @@ namespace protocol {
         return data;
     }
 
+    uint32_t PacketInPlayPluginMessage::getDataLength(){
+        return dataLength;
+    }
+
     std::string PacketInPlayPluginMessage::toString() {
         std::ostringstream stringStream;
-        char dataString[1024];
+        char dataString[dataLength + 1];
         sprintf(dataString, "%s", data);
         stringStream << "Server Plugin Message packet. ID: " << this->getId()
                      << ". Identifier: " + identifier.getNamespace() + ":" + identifier.getThing() + ". Data: "
@@ -40,5 +44,9 @@ namespace protocol {
     void PacketInPlayPluginMessage::parse(PacketParser *packetParser) {
         identifier = Identifier(packetParser->readString());
         data = packetParser->readByteArray();
+    }
+
+    PacketInPlayPluginMessage::~PacketInPlayPluginMessage() {
+        free(data);
     }
 }

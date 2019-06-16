@@ -21,4 +21,8 @@ namespace server {
     void Block::setMaterial(Material newMaterial) {
         this->material = newMaterial;
     }
+
+    Block::Block() : material(AIR), location(BlockLocation(0, 0, 0)) {
+
+    }
 }

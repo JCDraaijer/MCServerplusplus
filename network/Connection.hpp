@@ -26,13 +26,15 @@ namespace network {
 
         protocol::ConnectionState state;
 
-        int packetRx;
-        int packetTx;
+        uint32_t packetRx;
+        uint32_t packetTx;
 
-        int packetErrors;
+        uint32_t packetErrors;
 
         protocol::PacketSerializer *packetSerializer;
         protocol::PacketParser *packetParser;
+
+        int32_t teleportId;
 
         void run();
 

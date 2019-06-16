@@ -51,6 +51,12 @@ namespace protocol {
         void writeInt(int32_t integer);
 
         void writeUnsignedByte(uint8_t aByte);
+
+        void writeBoolean(bool someBoolean);
+
+        void writeDouble(double doubleToWrite);
+
+        void writeFloat(float floatToWrite);
     };
 
 }

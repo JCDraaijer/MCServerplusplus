@@ -6,28 +6,28 @@
 
 namespace protocol {
 
-    PacketLoginOutLoginSuccess::PacketLoginOutLoginSuccess(server::UUID uuid, std::string &username) :
+    PacketOutLoginLoginSuccess::PacketOutLoginLoginSuccess(const server::UUID& uuid, std::string &username) :
             PacketOutBase(LOGIN_SUCCESS), uuid(uuid), username(username) {
 
     }
 
-    server::UUID &PacketLoginOutLoginSuccess::getUuid() {
+    server::UUID &PacketOutLoginLoginSuccess::getUuid() {
         return uuid;
     }
 
-    void PacketLoginOutLoginSuccess::setUuid(const server::UUID &newUuid) {
+    void PacketOutLoginLoginSuccess::setUuid(const server::UUID &newUuid) {
         this->uuid = newUuid;
     }
 
-    std::string &PacketLoginOutLoginSuccess::getUsername() {
+    std::string &PacketOutLoginLoginSuccess::getUsername() {
         return username;
     }
 
-    void PacketLoginOutLoginSuccess::setUsername(const std::string &newUsername) {
-        PacketLoginOutLoginSuccess::username = newUsername;
+    void PacketOutLoginLoginSuccess::setUsername(const std::string &newUsername) {
+        PacketOutLoginLoginSuccess::username = newUsername;
     }
 
-    void PacketLoginOutLoginSuccess::serialize(PacketSerializer *packetSerializer) {
+    void PacketOutLoginLoginSuccess::serialize(PacketSerializer *packetSerializer) {
         packetSerializer->writeString(uuid.toString());
         packetSerializer->writeString(getUsername());
     }

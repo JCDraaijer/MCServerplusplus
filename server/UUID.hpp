@@ -14,13 +14,13 @@ namespace server {
     class UUID {
     private:
         uuid_t actualUuid{};
-        char *uuidString;
     public:
         UUID();
 
-        UUID(const uuid_t uuid);
+        explicit UUID(const uuid_t uuid);
 
         UUID(uint64_t mostSignificant, uint64_t leastSignificant);
+
 
         std::string toString();
 
