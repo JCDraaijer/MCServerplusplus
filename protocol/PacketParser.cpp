@@ -17,6 +17,7 @@
 #include "exception/OffsetOutOfBoundsException.hpp"
 #include "in/PacketInPlayClientSettings.hpp"
 #include "in/PacketInPlayTeleportConfirm.hpp"
+#include "in/PacketInLegacyPingRequest.hpp"
 
 namespace protocol {
 
@@ -49,6 +50,8 @@ namespace protocol {
     PacketParser::_parseHandshake(int packetId) {
         if (packetId == HANDSHAKE) {
             return new PacketInHandshake(this);
+        } else if (packetId == LEGACY_PING){
+            return new PacketInLegacyPingRequest();
         }
         throw UnknownPacketException(packetId, HANDSHAKING, dataLength);
     }

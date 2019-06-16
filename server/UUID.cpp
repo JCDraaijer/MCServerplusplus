@@ -27,7 +27,9 @@ namespace server {
     std::string UUID::toString() {
         char *uuidString = (char *) (malloc(sizeof(uuid_t) * 37));
         uuid_unparse_lower(actualUuid, uuidString);
-        return std::string(uuidString);
+        std::string properString = std::string(uuidString);
+        free(uuidString);
+        return properString;
     }
 
     UUID UUID::randomUuid() {

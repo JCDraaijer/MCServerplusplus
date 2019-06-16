@@ -24,6 +24,7 @@
 #include "../protocol/out/PacketOutPlayJoinGame.hpp"
 #include "../protocol/out/PacketOutPlayChunkData.hpp"
 #include "../protocol/out/PacketOutPlayPlayerPositionLook.hpp"
+#include "../protocol/out/PacketOutHandshakeLegacyPingResponse.hpp"
 
 namespace network {
     Connection::Connection(int socketFileDescriptor, uint32_t bufferSize) : socketFd(socketFileDescriptor),
@@ -50,6 +51,7 @@ namespace network {
             protocol::PacketInBase *current;
             try {
                 current = readPacket();
+                std::printf("Read a packet with ID: %d\n", current->getId());
             } catch (protocol::Exception &ex) {
                 packetErrors++;
                 if (packetErrors > 10) {
@@ -78,6 +80,7 @@ namespace network {
             }
             packetErrors = 0;
             handlePacket(current);
+            free(current);
         }
         close();
     }
@@ -87,6 +90,9 @@ namespace network {
             if (packet->getType() == protocol::HANDSHAKE) {
                 auto *handshake = (protocol::PacketInHandshake *) packet;
                 state = handshake->getNextState();
+            } else if (packet->getType() == protocol::LEGACY_PING) {
+                protocol::PacketOutHandshakeLegacyPingResponse response = protocol::PacketOutHandshakeLegacyPingResponse();
+                sendPacket(&response);
             }
         } else if (getState() == protocol::STATUS) {
             if (packet->getType() == protocol::STATUS_REQUEST) {
@@ -116,11 +122,15 @@ namespace network {
 
             }
         } else if (getState() == protocol::PLAY) {
+            if (packet->getType() != protocol::TELEPORT_CONFIRM) {
+                protocol::PacketOutPlayPlayerPositionLook look = protocol::PacketOutPlayPlayerPositionLook(0, 64, 0, 31,
+                                                                                                           0,
+                                                                                                           0,
+                                                                                                           teleportId++);
+                sendPacket(&look);
+            }
             protocol::PacketOutPlayChunkData data = protocol::PacketOutPlayChunkData(new server::Chunk(0, 0), false);
             sendPacket(&data);
-            protocol::PacketOutPlayPlayerPositionLook look = protocol::PacketOutPlayPlayerPositionLook(0, 64, 0, 31, 0,
-                                                                                                       0, teleportId++);
-            sendPacket(&look);
         }
     }
 

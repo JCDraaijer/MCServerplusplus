@@ -10,6 +10,7 @@
 #define INT_LENGTH 4
 #define DOUBLE_LENGTH 8
 #define FLOAT_LENGTH 4
+#define SHORT_LENGHT 2
 
 namespace protocol {
 
@@ -20,7 +21,7 @@ namespace protocol {
         this->packetBuffer = (uint8_t *) malloc((sizeof(uint8_t) * bufferSize) + LENGTH_BUFFER_SIZE);
     }
 
-    uint8_t *PacketSerializer::serializePacket(PacketOutBase *packet, uint32_t *packetLength) {
+    uint8_t *PacketSerializer::serializePacket(PacketOutBase *packet, uint32_t *packetLength, bool includeLength) {
 
         currentDataSize = 0;
         writeVarInt(packet->getId());
@@ -30,12 +31,22 @@ namespace protocol {
 
         verifyBufferCapacity(sizeLength);
 
-        memcpy(&packetBuffer[sizeLength], dataBuffer, sizeof(uint8_t) * currentDataSize);
+        if (includeLength) {
 
-        writeLengthHeader(currentDataSize);
+            memcpy(&packetBuffer[sizeLength], dataBuffer, sizeof(uint8_t) * currentDataSize);
 
-        *packetLength += sizeLength + currentDataSize;
+            writeLengthHeader(currentDataSize);
+
+            *packetLength += sizeLength + currentDataSize;
+        } else {
+            memcpy(&packetBuffer, dataBuffer, sizeof(uint8_t) * currentDataSize);
+            *packetLength += currentDataSize;
+        }
         return packetBuffer;
+    }
+
+    uint8_t *PacketSerializer::serializePacket(PacketOutBase *packet, uint32_t *packetLength) {
+        return serializePacket(packet, packetLength, true);
     }
 
     void PacketSerializer::setBufferSize(uint32_t newSize) {
@@ -167,6 +178,12 @@ namespace protocol {
         uint32_t floatToInt;
         memcpy(&floatToInt, &floatToWrite, FLOAT_LENGTH);
         writeInt(floatToInt);
+    }
+
+    void PacketSerializer::writeUnsignedShort(uint16_t someShort) {
+        verifyBufferCapacity(SHORT_LENGHT);
+        writeUnsignedByte(someShort & 0xFF);
+        writeUnsignedByte((someShort >> 8u) & 0xFF);
     }
 
 }

@@ -57,6 +57,10 @@ namespace protocol {
         void writeDouble(double doubleToWrite);
 
         void writeFloat(float floatToWrite);
+
+        uint8_t *serializePacket(PacketOutBase *packet, uint32_t *packetLength, bool includeLength);
+
+        void writeUnsignedShort(uint16_t someShort);
     };
 
 }

@@ -13,6 +13,7 @@
 namespace protocol {
     enum InPacketType {
         HANDSHAKE = 0x00,
+        LEGACY_PING = 0xFE,
         STATUS_REQUEST = 0x00,
         PING = 0x01,
         LOGIN_START = 0x00,
@@ -67,6 +68,7 @@ namespace protocol {
     };
 
     enum OutPacketType {
+        LEGACY_RESPONSE = 0xFF,
         STATUS_RESPONSE = 0x00,
         STATUS_PONG = 0x01,
         LOGIN_DISCONNECT = 0x00,
