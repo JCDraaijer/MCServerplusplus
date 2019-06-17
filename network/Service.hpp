@@ -21,6 +21,9 @@ namespace network {
         void start();
 
         void stop();
+
+        static void *startService(void *);
+
     };
 
 }

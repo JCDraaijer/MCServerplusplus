@@ -71,9 +71,15 @@ namespace network {
 
     void Service::stop() {
         running = false;
-        for (auto &connect : connections){
+        for (auto &connect : connections) {
             connect.close();
         }
 
+    }
+
+    void *Service::startService(void *service) {
+        auto theService = (Service *) service;
+        theService->start();
+        return nullptr;
     }
 }

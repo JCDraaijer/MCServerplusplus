@@ -18,6 +18,8 @@
 #include "in/PacketInPlayClientSettings.hpp"
 #include "in/PacketInPlayTeleportConfirm.hpp"
 #include "in/PacketInLegacyPingRequest.hpp"
+#include "in/PacketInPlayUpdateStructureBlock.hpp"
+#include "in/PacketInLoginPluginResponse.hpp"
 
 namespace protocol {
 
@@ -50,7 +52,7 @@ namespace protocol {
     PacketParser::_parseHandshake(int packetId) {
         if (packetId == HANDSHAKE) {
             return new PacketInHandshake(this);
-        } else if (packetId == LEGACY_PING){
+        } else if (packetId == LEGACY_PING) {
             return new PacketInLegacyPingRequest();
         }
         throw UnknownPacketException(packetId, HANDSHAKING, dataLength);
@@ -70,10 +72,12 @@ namespace protocol {
     PacketParser::_parsePlay(int packetId) {
         if (packetId == SERVER_PLUGIN_MESSAGE) {
             return new PacketInPlayPluginMessage(this);
-        } else if (packetId == CLIENT_SETTINGS){
+        } else if (packetId == CLIENT_SETTINGS) {
             return new PacketInPlayClientSettings(this);
-        } else if (packetId == TELEPORT_CONFIRM){
+        } else if (packetId == TELEPORT_CONFIRM) {
             return new PacketInPlayTeleportConfirm(this);
+        } else if (packetId == UPDATE_STRUCTURE_BLOCK) {
+            return new PacketInPlayUpdateStructureBlock(this);
         }
         throw UnknownPacketException(packetId, PLAY, dataLength);
     }
@@ -171,10 +175,6 @@ namespace protocol {
             value <<= 8;
         }
         return value;
-    }
-
-    uint32_t PacketParser::stringLengthRaw(const std::string &aString) {
-        return aString.size();
     }
 
     bool PacketParser::verifyDataLeft(uint32_t left) {

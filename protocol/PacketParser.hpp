@@ -41,7 +41,7 @@ namespace protocol {
         parse(ConnectionState currentState, int packetId, unsigned char *data,
               int dataLength);
 
-        uint32_t stringLengthRaw(const std::string& aString);
+        uint32_t stringLengthRaw(const std::string &aString);
 
         int64_t readLong();
 
@@ -64,6 +64,8 @@ namespace protocol {
         uint8_t readUnsignedByte();
 
         bool readBoolean();
+
+        void returnPacket(PacketInBase *aPacket);
     };
 }
 
