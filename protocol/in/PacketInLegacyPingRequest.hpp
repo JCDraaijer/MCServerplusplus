@@ -15,6 +15,7 @@ namespace protocol {
         std::string toString() override;
 
         void parse(PacketParser *packetParser) override;
+
     };
 }
 

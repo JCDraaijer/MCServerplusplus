@@ -18,6 +18,8 @@ namespace protocol {
 
         int64_t getValue();
 
+        ~PacketOutStatusPong() override;
+
         void serialize(PacketSerializer *packetSerializer) override;
     };
 }

@@ -67,4 +67,5 @@ namespace protocol {
         }
         nextState = actualNextState;
     }
+
 }

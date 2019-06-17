@@ -21,6 +21,11 @@ namespace protocol {
         this->packetBuffer = (uint8_t *) malloc((sizeof(uint8_t) * bufferSize) + LENGTH_BUFFER_SIZE);
     }
 
+    PacketSerializer::~PacketSerializer() {
+        free(dataBuffer);
+        free(packetBuffer);
+    }
+
     uint8_t *PacketSerializer::serializePacket(PacketOutBase *packet, uint32_t *packetLength, bool includeLength) {
 
         currentDataSize = 0;
@@ -53,11 +58,6 @@ namespace protocol {
         dataBufferSize = newSize;
         dataBuffer = (uint8_t *) realloc(dataBuffer, sizeof(uint8_t) * newSize);
         packetBuffer = (uint8_t *) realloc(packetBuffer, (sizeof(uint8_t) * newSize) + LENGTH_BUFFER_SIZE);
-    }
-
-    PacketSerializer::~PacketSerializer() {
-        free(dataBuffer);
-        free(packetBuffer);
     }
 
     uint8_t PacketSerializer::varIntLength(int32_t integer) {

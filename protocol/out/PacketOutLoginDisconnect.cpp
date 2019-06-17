@@ -20,4 +20,8 @@ namespace protocol {
         packetSerializer->writeString(getReason());
     }
 
+    PacketOutLoginDisconnect::~PacketOutLoginDisconnect() {
+
+    }
+
 }

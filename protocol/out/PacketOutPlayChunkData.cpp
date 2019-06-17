@@ -30,4 +30,6 @@ namespace protocol {
             : PacketOutBase(CHUNK_DATA), someChunk(someChunk), fullChunk(fullChunk) {
 
     }
+
+    PacketOutPlayChunkData::~PacketOutPlayChunkData() = default;
 }

@@ -31,4 +31,6 @@ namespace protocol {
         packetSerializer->writeString(uuid.toString());
         packetSerializer->writeString(getUsername());
     }
+
+    PacketOutLoginLoginSuccess::~PacketOutLoginLoginSuccess() = default;
 }

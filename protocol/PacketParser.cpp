@@ -143,9 +143,14 @@ namespace protocol {
     }
 
     std::string PacketParser::readString() {
-        int32_t length = readVarInt();
-        verifyDataLeft(length);
-        char *array = (char *) readByteArray(length);
+        uint32_t length = 0;
+        return readString(&length);
+    }
+
+    std::string PacketParser::readString(uint32_t *length) {
+        *length = readVarInt();
+        verifyDataLeft(*length);
+        char *array = (char *) readByteArray(*length);
         std::string toReturn = std::string(array);
         free(array);
         return toReturn;
@@ -158,7 +163,7 @@ namespace protocol {
     }
 
 
-    uint8_t *PacketParser::readByteArray(int32_t count) {
+    uint8_t *PacketParser::readByteArray(uint32_t count) {
         auto *actualData = (uint8_t *) malloc(sizeof(uint8_t) * (count + 1));
         bzero(actualData, count);
         for (int i = 0; i < count; i++) {
@@ -185,7 +190,8 @@ namespace protocol {
         return readByte();
     }
 
-    uint8_t *PacketParser::readByteArray() {
+    uint8_t *PacketParser::readByteArray(uint32_t *length) {
+        *length = dataLength - currentOffset;
         return readByteArray(dataLength - currentOffset);
     }
 }

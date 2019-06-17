@@ -18,6 +18,8 @@ namespace protocol {
 
         std::string getJsonResponse();
 
+        ~PacketOutStatusResponse() override;
+
         void serialize(PacketSerializer *packetSerializer) override;
     };
 }

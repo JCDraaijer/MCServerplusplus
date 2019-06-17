@@ -12,7 +12,7 @@ namespace logging {
     private:
         const int priority;
     public:
-        Level(int);
+        explicit Level(uint32_t priority);
         static const Level ALL;
         static const Level DEBUG;
         static const Level WARNING;

@@ -17,4 +17,6 @@ namespace protocol {
         return std::__cxx11::string();
     }
 
+    PacketOutBase::~PacketOutBase() = default;
+
 }

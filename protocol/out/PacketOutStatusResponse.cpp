@@ -25,4 +25,6 @@ namespace protocol {
     void PacketOutStatusResponse::serialize(PacketSerializer *packetSerializer) {
         packetSerializer->writeString(getJsonResponse());
     }
+
+    PacketOutStatusResponse::~PacketOutStatusResponse() = default;
 }

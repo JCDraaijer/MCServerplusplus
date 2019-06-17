@@ -80,7 +80,7 @@ namespace network {
             }
             packetErrors = 0;
             handlePacket(current);
-            free(current);
+            delete current;
         }
         close();
     }
@@ -129,8 +129,10 @@ namespace network {
                                                                                                            teleportId++);
                 sendPacket(&look);
             }
-            protocol::PacketOutPlayChunkData data = protocol::PacketOutPlayChunkData(new server::Chunk(0, 0), false);
+            auto *chunk = new server::Chunk(0, 0);
+            protocol::PacketOutPlayChunkData data = protocol::PacketOutPlayChunkData(chunk, false);
             sendPacket(&data);
+            delete chunk;
         }
     }
 

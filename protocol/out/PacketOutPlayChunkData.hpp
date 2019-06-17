@@ -13,6 +13,10 @@ namespace protocol {
     class PacketOutPlayChunkData : public PacketOutBase {
     private:
         server::Chunk *someChunk;
+    public:
+        ~PacketOutPlayChunkData() override;
+
+    private:
         bool fullChunk;
     public:
         explicit PacketOutPlayChunkData(server::Chunk *someChunk, bool fullChunk);

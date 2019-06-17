@@ -13,6 +13,8 @@ namespace protocol {
     public:
         explicit PacketOutHandshakeLegacyPingResponse();
 
+        ~PacketOutHandshakeLegacyPingResponse() override;
+
         void serialize(PacketSerializer *packetSerializer) override;
     };
 }

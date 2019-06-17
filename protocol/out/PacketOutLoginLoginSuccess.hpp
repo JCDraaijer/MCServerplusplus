@@ -18,6 +18,8 @@ namespace protocol {
 
         server::UUID &getUuid();
 
+        ~PacketOutLoginLoginSuccess() override;
+
         void setUuid(const server::UUID &uuid);
 
         std::string &getUsername();

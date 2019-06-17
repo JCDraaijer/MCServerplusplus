@@ -22,4 +22,6 @@ namespace protocol {
     void PacketOutLoginSetCompression::serialize(PacketSerializer *packetSerializer) {
 
     }
+
+    PacketOutLoginSetCompression::~PacketOutLoginSetCompression() = default;
 }

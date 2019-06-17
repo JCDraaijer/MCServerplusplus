@@ -20,4 +20,8 @@ namespace protocol {
     PacketOutHandshakeLegacyPingResponse::PacketOutHandshakeLegacyPingResponse() : PacketOutBase(LEGACY_RESPONSE){
 
     }
+
+    PacketOutHandshakeLegacyPingResponse::~PacketOutHandshakeLegacyPingResponse() {
+
+    }
 }

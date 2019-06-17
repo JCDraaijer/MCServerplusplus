@@ -21,4 +21,6 @@ namespace protocol {
               yaw(yaw), pitch(pitch), flags(flags), teleportId(teleportId) {
 
     }
+
+    PacketOutPlayPlayerPositionLook::~PacketOutPlayPlayerPositionLook() = default;
 }

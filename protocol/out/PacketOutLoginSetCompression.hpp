@@ -17,6 +17,8 @@ namespace protocol {
 
         void setThreshold(int32_t newThreshold);
 
+        ~PacketOutLoginSetCompression() override;
+
         void serialize(PacketSerializer *packetSerializer) override;
     };
 }

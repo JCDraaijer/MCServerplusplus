@@ -11,7 +11,6 @@
 namespace protocol {
     Identifier::Identifier(std::string theNamespace, std::string thing) : identifierNamespace(std::move(theNamespace)),
                                                                           thing(std::move(thing)) {
-
     }
 
     Identifier::Identifier(std::string fullName) {

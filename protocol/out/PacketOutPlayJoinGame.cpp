@@ -28,4 +28,6 @@ namespace protocol {
         packetSerializer->writeUnsignedByte(reducedDebugInfo);
     }
 
+    PacketOutPlayJoinGame::~PacketOutPlayJoinGame() = default;
+
 }

@@ -19,4 +19,6 @@ namespace protocol {
     void PacketOutStatusPong::serialize(PacketSerializer *packetSerializer) {
         packetSerializer->writeLong(getValue());
     }
+
+    PacketOutStatusPong::~PacketOutStatusPong() = default;
 }

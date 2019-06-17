@@ -17,7 +17,7 @@ namespace protocol {
         uint8_t *verifyToken;
     public:
         PacketOutLoginEncryptionRequest(std::string serverId, int32_t publicKeyLength, uint8_t *publicKey, int32_t verifyTokenLength, uint8_t *verifyToken);
-        ~PacketOutLoginEncryptionRequest();
+        ~PacketOutLoginEncryptionRequest() override;
 
         const std::string &getServerId() const;
 

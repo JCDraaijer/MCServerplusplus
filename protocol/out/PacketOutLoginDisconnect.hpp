@@ -15,6 +15,8 @@ namespace protocol {
     public:
         explicit PacketOutLoginDisconnect(std::string reason);
 
+        ~PacketOutLoginDisconnect() override;
+
         const std::string &getReason() const;
 
         void serialize(PacketSerializer *packetSerializer) override;

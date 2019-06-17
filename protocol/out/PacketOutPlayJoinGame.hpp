@@ -22,6 +22,8 @@ namespace protocol {
                               uint8_t difficulty, uint8_t maxPlayers, std::string levelType,
                               bool reducedDebugInfo);
 
+        ~PacketOutPlayJoinGame() override;
+
         void serialize(PacketSerializer *packetSerializer) override;
     };
 }

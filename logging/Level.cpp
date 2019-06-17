@@ -13,7 +13,9 @@ namespace logging {
     const Level Level::INFO = Level(100);
     const Level Level::NONE = Level(0);
 
-    Level::Level(int priority) : priority(priority) {
+    Level::Level(uint32_t priority) : priority(priority) {
 
     }
+
+
 }

@@ -43,7 +43,7 @@ namespace protocol {
 
     void PacketInPlayPluginMessage::parse(PacketParser *packetParser) {
         identifier = Identifier(packetParser->readString());
-        data = packetParser->readByteArray();
+        data = packetParser->readByteArray(&dataLength);
     }
 
     PacketInPlayPluginMessage::~PacketInPlayPluginMessage() {

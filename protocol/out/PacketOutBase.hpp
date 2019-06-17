@@ -23,6 +23,8 @@ namespace protocol {
         std::string toString() override;
 
         virtual void serialize(PacketSerializer *packetSerializer) = 0;
+
+        virtual ~PacketOutBase();
     };
 }
 
