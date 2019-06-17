@@ -21,4 +21,8 @@ namespace server {
         actualServer->start();
         return nullptr;
     }
+
+    void Server::stop() {
+
+    }
 }

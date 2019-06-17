@@ -137,6 +137,7 @@ namespace network {
     void Connection::close() {
         ::close(this->socketFd);
         std::printf("Closed connection  %d.\n", socketFd);
+        pthread_exit(nullptr);
     }
 
     void *Connection::start(void *connectionPointer) {

@@ -71,5 +71,9 @@ namespace network {
 
     void Service::stop() {
         running = false;
+        for (auto &connect : connections){
+            connect.close();
+        }
+
     }
 }

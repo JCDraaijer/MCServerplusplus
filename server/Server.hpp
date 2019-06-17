@@ -17,6 +17,8 @@ namespace server {
         void start();
 
         static void *startServer(void *server);
+
+        void stop();
     };
 
 
