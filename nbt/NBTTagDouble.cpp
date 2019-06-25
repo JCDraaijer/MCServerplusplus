@@ -24,7 +24,7 @@ namespace nbt {
         if (named) {
             parseName(stream);
         }
-        std::fread(&value, 8, 1, stream);
+        value = readDouble(stream);
     }
 
     void NBTTagDouble::write(std::FILE *stream, bool named) {

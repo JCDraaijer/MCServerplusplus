@@ -2,6 +2,8 @@
 #include <signal.h>
 #include "network/Service.hpp"
 #include "server/Server.hpp"
+#include "nbt/NBTTagCompound.hpp"
+#include "nbt/NBTTagInt.hpp"
 
 void stopServices(int signal);
 
@@ -11,6 +13,16 @@ network::Service *theNetwork;
 
 
 int main() {
+
+    FILE *theFile = std::fopen("/home/jona/bigtest.nbt", "r");
+
+    nbt::NBTTagCompound compound = nbt::NBTTagCompound();
+
+    uint8_t firstTag;
+
+    std::fread(&firstTag, 1, 1, theFile);
+
+    compound.parsePayload(theFile, true);
 
     theServer = new server::Server();
 
@@ -33,7 +45,7 @@ int main() {
     std::string inputData;
     while (running) {
         std::cin >> inputData;
-        if (inputData == "stop"){
+        if (inputData == "stop") {
             stopServices(0);
             break;
         }

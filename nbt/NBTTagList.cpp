@@ -1,8 +1,8 @@
 //
-// Created by jona on 2019-06-19.
+// Created by jona on 2019-06-25.
 //
 
-#include "NBTTagCompound.hpp"
+#include "NBTTagList.hpp"
 #include "NBTTagByte.hpp"
 #include "NBTTagShort.hpp"
 #include "NBTTagInt.hpp"
@@ -11,59 +11,33 @@
 #include "NBTTagDouble.hpp"
 #include "NBTTagByteArray.hpp"
 #include "NBTTagString.hpp"
-#include "NBTTagList.hpp"
 
 namespace nbt {
-    NBTTagCompound::NBTTagCompound() : NBTTagBase(COMPOUND) {
+
+    NBTTagList::NBTTagList() : NBTTagBase(LIST), containedType(END) {
 
     }
 
-    NBTTagCompound::~NBTTagCompound() {
-        for (auto &nbtTag : elements) {
-            delete nbtTag;
+    NBTTagList::NBTTagList(std::string name) : NBTTagBase(LIST, std::move(name)) {
+
+    }
+
+    NBTTagList::~NBTTagList() {
+        for (auto &element: elements) {
+            delete element;
         }
     }
 
-    NBTTagBase *NBTTagCompound::get(const std::string &nameToGet) {
-        for (auto &nbtTag : elements) {
-            if (nbtTag->hasName() && nbtTag->getName() == nameToGet) {
-                return nbtTag;
-            }
-        }
-        return nullptr;
-    }
-
-    bool NBTTagCompound::remove(const std::string &nameToRemove, bool del) {
-        for (auto &nbtTag : elements) {
-            if (nbtTag->hasName() && nbtTag->getName() == nameToRemove) {
-                elements.remove(nbtTag);
-                if (del) {
-                    delete nbtTag;
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
-    void NBTTagCompound::add(NBTTagBase *toAdd) {
-        elements.push_back(toAdd);
-    }
-
-    bool NBTTagCompound::contains(const std::string &nameToFind) {
-        return get(nameToFind) != nullptr;
-    }
-
-    void NBTTagCompound::parsePayload(std::FILE *stream, bool named) {
+    void NBTTagList::parsePayload(std::FILE *stream, bool named) {
         if (named) {
             parseName(stream);
         }
-        elements = std::list<NBTTagBase *>();
-        uint8_t typeId;
-        do {
-            std::fread(&typeId, 1, 1, stream);
+        std::fread(&containedType, 1, 1, stream);
+        int32_t length = readInt(stream);
+        elements = std::list<NBTTagBase *>(length);
+        for (int i = 0; i < length; i++) {
             NBTTagBase *value;
-            switch (typeId) {
+            switch (containedType) {
                 case END:
                     return;
                 case BYTE:
@@ -105,12 +79,12 @@ namespace nbt {
                 default:
                     return;
             }
-            value->parsePayload(stream, true);
+            value->parsePayload(stream, false);
             elements.push_back(value);
-        } while (typeId != END);
+        }
     }
 
-    void NBTTagCompound::write(std::FILE *stream, bool named) {
+    void NBTTagList::write(std::FILE *stream, bool named) {
 
     }
 }

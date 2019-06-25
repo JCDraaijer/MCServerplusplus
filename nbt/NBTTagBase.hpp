@@ -30,22 +30,34 @@ namespace nbt {
     private:
         NBTTag typeId;
         std::string name;
+    protected:
+        void parseName(std::FILE *stream);
+
     public:
         explicit NBTTagBase(NBTTag typeId);
 
         explicit NBTTagBase(NBTTag typeId, std::string name);
 
-        virtual ~NBTTagBase() = 0;
+        virtual ~NBTTagBase();
 
         bool hasName();
 
         std::string getName();
 
-        void parseName(std::FILE *stream);
 
         virtual void parsePayload(std::FILE *stream, bool named) = 0;
 
         virtual void write(std::FILE *stream, bool named) = 0;
+
+        static int16_t readShort(std::FILE *stream);
+
+        static int32_t readInt(std::FILE *stream);
+
+        static int64_t readLong(std::FILE *stream);
+
+        static float readFloat(std::FILE *stream);
+
+        static double readDouble(std::FILE *stream);
     };
 }
 

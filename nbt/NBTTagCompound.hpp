@@ -11,8 +11,6 @@
 
 namespace nbt {
     class NBTTagCompound : public NBTTagBase {
-    private:
-        std::list<NBTTagBase *> nbtTags;
 
     public:
         explicit NBTTagCompound();
@@ -30,6 +28,8 @@ namespace nbt {
         void write(std::FILE *stream, bool named) override;
 
         bool contains(const std::string& nameToFind);
+
+        std::list<NBTTagBase *> elements;
     };
 }
 

@@ -24,7 +24,7 @@ namespace nbt {
         if (named) {
             parseName(stream);
         }
-        std::fread(&value, 2, 1, stream);
+        value = readShort(stream);
     }
 
     void NBTTagShort::write(std::FILE *stream, bool named) {
