@@ -128,11 +128,12 @@ namespace network {
                                                                                                            0,
                                                                                                            teleportId++);
                 sendPacket(&look);
+            } else {
+                auto *chunk = new server::Chunk(0, 0);
+                protocol::PacketOutPlayChunkData data = protocol::PacketOutPlayChunkData(chunk, false);
+                sendPacket(&data);
+                delete chunk;
             }
-            auto *chunk = new server::Chunk(0, 0);
-            protocol::PacketOutPlayChunkData data = protocol::PacketOutPlayChunkData(chunk, false);
-            sendPacket(&data);
-            delete chunk;
         }
     }
 
@@ -185,6 +186,7 @@ namespace network {
     bool Connection::sendPacket(protocol::PacketOutBase *packet) {
         uint32_t size = 0;
         uint8_t *data = packetSerializer->serializePacket(packet, &size);
+        std::printf("Sent packet with id 0x%02X\n", packet->getId());
         send(socketFd, data, size, 0);
         return true;
     }

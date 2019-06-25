@@ -6,12 +6,8 @@
 
 namespace server {
 
-    Block::Block(Material material, BlockLocation location) : material(material), location(location) {
+    Block::Block(Material material) : material(material) {
 
-    }
-
-    BlockLocation Block::getLocation() {
-        return location;
     }
 
     Material Block::getMaterial() {
@@ -22,7 +18,8 @@ namespace server {
         this->material = newMaterial;
     }
 
-    Block::Block() : material(AIR), location(BlockLocation(0, 0, 0)) {
+    Block::Block() : Block(AIR) {
 
     }
+
 }

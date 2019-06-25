@@ -13,7 +13,7 @@ namespace protocol {
 
         for (uint32_t i = 0; i < 16; i++) {
             if (!someChunk->getSections()[i].isEmtpy()){
-                bitMask &= 1u << i;
+                bitMask |= 1u << i;
                 chunksToSend++;
             }
         }

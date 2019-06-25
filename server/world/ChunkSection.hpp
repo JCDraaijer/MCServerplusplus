@@ -9,10 +9,12 @@
 
 namespace server {
     class ChunkSection {
-    private:
+    public:
         Block blocks[16][16][16];
 
     public:
+
+        explicit ChunkSection();
 
         bool isEmtpy();
 

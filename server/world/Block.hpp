@@ -12,17 +12,15 @@ namespace server {
     class Block {
     private:
         Material material;
-        BlockLocation location;
+
     public:
         explicit Block();
 
-        explicit Block(Material material, BlockLocation location);
+        explicit Block(Material material);
 
         Material getMaterial();
 
-        void setMaterial(Material newMaterial);
-
-        BlockLocation getLocation();
+        void setMaterial(Material newMaterial);\
     };
 }
 
