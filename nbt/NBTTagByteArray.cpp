@@ -15,7 +15,7 @@ namespace nbt {
             parseName(stream);
         }
         int32_t length = readInt(stream);
-        bytes = std::vector<int8_t>(length);
+        bytes = std::list<int8_t>(length);
         int8_t value;
         for (int i = 0; i < length; i++) {
             std::fread(&value, 1, 1, stream);
@@ -30,13 +30,34 @@ namespace nbt {
 
     }
 
-    NBTTagByteArray::NBTTagByteArray(std::vector<int8_t> bytes) : NBTTagBase(BYTE_ARRAY), bytes(std::move(bytes)) {
+    NBTTagByteArray::NBTTagByteArray(std::list<int8_t> bytes) : NBTTagBase(BYTE_ARRAY), bytes(std::move(bytes)) {
 
     }
 
-    NBTTagByteArray::NBTTagByteArray(std::string name, std::vector<int8_t> bytes) : NBTTagBase(BYTE_ARRAY,
-                                                                                               std::move(name)),
-                                                                                    bytes(std::move(bytes)) {
+    NBTTagByteArray::NBTTagByteArray(std::string name, std::list<int8_t> bytes) : NBTTagBase(BYTE_ARRAY,
+                                                                                             std::move(name)),
+                                                                                  bytes(std::move(bytes)) {
 
+    }
+
+    void NBTTagByteArray::insert(int8_t value, uint32_t position) {
+        auto iterator = bytes.begin();
+        for (int i = 0; i < position - 1; i++) {
+            iterator++;
+        }
+        bytes.insert(iterator, value);
+    }
+
+    void NBTTagByteArray::add(int8_t value) {
+        bytes.push_back(value);
+    }
+
+    bool NBTTagByteArray::remove(uint32_t index) {
+        auto iterator = bytes.begin();
+        for (int i = 0; i < index; i++) {
+            iterator++;
+        }
+        bytes.erase(iterator);
+        return false;
     }
 }

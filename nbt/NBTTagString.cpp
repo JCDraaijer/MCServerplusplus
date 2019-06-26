@@ -3,6 +3,7 @@
 //
 
 #include "NBTTagString.hpp"
+#include <zlib.h>
 
 namespace nbt {
 
@@ -35,9 +36,10 @@ namespace nbt {
             parseName(stream);
         }
         uint16_t length = readShort(stream);
-        value = std::string();
-        value.reserve(length);
-        std::fread(&value, 1, length, stream);
+        char theString[length + 1];
+        theString[length] = '\0';
+        std::fread(&theString, length, 1, stream);
+        value = std::string(theString);
     }
 
     void NBTTagString::write(std::FILE *stream, bool named) {

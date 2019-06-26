@@ -6,24 +6,31 @@
 #define MCSERVER_NBTTAGBYTEARRAY_HPP
 
 #include "NBTTagBase.hpp"
-#include <vector>
+#include <list>
 
 namespace nbt {
     class NBTTagByteArray : public NBTTagBase {
     private:
-        std::vector<int8_t> bytes;
+        std::list<int8_t> bytes;
     public:
         explicit NBTTagByteArray();
 
-        explicit NBTTagByteArray(std::vector<int8_t> bytes);
+        explicit NBTTagByteArray(std::list<int8_t> bytes);
 
-        explicit NBTTagByteArray(std::string name, std::vector<int8_t> bytes);
+        explicit NBTTagByteArray(std::string name, std::list<int8_t> bytes);
 
         ~NBTTagByteArray() override;
 
         void parsePayload(std::FILE *stream, bool named) override;
 
         void write(std::FILE *stream, bool named) override;
+
+        void insert(int8_t value, uint32_t position);
+
+        void add(int8_t value);
+
+        bool remove(uint32_t index);
+
     };
 }
 
