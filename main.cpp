@@ -1,6 +1,6 @@
 #include <iostream>
 #include <csignal>
-#include "network/Service.hpp"
+#include "network/NetworkService.hpp"
 #include "server/Server.hpp"
 #include "nbt/NBTTagCompound.hpp"
 #include "nbt/NBTTagInt.hpp"
@@ -9,7 +9,7 @@ void stopServices(int signal);
 
 bool running = true;
 server::Server *theServer;
-network::Service *theNetwork;
+network::NetworkService *theNetwork;
 
 
 int main() {
@@ -31,8 +31,8 @@ int main() {
 
     pthread_t networkThreadId;
 
-    theNetwork = new network::Service(25565);
-    pthread_create(&networkThreadId, nullptr, network::Service::startService, theNetwork);
+    theNetwork = new network::NetworkService(theServer, 25565);
+    pthread_create(&networkThreadId, nullptr, network::NetworkService::startService, theNetwork);
 
     signal(15, &stopServices);
     signal(1, &stopServices);

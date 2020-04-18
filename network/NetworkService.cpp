@@ -7,18 +7,19 @@
 #include <unistd.h>
 #include <pthread.h>
 
-#include "Service.hpp"
+#include "NetworkService.hpp"
 
 
 namespace network {
 
-    Service::Service(int port) {
+    NetworkService::NetworkService(server::Server *server, int port) {
+        this->server = server;
         this->port = port;
         running = false;
         socketFd = -1;
     }
 
-    void Service::start() {
+    void NetworkService::start() {
         std::printf("Started networking service.\n");
         running = true;
         if ((socketFd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
@@ -60,7 +61,7 @@ namespace network {
                 continue;
             }
             std::printf("Accepted Connection %d.\n", connectionFd);
-            auto *aConnection = new Connection(connectionFd, 1024);
+            auto *aConnection = new Connection(this->server, connectionFd, 1024);
             this->connections.push_back(*aConnection);
             pthread_t threadId;
             pthread_create(&threadId, nullptr, Connection::start, aConnection);
@@ -69,7 +70,7 @@ namespace network {
 
     }
 
-    void Service::stop() {
+    void NetworkService::stop() {
         running = false;
         for (auto &connect : connections) {
             connect.close();
@@ -77,8 +78,8 @@ namespace network {
 
     }
 
-    void *Service::startService(void *service) {
-        auto theService = (Service *) service;
+    void *NetworkService::startService(void *service) {
+        auto theService = (NetworkService *) service;
         theService->start();
         return nullptr;
     }

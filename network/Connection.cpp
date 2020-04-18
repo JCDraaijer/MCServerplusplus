@@ -28,7 +28,7 @@
 #include "../protocol/out/PacketOutStatusResponse.hpp"
 
 namespace network {
-    Connection::Connection(int socketFileDescriptor, uint32_t bufferSize) : socketFd(socketFileDescriptor),
+    Connection::Connection(server::Server *server, int socketFileDescriptor, uint32_t bufferSize) : server(server), socketFd(socketFileDescriptor),
                                                                             rxBufferSize(bufferSize),
                                                                             authenticated(false), encrypted(false),
                                                                             state(protocol::HANDSHAKING),

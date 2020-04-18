@@ -9,6 +9,7 @@
 #include "../protocol/ConnectionState.hpp"
 #include "../protocol/in/PacketInBase.hpp"
 #include "../protocol/out/PacketOutBase.hpp"
+#include "../server/Server.hpp"
 
 namespace network {
     class Connection {
@@ -36,13 +37,15 @@ namespace network {
 
         int32_t teleportId;
 
+        server::Server *server;
+
         void run();
 
         void handlePacket(protocol::PacketInBase *packet);
 
     public:
 
-        explicit Connection(int, uint32_t);
+        explicit Connection(server::Server *server, int socketFileDescriptor, uint32_t bufferSize);
 
         ~Connection();
 
