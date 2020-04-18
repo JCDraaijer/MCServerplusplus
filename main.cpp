@@ -14,7 +14,7 @@ network::Service *theNetwork;
 
 int main() {
 
-    FILE *theFile = std::fopen("/home/jona/bigtest.nbt", "r");
+/*    FILE *theFile = std::fopen("/home/jona/bigtest.nbt", "r");
 
     nbt::NBTTagCompound compound = nbt::NBTTagCompound();
 
@@ -22,7 +22,7 @@ int main() {
 
     std::fread(&firstTag, 1, 1, theFile);
 
-    compound.parsePayload(theFile, true);
+    compound.parsePayload(theFile, true);*/
 
     theServer = new server::Server();
 
