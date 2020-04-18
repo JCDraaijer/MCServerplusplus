@@ -10,9 +10,16 @@
 namespace protocol {
     class PacketOutStatusResponse : public PacketOutBase {
     private:
-        std::string jsonResponse;
+        std::string versionName;
+        int versionProtocol;
+        int currentOnline;
+        int maxOnline;
+        std::string descriptionText;
+        std::string favicon;
     public:
-        explicit PacketOutStatusResponse(std::string);
+        explicit PacketOutStatusResponse(std::string versionName, int versionProtocol,
+                                         int currentOnline, int maxOnline, std::string descriptionText,
+                                         std::string favicon);
 
         std::string toString() override;
 

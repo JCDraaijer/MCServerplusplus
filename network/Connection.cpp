@@ -25,6 +25,7 @@
 #include "../protocol/out/PacketOutPlayChunkData.hpp"
 #include "../protocol/out/PacketOutPlayPlayerPositionLook.hpp"
 #include "../protocol/out/PacketOutHandshakeLegacyPingResponse.hpp"
+#include "../protocol/out/PacketOutStatusResponse.hpp"
 
 namespace network {
     Connection::Connection(int socketFileDescriptor, uint32_t bufferSize) : socketFd(socketFileDescriptor),
@@ -96,7 +97,9 @@ namespace network {
             }
         } else if (getState() == protocol::STATUS) {
             if (packet->getType() == protocol::STATUS_REQUEST) {
-
+                protocol::PacketOutStatusResponse response = protocol::PacketOutStatusResponse("1.15.2", 578, 1233, 10,
+                                                                                               "MC server", "");
+                sendPacket(&response);
             } else if (packet->getType() == protocol::PING) {
                 auto *packetInPing = (protocol::PacketInStatusPing *) packet;
                 sendPacket(new protocol::PacketOutStatusPong(packetInPing->getValue()));
@@ -123,16 +126,13 @@ namespace network {
             }
         } else if (getState() == protocol::PLAY) {
             if (packet->getType() != protocol::TELEPORT_CONFIRM) {
-                protocol::PacketOutPlayPlayerPositionLook look = protocol::PacketOutPlayPlayerPositionLook(0, 64, 0, 31,
-                                                                                                           0,
-                                                                                                           0,
-                                                                                                           teleportId++);
+                protocol::PacketOutPlayPlayerPositionLook look =
+                        protocol::PacketOutPlayPlayerPositionLook(0, 64, 0, 31, 0, 0, teleportId++);
                 sendPacket(&look);
             } else {
-                auto *chunk = new server::Chunk(0, 0);
-                protocol::PacketOutPlayChunkData data = protocol::PacketOutPlayChunkData(chunk, false);
+                server::Chunk chunk = server::Chunk(0, 0);
+                protocol::PacketOutPlayChunkData data = protocol::PacketOutPlayChunkData(&chunk, false);
                 sendPacket(&data);
-                delete chunk;
             }
         }
     }

@@ -14,12 +14,24 @@ namespace protocol {
         return stringStream.str();
     }
 
-    PacketOutStatusResponse::PacketOutStatusResponse(std::string jsonResponse) : PacketOutBase(STATUS_RESPONSE) {
-        this->jsonResponse = std::move(jsonResponse);
+    PacketOutStatusResponse::PacketOutStatusResponse(std::string versionName, int versionProtocol,
+                                                     int currentOnline, int maxOnline, std::string descriptionText,
+                                                     std::string favicon) : PacketOutBase(STATUS_RESPONSE),
+                                                                            versionName(std::move(versionName)),
+                                                                            versionProtocol(versionProtocol),
+                                                                            currentOnline(currentOnline),
+                                                                            maxOnline(maxOnline),
+                                                                            descriptionText(std::move(descriptionText)),
+                                                                            favicon(std::move(favicon)) {
+
     }
 
     std::string PacketOutStatusResponse::getJsonResponse() {
-        return this->jsonResponse;
+        std::string jsonResponse =
+                R"({"version":{"name":")" + versionName + R"(", "protocol":)" + std::to_string(versionProtocol) +
+                R"(}, "players": {"max":)" + std::to_string(maxOnline) + R"(, "online":)" +
+                std::to_string(currentOnline) + R"(}, "description": {"text":")" + descriptionText + R"("}})";
+        return jsonResponse;
     }
 
     void PacketOutStatusResponse::serialize(PacketSerializer *packetSerializer) {
