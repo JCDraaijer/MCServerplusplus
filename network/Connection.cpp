@@ -119,7 +119,7 @@ namespace network {
                 sendPacket(&sendLoginSuccess);
 
                 protocol::PacketOutPlayJoinGame joinGame = protocol::PacketOutPlayJoinGame(1323, 0, 0, 1, 255,
-                                                                                           "default", false);
+                                                                                           "default", 8, false, false);
                 sendPacket(&joinGame);
             } else if (packet->getType() == protocol::LOGIN_PLUGIN_RESPONSE) {
 
@@ -130,9 +130,9 @@ namespace network {
                         protocol::PacketOutPlayPlayerPositionLook(0, 64, 0, 31, 0, 0, teleportId++);
                 sendPacket(&look);
             } else {
-                server::Chunk chunk = server::Chunk(0, 0);
+                /* server::Chunk chunk = server::Chunk(0, 0);
                 protocol::PacketOutPlayChunkData data = protocol::PacketOutPlayChunkData(&chunk, false);
-                sendPacket(&data);
+                sendPacket(&data);*/
             }
         }
     }

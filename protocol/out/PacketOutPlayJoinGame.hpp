@@ -13,14 +13,16 @@ namespace protocol {
         int32_t entityId;
         uint8_t gameMode;
         int32_t dimension;
-        uint8_t difficulty;
+        int64_t seedHash;
         uint8_t maxPlayers;
         std::string levelType;
+        uint32_t viewDistance;
         bool reducedDebugInfo;
+        bool respawnScreen;
     public:
-        PacketOutPlayJoinGame(int32_t entityId, uint8_t gameMode, int32_t dimension,
-                              uint8_t difficulty, uint8_t maxPlayers, std::string levelType,
-                              bool reducedDebugInfo);
+        PacketOutPlayJoinGame(int32_t entityId, uint8_t gameMode, int32_t dimension, uint64_t seedHash,
+                              uint8_t maxPlayers, std::string levelType, uint32_t viewDistance,
+                              bool reducedDebugInfo, bool respawnScreen);
 
         ~PacketOutPlayJoinGame() override;
 
