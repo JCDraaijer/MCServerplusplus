@@ -13,8 +13,8 @@ add_executable(MCServer main.cpp network/Connection.cpp
         network/NetworkService.cpp
         network/NetworkService.hpp protocol/in/PacketInBase.hpp protocol/in/PacketInHandshake.cpp
         protocol/in/PacketInHandshake.hpp
-        protocol/in/PacketInBase.cpp protocol/ConnectionState.cpp protocol/ConnectionState.hpp logging/Level.cpp
-        logging/Level.h logging/Logger.cpp logging/Logger.h protocol/in/PacketInStatusPing.cpp
+        protocol/in/PacketInBase.cpp protocol/ConnectionState.cpp protocol/ConnectionState.hpp
+        protocol/in/PacketInStatusPing.cpp
         protocol/in/PacketInStatusPing.hpp protocol/in/PacketInStatusRequest.cpp protocol/in/PacketInStatusRequest.hpp
         protocol/out/PacketOutStatusResponse.cpp protocol/out/PacketOutStatusResponse.hpp protocol/PacketBase.cpp
         protocol/PacketBase.hpp protocol/out/PacketOutBase.cpp protocol/out/PacketOutBase.hpp
