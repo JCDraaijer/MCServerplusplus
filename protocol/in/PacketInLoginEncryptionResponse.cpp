@@ -36,7 +36,7 @@ namespace protocol {
     }
 
     std::string PacketInLoginEncryptionResponse::toString() {
-        return std::__cxx11::string();
+        return std::string();
     }
 
     PacketInLoginEncryptionResponse::PacketInLoginEncryptionResponse(PacketParser *parser) : PacketInBase(

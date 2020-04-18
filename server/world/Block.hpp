@@ -20,7 +20,7 @@ namespace server {
 
         Material getMaterial();
 
-        void setMaterial(Material newMaterial);\
+        void setMaterial(Material newMaterial);
     };
 }
 

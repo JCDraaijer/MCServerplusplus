@@ -1,5 +1,5 @@
 #include <iostream>
-#include <signal.h>
+#include <csignal>
 #include "network/Service.hpp"
 #include "server/Server.hpp"
 #include "nbt/NBTTagCompound.hpp"

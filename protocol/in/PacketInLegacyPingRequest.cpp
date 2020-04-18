@@ -6,7 +6,7 @@
 
 namespace protocol {
     std::string protocol::PacketInLegacyPingRequest::toString() {
-        return std::__cxx11::string();
+        return std::string();
     }
 
     void protocol::PacketInLegacyPingRequest::parse(protocol::PacketParser *packetParser) {

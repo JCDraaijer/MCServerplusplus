@@ -29,7 +29,7 @@ namespace protocol {
     }
 
     std::string PacketInLoginPluginResponse::toString() {
-        return std::__cxx11::string();
+        return std::string();
     }
 
     PacketInLoginPluginResponse::PacketInLoginPluginResponse(PacketParser *parser) : PacketInBase(

@@ -6,7 +6,7 @@
 
 namespace protocol {
     std::string PacketInPlayUpdateStructureBlock::toString() {
-        return std::__cxx11::string();
+        return std::string();
     }
 
     void PacketInPlayUpdateStructureBlock::parse(protocol::PacketParser *packetParser) {
