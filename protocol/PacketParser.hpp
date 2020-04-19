@@ -55,6 +55,7 @@ namespace protocol {
         parse(ConnectionState currentState, int packetId, unsigned char *data,
               int dataLength);
 
+        int32_t readInt();
 
         int64_t readLong();
 
@@ -79,6 +80,11 @@ namespace protocol {
         uint8_t readUnsignedByte();
 
         bool readBoolean();
+
+        double readDouble();
+
+        float readFloat();
+
     };
 }
 

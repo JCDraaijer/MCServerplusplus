@@ -34,9 +34,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "in/PacketInLegacyPingRequest.hpp"
 #include "in/PacketInPlayUpdateStructureBlock.hpp"
 #include "in/PacketInLoginPluginResponse.hpp"
+#include "in/PacketInPlayerPositionLook.hpp"
 
 namespace protocol {
 
+    typedef union {
+        float f;
+        uint8_t bytes[sizeof(float)];
+    } float_byte_union;
+
+    typedef union {
+        double d;
+        uint8_t bytes[sizeof(double)];
+    } double_byte_union;
 
     PacketParser::PacketParser() {
         dataBuffer = nullptr;
@@ -113,6 +123,9 @@ namespace protocol {
                 break;
             case UPDATE_STRUCTURE_BLOCK:
                 packet = new PacketInPlayUpdateStructureBlock();
+                break;
+            case SERVER_PLAYER_POSITION_LOOK:
+                packet = new PacketInPlayerPositionLook();
                 break;
             default:
                 throw UnknownPacketException(packetId, PLAY, dataLength);
@@ -214,6 +227,15 @@ namespace protocol {
         return actualData;
     }
 
+    int32_t PacketParser::readInt() {
+        int32_t value = 0;
+        for (int i = 0; i < 4; i++) {
+            value |= readByte();
+            value <<= 8;
+        }
+        return value;
+    }
+
     int64_t PacketParser::readLong() {
         int64_t value = 0;
         for (int i = 0; i < 8; i++) {
@@ -234,5 +256,21 @@ namespace protocol {
     uint8_t *PacketParser::readByteArray(uint32_t *length) {
         *length = dataLength - currentOffset;
         return readByteArray(dataLength - currentOffset);
+    }
+
+    double PacketParser::readDouble() {
+        double_byte_union theUnion;
+        for (unsigned char &byte : theUnion.bytes) {
+            byte = readUnsignedByte();
+        }
+        return theUnion.d;
+    }
+
+    float PacketParser::readFloat() {
+        float_byte_union theUnion;
+        for (unsigned char &byte : theUnion.bytes) {
+            byte = readUnsignedByte();
+        }
+        return theUnion.f;
     }
 }

@@ -28,14 +28,21 @@
 #include "../protocol/out/PacketOutStatusResponse.hpp"
 
 namespace network {
-    Connection::Connection(server::Server *server, int socketFileDescriptor, uint32_t bufferSize) : server(server), socketFd(socketFileDescriptor),
-                                                                            rxBufferSize(bufferSize),
-                                                                            authenticated(false), encrypted(false),
-                                                                            state(protocol::HANDSHAKING),
-                                                                            packetTx(0), packetRx(0),
-                                                                            publicKeyLength(0),
-                                                                            publicKey(nullptr), packetErrors(0),
-                                                                            teleportId(0) {
+    Connection::Connection(server::Server *server, int socketFileDescriptor, uint32_t bufferSize) : server(server),
+                                                                                                    socketFd(
+                                                                                                            socketFileDescriptor),
+                                                                                                    rxBufferSize(
+                                                                                                            bufferSize),
+                                                                                                    authenticated(
+                                                                                                            false),
+                                                                                                    encrypted(false),
+                                                                                                    state(protocol::HANDSHAKING),
+                                                                                                    packetTx(0),
+                                                                                                    packetRx(0),
+                                                                                                    publicKeyLength(0),
+                                                                                                    publicKey(nullptr),
+                                                                                                    packetErrors(0),
+                                                                                                    teleportId(0) {
         rxBuffer = (uint8_t *) malloc(sizeof(uint8_t) * bufferSize);
         packetSerializer = new protocol::PacketSerializer(bufferSize);
         packetParser = new protocol::PacketParser();
@@ -126,7 +133,7 @@ namespace network {
 
             }
         } else if (getState() == protocol::PLAY) {
-            if (packet->getType() != protocol::TELEPORT_CONFIRM) {
+            if (packet->getType() == protocol::SERVER_PLUGIN_MESSAGE) {
                 protocol::PacketOutPlayPlayerPositionLook look =
                         protocol::PacketOutPlayPlayerPositionLook(0, 64, 0, 31, 0, 0, teleportId++);
                 sendPacket(&look);
