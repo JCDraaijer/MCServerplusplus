@@ -23,8 +23,8 @@ namespace protocol {
         packetSerializer->writeUnsignedByte(maxPlayers);
         packetSerializer->writeString(levelType);
         packetSerializer->writeVarInt(viewDistance);
-        packetSerializer->writeUnsignedByte(reducedDebugInfo);
-        packetSerializer->writeUnsignedByte(respawnScreen);
+        packetSerializer->writeBoolean(reducedDebugInfo);
+        packetSerializer->writeBoolean(respawnScreen);
     }
 
     PacketOutPlayJoinGame::~PacketOutPlayJoinGame() = default;

@@ -71,8 +71,6 @@ namespace nbt {
                     value = new NBTTagCompound();
                     break;
                 case INT_ARRAY:
-                    value = new NBTTagByte();
-                    break;
                 case LONG_ARRAY:
                     value = new NBTTagByte();
                     break;
