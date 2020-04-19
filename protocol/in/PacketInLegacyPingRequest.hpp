@@ -23,13 +23,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "PacketInBase.hpp"
 
 namespace protocol {
-    class PacketInLegacyPingRequest : public PacketInBase{
+    class PacketInLegacyPingRequest : public PacketInBase {
     public:
-        explicit PacketInLegacyPingRequest();
-
-        std::string toString() override;
+        PacketInLegacyPingRequest();
 
         void parse(PacketParser *packetParser) override;
+
+        std::string toString() override;
 
     };
 }

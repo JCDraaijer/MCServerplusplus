@@ -36,13 +36,12 @@ namespace protocol {
                                          int currentOnline, int maxOnline, std::string descriptionText,
                                          std::string favicon);
 
+        void serialize(PacketSerializer *packetSerializer) override;
+
         std::string toString() override;
 
         std::string getJsonResponse();
 
-        ~PacketOutStatusResponse() override;
-
-        void serialize(PacketSerializer *packetSerializer) override;
     };
 }
 

@@ -20,18 +20,32 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "PacketInLoginEncryptionResponse.hpp"
 
 namespace protocol {
-    protocol::PacketInLoginEncryptionResponse::PacketInLoginEncryptionResponse(int32_t sharedSecretLength,
-                                                                               uint8_t *sharedSecret,
-                                                                               uint32_t verifyTokenLength,
-                                                                               uint8_t *verifyToken)
-            : PacketInBase(ENCRYPTION_RESPONSE), sharedSecretLength(sharedSecretLength),
-              sharedSecret(sharedSecret), verifyTokenLength(verifyTokenLength), verifyToken(verifyToken) {
+    PacketInLoginEncryptionResponse::PacketInLoginEncryptionResponse(int32_t sharedSecretLength,
+                                                                     uint8_t *sharedSecret,
+                                                                     uint32_t verifyTokenLength,
+                                                                     uint8_t *verifyToken)
+            : PacketInBase(ENCRYPTION_RESPONSE) {
+        this->sharedSecretLength = sharedSecretLength;
+        this->sharedSecret = sharedSecret;
+        this->verifyTokenLength = verifyTokenLength;
+        this->verifyToken = verifyToken;
 
+    }
+
+    PacketInLoginEncryptionResponse::PacketInLoginEncryptionResponse() :
+            PacketInLoginEncryptionResponse(0, nullptr, 0, nullptr) {
     }
 
     PacketInLoginEncryptionResponse::~PacketInLoginEncryptionResponse() {
         free(sharedSecret);
         free(verifyToken);
+    }
+
+    void PacketInLoginEncryptionResponse::parse(PacketParser *packetParser) {
+        sharedSecretLength = packetParser->readVarInt();
+        sharedSecret = packetParser->readByteArray(sharedSecretLength);
+        verifyTokenLength = packetParser->readVarInt();
+        verifyToken = packetParser->readByteArray(verifyTokenLength);
     }
 
     int32_t PacketInLoginEncryptionResponse::getSharedSecretLength() const {
@@ -52,18 +66,6 @@ namespace protocol {
 
     std::string PacketInLoginEncryptionResponse::toString() {
         return std::string();
-    }
-
-    PacketInLoginEncryptionResponse::PacketInLoginEncryptionResponse(PacketParser *parser) : PacketInBase(
-            ENCRYPTION_RESPONSE) {
-        parse(parser);
-    }
-
-    void PacketInLoginEncryptionResponse::parse(PacketParser *packetParser) {
-        sharedSecretLength = packetParser->readVarInt();
-        sharedSecret = packetParser->readByteArray(sharedSecretLength);
-        verifyTokenLength = packetParser->readVarInt();
-        verifyToken = packetParser->readByteArray(verifyTokenLength);
     }
 
 }

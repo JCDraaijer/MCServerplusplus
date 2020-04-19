@@ -33,13 +33,14 @@ namespace protocol {
     public:
         explicit PacketOutBase(OutPacketType type);
 
-        const OutPacketType getType();
+        virtual ~PacketOutBase();
 
-        std::string toString() override;
+        OutPacketType getType();
 
         virtual void serialize(PacketSerializer *packetSerializer) = 0;
 
-        virtual ~PacketOutBase();
+        std::string toString();
+
     };
 }
 

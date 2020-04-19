@@ -28,13 +28,12 @@ namespace protocol {
     public:
         explicit PacketOutStatusPong(int64_t value);
 
+        void serialize(PacketSerializer *packetSerializer) override;
+
         std::string toString() override;
 
         int64_t getValue();
 
-        ~PacketOutStatusPong() override;
-
-        void serialize(PacketSerializer *packetSerializer) override;
     };
 }
 

@@ -26,13 +26,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 namespace protocol {
     class PacketInStatusRequest : public PacketInBase {
     public:
-        explicit PacketInStatusRequest();
+        PacketInStatusRequest();
+
+        void parse(PacketParser *packetParser) override;
 
         std::string toString() override;
 
-        explicit PacketInStatusRequest(PacketParser *parser);
-
-        void parse(PacketParser *packetParser) override;
     };
 }
 

@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "PacketOutPlayPlayerPositionLook.hpp"
 
 namespace protocol {
-    void PacketOutPlayPlayerPositionLook::serialize(protocol::PacketSerializer *packetSerializer) {
+    void PacketOutPlayPlayerPositionLook::serialize(PacketSerializer *packetSerializer) {
         packetSerializer->writeDouble(x);
         packetSerializer->writeDouble(y);
         packetSerializer->writeDouble(z);
@@ -31,10 +31,14 @@ namespace protocol {
 
     PacketOutPlayPlayerPositionLook::PacketOutPlayPlayerPositionLook(double x, double y, double z, float yaw,
                                                                      float pitch, uint8_t flags, int32_t teleportId)
-            : PacketOutBase(CLIENT_PLAYER_POSITION_LOOK), x(x), y(y), z(z),
-              yaw(yaw), pitch(pitch), flags(flags), teleportId(teleportId) {
+            : PacketOutBase(CLIENT_PLAYER_POSITION_LOOK) {
+        this->x = x;
+        this->y = y;
+        this->z = z;
+        this->yaw = yaw;
+        this->pitch = pitch;
+        this->flags = flags;
+        this->teleportId = teleportId;
 
     }
-
-    PacketOutPlayPlayerPositionLook::~PacketOutPlayPlayerPositionLook() = default;
 }

@@ -24,11 +24,19 @@ namespace protocol {
                                                  uint64_t seedHash,
                                                  uint8_t maxPlayers, std::string levelType, uint32_t viewDistance,
                                                  bool reducedDebugInfo, bool respawnScreen) :
-            PacketOutBase(JOIN_GAME), entityId(entityId), gameMode(gameMode), dimension(dimension), seedHash(seedHash),
-            maxPlayers(maxPlayers), levelType(std::move(levelType)), viewDistance(viewDistance),
-            reducedDebugInfo(reducedDebugInfo), respawnScreen(respawnScreen) {}
+            PacketOutBase(JOIN_GAME) {
+        this->entityId = entityId;
+        this->gameMode = gameMode;
+        this->dimension = dimension;
+        this->seedHash = seedHash;
+        this->maxPlayers = maxPlayers;
+        this->levelType = std::move(levelType);
+        this->viewDistance = viewDistance;
+        this->reducedDebugInfo = reducedDebugInfo;
+        this->respawnScreen = respawnScreen;
+    }
 
-    void PacketOutPlayJoinGame::serialize(protocol::PacketSerializer *packetSerializer) {
+    void PacketOutPlayJoinGame::serialize(PacketSerializer *packetSerializer) {
         packetSerializer->writeInt(entityId);
         packetSerializer->writeUnsignedByte(gameMode);
         packetSerializer->writeInt(dimension);
@@ -39,7 +47,5 @@ namespace protocol {
         packetSerializer->writeBoolean(reducedDebugInfo);
         packetSerializer->writeBoolean(respawnScreen);
     }
-
-    PacketOutPlayJoinGame::~PacketOutPlayJoinGame() = default;
 
 }

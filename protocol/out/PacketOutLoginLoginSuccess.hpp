@@ -29,11 +29,11 @@ namespace protocol {
         server::UUID uuid;
         std::string username;
     public:
-        PacketOutLoginLoginSuccess(const server::UUID& uuid, std::string &username);
+        PacketOutLoginLoginSuccess(server::UUID uuid, std::string username);
+
+        void serialize(PacketSerializer *packetSerializer) override;
 
         server::UUID &getUuid();
-
-        ~PacketOutLoginLoginSuccess() override;
 
         void setUuid(const server::UUID &uuid);
 
@@ -41,7 +41,6 @@ namespace protocol {
 
         void setUsername(const std::string &username);
 
-        void serialize(PacketSerializer *packetSerializer) override;
     };
 }
 

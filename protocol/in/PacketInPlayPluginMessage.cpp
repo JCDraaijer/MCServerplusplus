@@ -23,8 +23,22 @@ namespace protocol {
 
 
     PacketInPlayPluginMessage::PacketInPlayPluginMessage(Identifier ident, uint32_t dataLength, uint8_t *data)
-            : PacketInBase(SERVER_PLUGIN_MESSAGE), identifier(std::move(ident)), dataLength(dataLength), data(data) {
+            : PacketInBase(SERVER_PLUGIN_MESSAGE) {
+        this->identifier = std::move(ident);
+        this->dataLength = dataLength;
+        this->data = data;
+    }
 
+    PacketInPlayPluginMessage::PacketInPlayPluginMessage() : PacketInPlayPluginMessage(Identifier(), 0, nullptr) {
+    }
+
+    PacketInPlayPluginMessage::~PacketInPlayPluginMessage() {
+        free(data);
+    }
+
+    void PacketInPlayPluginMessage::parse(PacketParser *packetParser) {
+        identifier = Identifier(packetParser->readString());
+        data = packetParser->readByteArray(&dataLength);
     }
 
     Identifier *PacketInPlayPluginMessage::getIdentifier() {
@@ -49,16 +63,4 @@ namespace protocol {
         return stringStream.str();
     }
 
-    PacketInPlayPluginMessage::PacketInPlayPluginMessage(PacketParser *parser) : PacketInBase(SERVER_PLUGIN_MESSAGE) {
-        parse(parser);
-    }
-
-    void PacketInPlayPluginMessage::parse(PacketParser *packetParser) {
-        identifier = Identifier(packetParser->readString());
-        data = packetParser->readByteArray(&dataLength);
-    }
-
-    PacketInPlayPluginMessage::~PacketInPlayPluginMessage() {
-        free(data);
-    }
 }

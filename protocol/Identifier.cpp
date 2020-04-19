@@ -20,8 +20,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "Identifier.hpp"
 
 namespace protocol {
-    Identifier::Identifier(std::string theNamespace, std::string thing) : identifierNamespace(std::move(theNamespace)),
-                                                                          thing(std::move(thing)) {
+    Identifier::Identifier(std::string theNamespace, std::string thing) {
+        this->identifierNamespace = std::move(theNamespace);
+        this->thing = std::move(thing);
+    }
+
+    Identifier::Identifier() : Identifier("", "") {
+
     }
 
     Identifier::Identifier(std::string fullName) {
@@ -50,7 +55,4 @@ namespace protocol {
         return thing;
     }
 
-    Identifier::Identifier() : identifierNamespace(""), thing(""){
-
-    }
 }

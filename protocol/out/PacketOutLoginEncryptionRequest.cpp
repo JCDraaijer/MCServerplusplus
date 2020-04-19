@@ -21,6 +21,30 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace protocol {
 
+    PacketOutLoginEncryptionRequest::PacketOutLoginEncryptionRequest(std::string serverId, int32_t publicKeyLength,
+                                                                     uint8_t *publicKey, int32_t verifyTokenLength,
+                                                                     uint8_t *verifyToken) : PacketOutBase(LOGIN_ENCRYPTION_REQUEST),
+                                                                                             serverId(std::move(serverId)),
+                                                                                             publicKeyLength(publicKeyLength),
+                                                                                             publicKey(publicKey),
+                                                                                             verifyTokenLength(verifyTokenLength),
+                                                                                             verifyToken(verifyToken) {
+
+    }
+
+    PacketOutLoginEncryptionRequest::~PacketOutLoginEncryptionRequest() {
+        free(publicKey);
+        free(verifyToken);
+    }
+
+    void PacketOutLoginEncryptionRequest::serialize(PacketSerializer *packetSerializer) {
+        packetSerializer->writeString(serverId);
+        packetSerializer->writeVarInt(publicKeyLength);
+        packetSerializer->writeByteArray(publicKey, publicKeyLength);
+        packetSerializer->writeVarInt(verifyTokenLength);
+        packetSerializer->writeByteArray(verifyToken, verifyTokenLength);
+    }
+
     const std::string &PacketOutLoginEncryptionRequest::getServerId() const {
         return serverId;
     }
@@ -61,27 +85,4 @@ namespace protocol {
         this->verifyToken = newToken;
     }
 
-    PacketOutLoginEncryptionRequest::~PacketOutLoginEncryptionRequest() {
-        free(publicKey);
-        free(verifyToken);
-    }
-
-    PacketOutLoginEncryptionRequest::PacketOutLoginEncryptionRequest(std::string serverId, int32_t publicKeyLength,
-                                                           uint8_t *publicKey, int32_t verifyTokenLength,
-                                                           uint8_t *verifyToken) : PacketOutBase(LOGIN_ENCRYPTION_REQUEST),
-                                                                                   serverId(std::move(serverId)),
-                                                                                   publicKeyLength(publicKeyLength),
-                                                                                   publicKey(publicKey),
-                                                                                   verifyTokenLength(verifyTokenLength),
-                                                                                   verifyToken(verifyToken) {
-
-    }
-
-    void PacketOutLoginEncryptionRequest::serialize(PacketSerializer *packetSerializer) {
-        packetSerializer->writeString(serverId);
-        packetSerializer->writeVarInt(publicKeyLength);
-        packetSerializer->writeByteArray(publicKey, publicKeyLength);
-        packetSerializer->writeVarInt(verifyTokenLength);
-        packetSerializer->writeByteArray(verifyToken, verifyTokenLength);
-    }
 }

@@ -19,16 +19,43 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "PacketInPlayUpdateStructureBlock.hpp"
 
 namespace protocol {
+
+    PacketInPlayUpdateStructureBlock::PacketInPlayUpdateStructureBlock(server::Location location, int32_t action,
+                                                                       int32_t mode, std::string name, int8_t offsetX,
+                                                                       int8_t offsetY, int8_t offsetZ, int8_t sizeX,
+                                                                       int8_t sizeY, int8_t sizeZ, int32_t mirror,
+                                                                       int32_t rotation, std::string metadata,
+                                                                       float integrity, int64_t seed, uint8_t flags)
+            : PacketInBase(UPDATE_STRUCTURE_BLOCK) {
+        this->location = location;
+        this->action = action;
+        this->mode = mode;
+        this->name = std::move(name);
+        this->offsetX = offsetX;
+        this->offsetY = offsetY;
+        this->offsetZ = offsetZ;
+        this->sizeX = sizeX;
+        this->sizeY = sizeY;
+        this->sizeZ = sizeZ;
+        this->mirror = mirror;
+        this->rotation = rotation;
+        this->metadata = std::move(metadata);
+        this->integrity = integrity;
+        this->seed = seed;
+        this->flags = flags;
+    }
+
+    PacketInPlayUpdateStructureBlock::PacketInPlayUpdateStructureBlock() : PacketInPlayUpdateStructureBlock(
+            server::Location(), 0, 0, "", 0, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0) {
+
+    }
+
+    void PacketInPlayUpdateStructureBlock::parse(PacketParser *packetParser) {
+
+    }
+
     std::string PacketInPlayUpdateStructureBlock::toString() {
         return std::string();
-    }
-
-    void PacketInPlayUpdateStructureBlock::parse(protocol::PacketParser *packetParser) {
-
-    }
-
-    PacketInPlayUpdateStructureBlock::PacketInPlayUpdateStructureBlock(PacketParser *packetParser) : PacketInBase(UPDATE_STRUCTURE_BLOCK) {
-
     }
 }
 

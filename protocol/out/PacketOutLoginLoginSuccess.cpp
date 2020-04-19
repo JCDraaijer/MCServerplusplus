@@ -20,9 +20,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace protocol {
 
-    PacketOutLoginLoginSuccess::PacketOutLoginLoginSuccess(const server::UUID& uuid, std::string &username) :
-            PacketOutBase(LOGIN_SUCCESS), uuid(uuid), username(username) {
+    PacketOutLoginLoginSuccess::PacketOutLoginLoginSuccess(const server::UUID uuid, std::string username) :
+            PacketOutBase(LOGIN_SUCCESS){
 
+        this->uuid = uuid;
+        this->username = std::move(username);
+    }
+
+    void PacketOutLoginLoginSuccess::serialize(PacketSerializer *packetSerializer) {
+        packetSerializer->writeString(uuid.toString());
+        packetSerializer->writeString(getUsername());
     }
 
     server::UUID &PacketOutLoginLoginSuccess::getUuid() {
@@ -41,10 +48,4 @@ namespace protocol {
         PacketOutLoginLoginSuccess::username = newUsername;
     }
 
-    void PacketOutLoginLoginSuccess::serialize(PacketSerializer *packetSerializer) {
-        packetSerializer->writeString(uuid.toString());
-        packetSerializer->writeString(getUsername());
-    }
-
-    PacketOutLoginLoginSuccess::~PacketOutLoginLoginSuccess() = default;
 }

@@ -26,16 +26,17 @@ namespace protocol {
     class PacketInStatusPing : public PacketInBase {
     private:
         int64_t mvalue;
+
     public:
         explicit PacketInStatusPing(int64_t);
 
-        explicit PacketInStatusPing(PacketParser *parser);
+        PacketInStatusPing();
 
         void parse(PacketParser *packetParser) override;
 
         std::string toString() override;
 
-        const int64_t getValue();
+        int64_t getValue();
     };
 }
 

@@ -31,7 +31,10 @@ namespace protocol {
         uint8_t *verifyToken;
     public:
         PacketOutLoginEncryptionRequest(std::string serverId, int32_t publicKeyLength, uint8_t *publicKey, int32_t verifyTokenLength, uint8_t *verifyToken);
+
         ~PacketOutLoginEncryptionRequest() override;
+
+        void serialize(PacketSerializer *packetSerializer) override;
 
         const std::string &getServerId() const;
 
@@ -48,8 +51,6 @@ namespace protocol {
         int32_t getVerifyTokenLength() const;
 
         void setVerifyTokenLength(int32_t verifyTokenLength);
-
-        void serialize(PacketSerializer *packetSerializer) override;
 
         uint8_t *getVerifyToken() const;
 

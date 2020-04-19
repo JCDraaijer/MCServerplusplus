@@ -27,13 +27,12 @@ namespace protocol {
         int32_t threshold;
     public:
         explicit PacketOutLoginSetCompression(int32_t threshold);
+
+        void serialize(PacketSerializer *packetSerializer) override;
+
         int32_t getThreshold();
 
         void setThreshold(int32_t newThreshold);
-
-        ~PacketOutLoginSetCompression() override;
-
-        void serialize(PacketSerializer *packetSerializer) override;
     };
 }
 

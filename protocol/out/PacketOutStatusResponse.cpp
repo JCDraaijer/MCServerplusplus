@@ -20,22 +20,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "PacketOutStatusResponse.hpp"
 
 namespace protocol {
-    std::string PacketOutStatusResponse::toString() {
-        std::ostringstream stringStream;
-        stringStream << "Response packet. ID: " << this->getId() << ". Text: " << this->getJsonResponse();
-        return stringStream.str();
-    }
-
     PacketOutStatusResponse::PacketOutStatusResponse(std::string versionName, int versionProtocol,
                                                      int currentOnline, int maxOnline, std::string descriptionText,
-                                                     std::string favicon) : PacketOutBase(STATUS_RESPONSE),
-                                                                            versionName(std::move(versionName)),
-                                                                            versionProtocol(versionProtocol),
-                                                                            currentOnline(currentOnline),
-                                                                            maxOnline(maxOnline),
-                                                                            descriptionText(std::move(descriptionText)),
-                                                                            favicon(std::move(favicon)) {
+                                                     std::string favicon) : PacketOutBase(STATUS_RESPONSE) {
+        this->versionName = std::move(versionName);
+        this->versionProtocol = versionProtocol;
+        this->currentOnline = currentOnline;
+        this->maxOnline = maxOnline;
+        this->descriptionText = std::move(descriptionText);
+        this->favicon = std::move(favicon);
 
+    }
+    void PacketOutStatusResponse::serialize(PacketSerializer *packetSerializer) {
+        packetSerializer->writeString(getJsonResponse());
     }
 
     std::string PacketOutStatusResponse::getJsonResponse() {
@@ -46,9 +43,10 @@ namespace protocol {
         return jsonResponse;
     }
 
-    void PacketOutStatusResponse::serialize(PacketSerializer *packetSerializer) {
-        packetSerializer->writeString(getJsonResponse());
+    std::string PacketOutStatusResponse::toString() {
+        std::ostringstream stringStream;
+        stringStream << "Response packet. ID: " << this->getId() << ". Text: " << this->getJsonResponse();
+        return stringStream.str();
     }
 
-    PacketOutStatusResponse::~PacketOutStatusResponse() = default;
 }

@@ -21,24 +21,23 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace protocol {
 
+    PacketInStatusPing::PacketInStatusPing(int64_t value) : PacketInBase(PING), mvalue(value) {
+    }
+
+    PacketInStatusPing::PacketInStatusPing() : PacketInStatusPing(-1) {
+    }
+
+    void PacketInStatusPing::parse(PacketParser *packetParser) {
+        mvalue = packetParser->readLong();
+    }
+
     std::string PacketInStatusPing::toString() {
         std::ostringstream stringStream;
         stringStream << "Ping packet. ID: " << this->getId();
         return stringStream.str();
     }
 
-    PacketInStatusPing::PacketInStatusPing(int64_t value) : PacketInBase(PING), mvalue(value) {
-    }
-
-    const int64_t PacketInStatusPing::getValue() {
+    int64_t PacketInStatusPing::getValue() {
         return mvalue;
-    }
-
-    PacketInStatusPing::PacketInStatusPing(PacketParser *parser) : PacketInBase(PING) {
-        parse(parser);
-    }
-
-    void PacketInStatusPing::parse(PacketParser *packetParser) {
-        mvalue = packetParser->readLong();
     }
 }

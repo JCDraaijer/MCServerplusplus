@@ -21,20 +21,20 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "PacketInBase.hpp"
 
-namespace protocol{
+namespace protocol {
     class PacketInLoginStart : public PacketInBase {
     private:
         std::string name;
     public:
         explicit PacketInLoginStart(std::string name);
 
-        std::string getName();
-
-        explicit PacketInLoginStart(PacketParser *parser);
+        PacketInLoginStart();
 
         void parse(PacketParser *packetParser) override;
 
         std::string toString() override;
+
+        std::string getName();
     };
 }
 

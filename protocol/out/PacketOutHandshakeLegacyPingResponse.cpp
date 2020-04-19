@@ -20,8 +20,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "PacketOutHandshakeLegacyPingResponse.hpp"
 
 namespace protocol {
-    void PacketOutHandshakeLegacyPingResponse::serialize(protocol::PacketSerializer *packetSerializer) {
-        auto *ps = packetSerializer;
+    PacketOutHandshakeLegacyPingResponse::PacketOutHandshakeLegacyPingResponse() : PacketOutBase(LEGACY_RESPONSE){
+
+    }
+
+    void PacketOutHandshakeLegacyPingResponse::serialize(PacketSerializer *packetSerializer) {
         uint8_t data[] = {0xFF, 0x02, 0xFF, 0x00, 0xA7, 0x00, 0x31, 0x00, 0x00, 0x7F, 0x00, 0x31, 0x00, 0x2e, 0x00,
                           0x34, 0x00, 0x2e, 0x00, 0x32, 0x00, 0x00, 0x41, 0x00, 0x20, 0x00, 0x4d, 0x00, 0x69, 0x00,
                           0x6e,
@@ -29,14 +32,6 @@ namespace protocol {
                           0x53, 0x00, 0x65, 0x00,
                           0x72, 0x00, 0x76, 0x00, 0x65, 0x00, 0x72, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x32,
                           0x00, 0x30};
-        ps->writeByteArray(&data[0], 67);
-    }
-
-    PacketOutHandshakeLegacyPingResponse::PacketOutHandshakeLegacyPingResponse() : PacketOutBase(LEGACY_RESPONSE){
-
-    }
-
-    PacketOutHandshakeLegacyPingResponse::~PacketOutHandshakeLegacyPingResponse() {
-
+        packetSerializer->writeByteArray(&data[0], sizeof(data));
     }
 }

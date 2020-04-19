@@ -32,6 +32,12 @@ namespace protocol {
     public:
         PacketInLoginPluginResponse(int32_t messageId, bool succesful, uint32_t dataLength, uint8_t *data);
 
+        explicit PacketInLoginPluginResponse();
+
+        void parse(PacketParser *packetParser) override;
+
+        std::string toString() override;
+
         int32_t getMessageId() const;
 
         bool isSuccessful() const;
@@ -39,12 +45,6 @@ namespace protocol {
         uint8_t *getData() const;
 
         uint32_t getDataLength() const;
-
-        std::string toString() override;
-
-        explicit PacketInLoginPluginResponse(PacketParser *parser);
-
-        void parse(PacketParser *packetParser) override;
     };
 }
 

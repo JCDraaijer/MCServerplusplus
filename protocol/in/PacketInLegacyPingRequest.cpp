@@ -19,15 +19,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "PacketInLegacyPingRequest.hpp"
 
 namespace protocol {
-    std::string protocol::PacketInLegacyPingRequest::toString() {
-        return std::string();
-    }
-
-    void protocol::PacketInLegacyPingRequest::parse(protocol::PacketParser *packetParser) {
-
-    }
-
     PacketInLegacyPingRequest::PacketInLegacyPingRequest() : PacketInBase(LEGACY_PING){
 
+    }
+
+    void PacketInLegacyPingRequest::parse(PacketParser *packetParser) {
+
+    }
+
+    std::string PacketInLegacyPingRequest::toString() {
+        return std::string();
     }
 }

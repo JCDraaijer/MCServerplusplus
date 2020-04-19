@@ -102,7 +102,8 @@ namespace network {
                 sendPacket(&response);
             } else if (packet->getType() == protocol::PING) {
                 auto *packetInPing = (protocol::PacketInStatusPing *) packet;
-                sendPacket(new protocol::PacketOutStatusPong(packetInPing->getValue()));
+                protocol::PacketOutStatusPong sendOutpong = protocol::PacketOutStatusPong(packetInPing->getValue());
+                sendPacket(&sendOutpong);
             }
         } else if (getState() == protocol::LOGIN) {
             if (packet->getType() == protocol::LOGIN_START) {

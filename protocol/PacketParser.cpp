@@ -50,62 +50,89 @@ namespace protocol {
         currentOffset = 0;
         this->dataBuffer = data;
         this->dataLength = theDataLength;
+        PacketInBase *packet;
         if (currentState == HANDSHAKING) {
-            return _parseHandshake(packetId);
+            packet = _parseHandshake(packetId);
         } else if (currentState == STATUS) {
-            return _parseStatus(packetId);
+            packet = _parseStatus(packetId);
         } else if (currentState == LOGIN) {
-            return _parseLogin(packetId);
+            packet = _parseLogin(packetId);
         } else if (currentState == PLAY) {
-            return _parsePlay(packetId);
+            packet = _parsePlay(packetId);
+        } else {
+            throw UnknownPacketException(packetId, UNDEFINED, dataLength);
         }
-        throw UnknownPacketException(packetId, UNDEFINED, dataLength);
+        packet->parse(this);
+        return packet;
     }
 
     PacketInBase *
     PacketParser::_parseHandshake(int packetId) {
-        if (packetId == HANDSHAKE) {
-            return new PacketInHandshake(this);
-        } else if (packetId == LEGACY_PING) {
-            return new PacketInLegacyPingRequest();
+        PacketInBase *packet;
+        switch (packetId) {
+            case HANDSHAKE:
+                packet = new PacketInHandshake();
+                break;
+            case LEGACY_PING:
+                packet = new PacketInLegacyPingRequest();
+                break;
+            default:
+                throw UnknownPacketException(packetId, HANDSHAKING, dataLength);
         }
-        throw UnknownPacketException(packetId, HANDSHAKING, dataLength);
+        return packet;
     }
 
     PacketInBase *
     PacketParser::_parseStatus(int packetId) {
-        if (packetId == STATUS_REQUEST) {
-            return new PacketInStatusRequest(this);
-        } else if (packetId == PING) {
-            return new PacketInStatusPing(this);
+        PacketInBase *packet;
+        switch (packetId) {
+            case STATUS_REQUEST:
+                packet = new PacketInStatusRequest();
+                break;
+            case PING:
+                packet = new PacketInStatusPing();
+                break;
+            default:
+                throw UnknownPacketException(packetId, STATUS, dataLength);
         }
-        throw UnknownPacketException(packetId, STATUS, dataLength);
+        return packet;
     }
 
     PacketInBase *
     PacketParser::_parsePlay(int packetId) {
-        if (packetId == SERVER_PLUGIN_MESSAGE) {
-            return new PacketInPlayPluginMessage(this);
-        } else if (packetId == CLIENT_SETTINGS) {
-            return new PacketInPlayClientSettings(this);
-        } else if (packetId == TELEPORT_CONFIRM) {
-            return new PacketInPlayTeleportConfirm(this);
-        } else if (packetId == UPDATE_STRUCTURE_BLOCK) {
-            return new PacketInPlayUpdateStructureBlock(this);
+        PacketInBase *packet;
+        switch (packetId) {
+            case SERVER_PLUGIN_MESSAGE:
+                packet = new PacketInPlayPluginMessage();
+                break;
+            case CLIENT_SETTINGS:
+                packet = new PacketInPlayClientSettings();
+                break;
+            case TELEPORT_CONFIRM:
+                packet = new PacketInPlayTeleportConfirm();
+                break;
+            case UPDATE_STRUCTURE_BLOCK:
+                packet = new PacketInPlayUpdateStructureBlock();
+                break;
+            default:
+                throw UnknownPacketException(packetId, PLAY, dataLength);
         }
-        throw UnknownPacketException(packetId, PLAY, dataLength);
+        return packet;
     }
 
     PacketInBase *
     PacketParser::_parseLogin(int packetId) {
-        if (packetId == LOGIN_START) {
-            return new PacketInLoginStart(this);
-        } else if (packetId == ENCRYPTION_RESPONSE) {
-
-        } else if (packetId == LOGIN_PLUGIN_RESPONSE) {
-
+        PacketInBase *packet;
+        switch (packetId) {
+            case LOGIN_START:
+                packet = new PacketInLoginStart();
+                break;
+            case ENCRYPTION_RESPONSE:
+            case LOGIN_PLUGIN_RESPONSE:
+            default:
+                throw UnknownPacketException(packetId, LOGIN, dataLength);
         }
-        throw UnknownPacketException(packetId, LOGIN, dataLength);
+        return packet;
     }
 
     uint8_t PacketParser::readUnsignedByte() {

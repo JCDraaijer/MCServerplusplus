@@ -19,12 +19,25 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "PacketInLoginPluginResponse.hpp"
 
 namespace protocol {
-    PacketInLoginPluginResponse::PacketInLoginPluginResponse(int32_t messageId, bool succesful, uint32_t dataLength,
-                                                             uint8_t *data)
-            : PacketInBase(LOGIN_PLUGIN_RESPONSE), messageId(messageId), successful(succesful),
-              dataLength(dataLength), data(data) {
+    PacketInLoginPluginResponse::PacketInLoginPluginResponse(
+            int32_t messageId, bool succesful, uint32_t dataLength, uint8_t *data) : PacketInBase(
+            LOGIN_PLUGIN_RESPONSE) {
+        this->messageId = messageId;
+        this->successful = succesful;
+        this->dataLength = dataLength;
+        this->data = data;
 
     }
+
+    PacketInLoginPluginResponse::PacketInLoginPluginResponse() : PacketInLoginPluginResponse(0, false,
+                                                                                                                 0,
+                                                                                                                 nullptr) {
+    }
+
+    void PacketInLoginPluginResponse::parse(PacketParser *packetParser) {
+
+    }
+
 
     int32_t PacketInLoginPluginResponse::getMessageId() const {
         return messageId;
@@ -44,15 +57,6 @@ namespace protocol {
 
     std::string PacketInLoginPluginResponse::toString() {
         return std::string();
-    }
-
-    PacketInLoginPluginResponse::PacketInLoginPluginResponse(PacketParser *parser) : PacketInBase(
-            LOGIN_PLUGIN_RESPONSE) {
-        parse(parser);
-    }
-
-    void PacketInLoginPluginResponse::parse(PacketParser *packetParser) {
-
     }
 
 }

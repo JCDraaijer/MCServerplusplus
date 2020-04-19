@@ -32,22 +32,24 @@ namespace protocol {
         ConnectionState nextState;
 
     public:
-        explicit PacketInHandshake(int32_t protocolVersion, std::string address, uint16_t port, ConnectionState nextState);
+        explicit PacketInHandshake(int32_t protocolVersion, std::string address, uint16_t port,
+                                   ConnectionState nextState);
 
-        explicit PacketInHandshake(PacketParser *parser);
+        PacketInHandshake();
+
+        void parse(PacketParser *packetParser) override;
+
+        std::string toString() override;
 
         ConnectionState getNextState();
 
         int getProtocolVersion();
 
-
         std::string getAddress();
 
-        void parse(PacketParser *packetParser) override;
 
         unsigned short getPort();
 
-        std::string toString() override;
     };
 }
 

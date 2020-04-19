@@ -29,11 +29,12 @@ namespace protocol {
     public:
         explicit PacketInPlayTeleportConfirm(int32_t teleportId);
 
-        explicit PacketInPlayTeleportConfirm(PacketParser *parser);
+        PacketInPlayTeleportConfirm();
+
+        void parse(PacketParser *packetParser) override;
 
         std::string toString() override;
 
-        void parse(PacketParser *packetParser) override;
     };
 }
 

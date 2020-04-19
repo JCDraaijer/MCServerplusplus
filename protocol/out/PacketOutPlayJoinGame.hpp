@@ -38,8 +38,6 @@ namespace protocol {
                               uint8_t maxPlayers, std::string levelType, uint32_t viewDistance,
                               bool reducedDebugInfo, bool respawnScreen);
 
-        ~PacketOutPlayJoinGame() override;
-
         void serialize(PacketSerializer *packetSerializer) override;
     };
 }

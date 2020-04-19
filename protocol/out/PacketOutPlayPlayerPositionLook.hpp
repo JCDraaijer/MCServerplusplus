@@ -34,8 +34,6 @@ namespace protocol {
     public:
         PacketOutPlayPlayerPositionLook(double x, double y, double z, float yaw, float pitch, uint8_t flags, int32_t teleportId);
 
-        ~PacketOutPlayPlayerPositionLook() override;
-
         void serialize(PacketSerializer *packetSerializer) override;
     };
 }

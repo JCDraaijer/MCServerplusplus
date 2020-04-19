@@ -33,11 +33,11 @@ namespace protocol {
     public:
         explicit PacketInBase(InPacketType type);
 
-        //virtual explicit PacketInBase(PacketParser *parser) = 0;
-
-        InPacketType getType();
+        virtual ~PacketInBase();
 
         virtual void parse(PacketParser *packetParser) = 0;
+
+        InPacketType getType();
 
     };
 }

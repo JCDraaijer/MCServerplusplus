@@ -26,6 +26,10 @@ namespace protocol {
 
     }
 
+    void PacketOutLoginSetCompression::serialize(PacketSerializer *packetSerializer) {
+
+    }
+
     int32_t PacketOutLoginSetCompression::getThreshold() {
         return threshold;
     }
@@ -34,9 +38,5 @@ namespace protocol {
         threshold = newThreshold;
     }
 
-    void PacketOutLoginSetCompression::serialize(PacketSerializer *packetSerializer) {
 
-    }
-
-    PacketOutLoginSetCompression::~PacketOutLoginSetCompression() = default;
 }

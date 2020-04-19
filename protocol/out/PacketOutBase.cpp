@@ -24,14 +24,14 @@ namespace protocol {
 
     }
 
-    const OutPacketType PacketOutBase::getType() {
+    PacketOutBase::~PacketOutBase() = default;
+
+    OutPacketType PacketOutBase::getType() {
         return this->type;
     }
 
     std::string PacketOutBase::toString() {
         return std::string();
     }
-
-    PacketOutBase::~PacketOutBase() = default;
 
 }

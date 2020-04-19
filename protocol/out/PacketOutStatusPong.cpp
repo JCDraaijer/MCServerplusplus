@@ -22,6 +22,10 @@ namespace protocol {
     PacketOutStatusPong::PacketOutStatusPong(int64_t value) : PacketOutBase(STATUS_PONG), value(value) {
     }
 
+    void PacketOutStatusPong::serialize(PacketSerializer *packetSerializer) {
+        packetSerializer->writeLong(getValue());
+    }
+
     std::string PacketOutStatusPong::toString() {
         return PacketOutBase::toString();
     }
@@ -29,10 +33,4 @@ namespace protocol {
     int64_t PacketOutStatusPong::getValue() {
         return value;
     }
-
-    void PacketOutStatusPong::serialize(PacketSerializer *packetSerializer) {
-        packetSerializer->writeLong(getValue());
-    }
-
-    PacketOutStatusPong::~PacketOutStatusPong() = default;
 }

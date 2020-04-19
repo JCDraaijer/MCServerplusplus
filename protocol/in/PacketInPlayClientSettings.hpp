@@ -32,11 +32,14 @@ namespace protocol {
         int32_t mainHand;
 
     public:
-        std::string toString() override;
+        PacketInPlayClientSettings(std::string locale, int8_t renderDistance, int32_t chatMode, bool chatColors,
+                                   uint8_t skinParts, int32_t mainhand);
 
-        explicit PacketInPlayClientSettings(PacketParser *parser);
+        PacketInPlayClientSettings();
 
         void parse(PacketParser *packetParser) override;
+
+        std::string toString() override;
     };
 }
 

@@ -25,4 +25,6 @@ namespace protocol {
         return this->type;
     }
 
+    PacketInBase::~PacketInBase() = default;
+
 }

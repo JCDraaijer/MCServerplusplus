@@ -24,16 +24,13 @@ namespace protocol {
 
     }
 
-    const std::string &PacketOutLoginDisconnect::getReason() const {
-        return reason;
-    }
 
     void PacketOutLoginDisconnect::serialize(PacketSerializer *packetSerializer) {
         packetSerializer->writeString(getReason());
     }
 
-    PacketOutLoginDisconnect::~PacketOutLoginDisconnect() {
-
+    std::string PacketOutLoginDisconnect::getReason() const {
+        return reason;
     }
 
 }

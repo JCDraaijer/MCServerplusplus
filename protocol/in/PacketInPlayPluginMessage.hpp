@@ -31,15 +31,16 @@ namespace protocol {
         uint32_t dataLength;
     public:
         PacketInPlayPluginMessage(Identifier ident, uint32_t dataLength, uint8_t *data);
-        uint8_t *getData();
 
-        explicit PacketInPlayPluginMessage(PacketParser *parser);
+        PacketInPlayPluginMessage();
 
-        ~PacketInPlayPluginMessage();
+        ~PacketInPlayPluginMessage() override;
 
         void parse(PacketParser *packetParser) override;
 
         std::string toString() override;
+
+        uint8_t *getData();
 
         Identifier *getIdentifier();
 

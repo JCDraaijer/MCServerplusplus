@@ -24,6 +24,13 @@ namespace protocol {
 
     }
 
+    PacketInLoginStart::PacketInLoginStart() : PacketInLoginStart("") {
+    }
+
+    void PacketInLoginStart::parse(PacketParser *packetParser) {
+        name = packetParser->readString();
+    }
+
     std::string PacketInLoginStart::getName() {
         return name;
     }
@@ -34,11 +41,4 @@ namespace protocol {
         return stringStream.str();
     }
 
-    PacketInLoginStart::PacketInLoginStart(PacketParser *parser) : PacketInBase(LOGIN_START) {
-        parse(parser);
-    }
-
-    void PacketInLoginStart::parse(PacketParser *packetParser) {
-        name = packetParser->readString();
-    }
 }

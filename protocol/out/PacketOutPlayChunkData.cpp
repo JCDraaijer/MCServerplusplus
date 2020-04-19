@@ -20,13 +20,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 namespace protocol {
 
+    PacketOutPlayChunkData::PacketOutPlayChunkData(server::Chunk *someChunk, bool fullChunk)
+            : PacketOutBase(CHUNK_DATA) {
+        this->someChunk = someChunk;
+        this->fullChunk = fullChunk;
+    }
+
     void PacketOutPlayChunkData::serialize(PacketSerializer *packetSerializer) {
         uint32_t chunksToSend = 0;
         uint32_t bitMask = 0;
         uint32_t size = 0;
 
         for (uint32_t i = 0; i < 16; i++) {
-            if (!someChunk->getSections()[i].isEmtpy()){
+            if (!someChunk->getSections()[i].isEmtpy()) {
                 bitMask |= 1u << i;
                 chunksToSend++;
             }
@@ -40,10 +46,4 @@ namespace protocol {
         packetSerializer->writeVarInt(size);
     }
 
-    PacketOutPlayChunkData::PacketOutPlayChunkData(server::Chunk *someChunk, bool fullChunk)
-            : PacketOutBase(CHUNK_DATA), someChunk(someChunk), fullChunk(fullChunk) {
-
-    }
-
-    PacketOutPlayChunkData::~PacketOutPlayChunkData() = default;
 }

@@ -30,22 +30,25 @@ namespace protocol {
         int32_t verifyTokenLength;
         uint8_t *verifyToken;
     public:
-        PacketInLoginEncryptionResponse(int32_t sharedSecretLength, uint8_t *sharedSecret, uint32_t verifyTokenLength, uint8_t *verifyToken);
-        ~PacketInLoginEncryptionResponse();
+        PacketInLoginEncryptionResponse(int32_t sharedSecretLength, uint8_t *sharedSecret, uint32_t verifyTokenLength,
+                                        uint8_t *verifyToken);
+
+        PacketInLoginEncryptionResponse();
+
+        ~PacketInLoginEncryptionResponse() override;
+
+        void parse(PacketParser *packetParser) override;
+
+        std::string toString() override;
 
         int32_t getSharedSecretLength() const;
 
         uint8_t *getSharedSecret() const;
 
-        explicit PacketInLoginEncryptionResponse(PacketParser *parser);
-
-        void parse(PacketParser *packetParser) override;
-
         int32_t getVerifyTokenLength() const;
 
         uint8_t *getVerifyToken() const;
 
-        std::string toString() override;
     };
 }
 
