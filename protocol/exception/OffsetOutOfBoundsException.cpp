@@ -21,8 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "OffsetOutOfBoundsException.hpp"
 
 namespace protocol {
-    OffsetOutOfBoundsException::OffsetOutOfBoundsException(int expected, int actual) {
-        whatValue = (char *) (malloc(sizeof(char) * 64));
+    OffsetOutOfBoundsException::OffsetOutOfBoundsException(uint32_t expected, uint32_t actual) {
         std::sprintf(this->whatValue, "Index %d is larger than datalength %d", expected, actual);
     }
 

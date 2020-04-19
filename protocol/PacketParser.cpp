@@ -33,8 +33,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "in/PacketInPlayTeleportConfirm.hpp"
 #include "in/PacketInLegacyPingRequest.hpp"
 #include "in/PacketInPlayUpdateStructureBlock.hpp"
-#include "in/PacketInLoginPluginResponse.hpp"
 #include "in/PacketInPlayerPositionLook.hpp"
+#include "exception/DataShortageException.hpp"
 
 namespace protocol {
 
@@ -161,7 +161,7 @@ namespace protocol {
         uint8_t theByte = 0;
         int readBytes = read(socket, &theByte, 1);
         if (readBytes != 1) {
-            throw Exception("Could not read byte from network!");
+            throw Exception("Could not read byte from socket!");
         }
         return theByte;
     }
@@ -218,6 +218,7 @@ namespace protocol {
 
 
     uint8_t *PacketParser::readByteArray(uint32_t count) {
+        verifyDataLeft(count);
         auto *actualData = (uint8_t *) malloc(sizeof(uint8_t) * (count + 1));
         bzero(actualData, count);
         for (int i = 0; i < count; i++) {
@@ -228,6 +229,7 @@ namespace protocol {
     }
 
     int32_t PacketParser::readInt() {
+        verifyDataLeft(4);
         int32_t value = 0;
         for (int i = 0; i < 4; i++) {
             value |= readByte();
@@ -237,6 +239,7 @@ namespace protocol {
     }
 
     int64_t PacketParser::readLong() {
+        verifyDataLeft(8);
         int64_t value = 0;
         for (int i = 0; i < 8; i++) {
             value |= readByte();
@@ -246,7 +249,11 @@ namespace protocol {
     }
 
     bool PacketParser::verifyDataLeft(uint32_t left) {
-        return (currentOffset + left <= dataLength);
+        if (currentOffset + left <= dataLength){
+            return true;
+        } else {
+            throw OffsetOutOfBoundsException(currentOffset - dataLength, left);
+        }
     }
 
     bool PacketParser::readBoolean() {
@@ -259,6 +266,7 @@ namespace protocol {
     }
 
     double PacketParser::readDouble() {
+        verifyDataLeft(8);
         double_byte_union theUnion;
         for (unsigned char &byte : theUnion.bytes) {
             byte = readUnsignedByte();
@@ -267,6 +275,7 @@ namespace protocol {
     }
 
     float PacketParser::readFloat() {
+        verifyDataLeft(4);
         float_byte_union theUnion;
         for (unsigned char &byte : theUnion.bytes) {
             byte = readUnsignedByte();

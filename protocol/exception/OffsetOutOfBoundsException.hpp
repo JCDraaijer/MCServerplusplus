@@ -21,13 +21,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 #include <exception>
+#include <cstdint>
 
 namespace protocol {
     class OffsetOutOfBoundsException : public std::exception {
     private:
-        char *whatValue;
+        char whatValue[256];
     public:
-        OffsetOutOfBoundsException(int expected, int actual);
+        OffsetOutOfBoundsException(uint32_t expected, uint32_t actual);
 
         ~OffsetOutOfBoundsException() override;
 
